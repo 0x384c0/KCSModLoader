@@ -1,0 +1,1 @@
+chrome.devtools.panels.create("KCS mods", null, 'pages/panel/panel.html');
