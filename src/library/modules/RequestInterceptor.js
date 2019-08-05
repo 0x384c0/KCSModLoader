@@ -11,6 +11,7 @@ class RequestInterceptor {
     _attached = false
     _version = "1.2"
     _connectDebuggerIfNeeded(debuggeeId) {
+        console.log("RequestInterceptor _connectDebuggerIfNeeded")
         return new Promise((resolve, reject) => {
             if (this._attached) {
                 resolve()
@@ -43,8 +44,12 @@ class RequestInterceptor {
             }
         })
     }
+    _onDetach(debuggeeId) {
+        this._isStarted = false
+    }
+
     _handleRequestPaused(params) {
-        console.log("_handleRequestPaused " + params.request.url)
+        console.log("RequestInterceptor _handleRequestPaused " + params.request.url)
         const rule = this.rules.find(rule => params.request.url.includes(rule.urlPattern))
         if (rule != null) {
             if (rule.modifyHandler != null) {
@@ -86,16 +91,17 @@ class RequestInterceptor {
         chrome.debugger.sendCommand(this.currentTabDebuggeeId, "Fetch.continueRequest", { requestId: params.requestId })
         throw new Error("rule not found")
     }
-    _handleGetResponseBody(params) {
-        console.log("_handleRequestPaused " + params.request.url)
-    }
     _isStarted = false
 
     //public
+    get isStarted() {
+        return this._isStarted
+    }
+
     async start() {
+        console.log("RequestInterceptor start")
         if (this._isStarted)
             return
-        this._isStarted = true
         await this._connectDebuggerIfNeeded(this.currentTabDebuggeeId)
         chrome.debugger.sendCommand(this.currentTabDebuggeeId, "Fetch.enable", {
             patterns: this.rules.map(rule => {
@@ -105,17 +111,20 @@ class RequestInterceptor {
                 return requestPattern
             })
         });
+        this._isStarted = true
     }
 
     async stop() {
+        console.log("RequestInterceptor stop")
         if (!this._isStarted)
             return
-        this._isStarted = false
         chrome.debugger.sendCommand(this.currentTabDebuggeeId, "Fetch.disable");
         await this._disconnectDebuggerIfNeeded(this.currentTabDebuggeeId)
+        this._isStarted = false
     }
 
     constructor(tabId, rules) {
+        console.log("RequestInterceptor init")
         this.tabId = tabId
         this.rules = rules
         this.currentTabDebuggeeId = { tabId: tabId }
@@ -124,7 +133,7 @@ class RequestInterceptor {
                 this._handleRequestPaused(params)
             else
                 console.log(method)
-
         })
+        chrome.debugger.onDetach.addListener(this._onDetach);
     }
 }
