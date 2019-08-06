@@ -17,6 +17,8 @@
     "background": {
         "scripts": [
             "library/modules/RequestInterceptor.js",
+            "library/modules/KCSResourceOverride.js",
+            "library/modules/KCSDetector.js",
             "library/modules/background.js"
         ]
     },
@@ -43,6 +45,7 @@
     ],
     "web_accessible_resources": [
         "assets/img/*",
-        "resources/*"
+        "resources/*",
+        "library/shared/*"
     ]
 }

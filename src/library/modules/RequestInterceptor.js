@@ -50,7 +50,10 @@ class RequestInterceptor {
 
     _handleRequestPaused(params) {
         console.log("RequestInterceptor _handleRequestPaused " + params.request.url)
-        const rule = this.rules.find(rule => params.request.url.includes(rule.urlPattern))
+        const rule = this.rules.find(rule => {
+            const searchPattern = rule.searchPattern != null ? rule.searchPattern : rule.urlPattern
+            return params.request.url.includes(searchPattern)
+        })
         if (rule != null) {
             if (rule.modifyHandler != null) {
                 chrome.debugger.sendCommand(

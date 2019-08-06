@@ -3,16 +3,17 @@ class KCSResourceOverride {
     //private
     _isStarted = false
 
-    _redirectListener(details) {
+    _redirectIfNeeded(details) {
         let newUrl = this.overridden_resources.find(url => details.url.includes(url))
         if (newUrl == null)
             newUrl = details.url
         else {
-            newUrl = chrome.extension.getURL(this.path + "/" + newUrl)
-            console.log("redirect from: " + details.url + " to: " + newUrl)
+            newUrl = chrome.runtime.getURL(this.path + "/" + newUrl)
         }
+        console.log("redirect from: " + details.url + " to: " + newUrl)
         return { redirectUrl: newUrl }
     }
+
 
     //public
     get isStarted() {
@@ -25,8 +26,9 @@ class KCSResourceOverride {
 
         this.overridden_resources = await fetch(this.base + this.path + "/overridden_resources.json").then(response => response.json())
 
+        this._redirectListener =  details => { return this._redirectIfNeeded(details) }
         chrome.webRequest.onBeforeRequest.addListener(
-            details => { return this._redirectListener(details) },
+            this._redirectListener,
             {
                 urls: this.overridden_resources.map(url => "*://*/" + url + "*"),
                 types: []
