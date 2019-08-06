@@ -48,7 +48,9 @@
 // //generate animation task for surface battle
 // e.prototype._hougekiCycle = function() {//2
 
-
+//http://203.104.209.87/kcs2/resources/ship/card/0187_2689.png?version=44
+///kcs2/resources/ship/card/0187_2689.png
+//chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/assets/img/icon/icon_500.png
 
 
 
@@ -155,3 +157,20 @@ document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
 
 
 KCS.init()
+
+
+//PIXI
+function isString(x) {
+  return Object.prototype.toString.call(x) === "[object String]"
+}
+class CustomLoader extends PIXI.loaders.Loader{
+    add(name, url, options, cb) {
+         super.add(name, url, options, cb)
+        // if (isString(name),url ==null,options == null,cb == null){
+        //     super.add(name,{crossOrigin: 'anonymous'})
+        // } else {
+        //     super.add(name, url, options, cb)//{crossOrigin: 'anonymous'}
+        // }
+    }
+}
+PIXI.loaders.Loader = CustomLoader

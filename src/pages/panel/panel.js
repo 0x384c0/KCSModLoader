@@ -19,3 +19,23 @@ const interceptor = new RequestInterceptor(
 )
 
 interceptor.start()
+
+
+document.getElementById("toggle_button").addEventListener("click", toggle_redirect);
+
+let redirectListener = function (details) {
+    return {redirectUrl: "chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/assets/img/icon/icon_48.png"};
+}
+let isRedirecting = false
+
+function toggle_redirect(){
+    if (isRedirecting){
+        chrome.webRequest.onBeforeRequest.removeListener(redirectListener)
+    } else {
+        chrome.webRequest.onBeforeRequest.addListener(
+            redirectListener,
+            {urls: ["*://*/kcs2/resources/ship/card/0187_2689.png*"], types: []},
+            ["blocking"]);
+    }
+    isRedirecting = !isRedirecting
+}
