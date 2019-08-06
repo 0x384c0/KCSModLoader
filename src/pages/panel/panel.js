@@ -18,24 +18,21 @@ const interceptor = new RequestInterceptor(
     ]
 )
 
-interceptor.start()
+// interceptor.start()
 
 
 document.getElementById("toggle_button").addEventListener("click", toggle_redirect);
 
-let redirectListener = function (details) {
-    return {redirectUrl: "chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/assets/img/icon/icon_48.png"};
-}
-let isRedirecting = false
-
-function toggle_redirect(){
-    if (isRedirecting){
-        chrome.webRequest.onBeforeRequest.removeListener(redirectListener)
+let resourceOverride = new KCSResourceOverride("resources/default", "../../")
+function toggle_redirect() {
+    if (resourceOverride.isStarted) {
+        resourceOverride.stop()
+        console.log("stoppped")
     } else {
-        chrome.webRequest.onBeforeRequest.addListener(
-            redirectListener,
-            {urls: ["*://*/kcs2/resources/ship/card/0187_2689.png*"], types: []},
-            ["blocking"]);
+        resourceOverride.start()
+        console.log("started")
     }
-    isRedirecting = !isRedirecting
 }
+//"kcs2/img/title/title2.png",
+//http://203.104.209.87/kcs2/img/title/title2.png?version=4.0.0.0
+//chrome-extension://cigcbmmbmjnfdmfckngppcleemmfpjbi/resources/default/kcs2/img/title/title2.png

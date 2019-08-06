@@ -58,17 +58,17 @@
 
 //prevent load main.js
 //prevent run KCS.init()
-var elem = document.querySelector('body > canvas');elem.parentNode.removeChild(elem);
+var elem = document.querySelector('body > canvas'); elem.parentNode.removeChild(elem);
 fetch("./js/main.js?version=4.4.2.5")
-.then(b => b.text())
-.then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
-.then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
-.then(s => s.replace("!function(t){function e(t){null!=t&&", "document.kcs_SE = e;!function(t){function e(t){null!=t&&"))
-.then(s => eval(s))
+    .then(b => b.text())
+    .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
+    .then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
+    .then(s => s.replace("!function(t){function e(t){null!=t&&", "document.kcs_SE = e;!function(t){function e(t){null!=t&&"))
+    .then(s => eval(s))
 
 
 class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttackNormal {
-   _playExplosion(t, e) {
+    _playExplosion(t, e) {
         var i = t.getGlobalPos(!0);
         this._scene.view.layer_explosion.playDamageExplosionCustom(i.x, i.y, e)
     }
@@ -76,49 +76,49 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
 document.kcs_PhaseAttackNormal.PhaseAttackNormal = CustomPhaseAttackNormal
 
 
-class CustomExplosion extends PIXI.Container{
-	constructor(){
-		super();
-	    this._current_frame = 0
-	    this._img = new PIXI.Sprite
-	    this.addChild(this._img)
-	}
+class CustomExplosion extends PIXI.Container {
+    constructor() {
+        super();
+        this._current_frame = 0
+        this._img = new PIXI.Sprite
+        this.addChild(this._img)
+    }
 
 
-	play(completion){
+    play(completion) {
         void 0 === completion && (completion = null),
-        this._isPlaying || (this._isPlaying = !0,
-        this.createTween(completion))
-	}
-	createTween (completion){
+            this._isPlaying || (this._isPlaying = !0,
+                this.createTween(completion))
+    }
+    createTween(completion) {
         var e = this;
         void 0 === completion && (completion = null),
-        createjs.Tween.removeTweens(this),
-        this._tween = createjs.Tween.get(this),
-        this._tween.wait(33).call(function() {
-            e._current_frame++,
-            e._img.texture = e._getTexture(e._current_frame),
-            e._setImageOffset(e._current_frame),
-            e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = !1,
-            e._current_frame = 0,
-            null != completion && completion())
-        })
-	}
-	stop(){
+            createjs.Tween.removeTweens(this),
+            this._tween = createjs.Tween.get(this),
+            this._tween.wait(33).call(function () {
+                e._current_frame++ ,
+                    e._img.texture = e._getTexture(e._current_frame),
+                    e._setImageOffset(e._current_frame),
+                    e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = !1,
+                        e._current_frame = 0,
+                        null != completion && completion())
+            })
+    }
+    stop() {
         this._isPlaying && (this._isPlaying = !1,
-        this._tween.setPaused(!0)),
-        this._current_frame = 0,
-        this._img.texture = this._getTexture(this._current_frame),
-        this._setImageOffset(this._current_frame)
-	}
+            this._tween.setPaused(!0)),
+            this._current_frame = 0,
+            this._img.texture = this._getTexture(this._current_frame),
+            this._setImageOffset(this._current_frame)
+    }
 
-	_getTexture(current_frame) {
-		return PIXI.Texture.WHITE
-	}
+    _getTexture(current_frame) {
+        return PIXI.Texture.WHITE
+    }
 
-	_setImageOffset(current_frame) {
+    _setImageOffset(current_frame) {
         this._img.position.set(0, 0);
-	}
+    }
 }
 
 class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
@@ -141,36 +141,31 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
     }
 
     _explodeCustom(t, e, i) {
-            var n = this;
-            void 0 === i && (i = null);
-            var o = new CustomExplosion();
-            o.position.set(t, e),
-                this.addChild(o),
-                o.play(function () {
-                    n.removeChild(o),
-                        null != i && i()
-                })
-        }
+        var n = this;
+        void 0 === i && (i = null);
+        var o = new CustomExplosion();
+        o.position.set(t, e),
+            this.addChild(o),
+            o.play(function () {
+                n.removeChild(o),
+                    null != i && i()
+            })
+    }
 }
 document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
 
 
-
-KCS.init()
-
-
 //PIXI
-function isString(x) {
-  return Object.prototype.toString.call(x) === "[object String]"
-}
-class CustomLoader extends PIXI.loaders.Loader{
+class CustomLoader extends PIXI.loaders.Loader {
     add(name, url, options, cb) {
-         super.add(name, url, options, cb)
-        // if (isString(name),url ==null,options == null,cb == null){
-        //     super.add(name,{crossOrigin: 'anonymous'})
-        // } else {
-        //     super.add(name, url, options, cb)//{crossOrigin: 'anonymous'}
-        // }
+        if (Object.prototype.toString.call(name) === "[object String]", url == null, options == null, cb == null) {
+            return super.add(name, { crossOrigin: true })
+        } else {
+            options.crossOrigin = true
+            return super.add(name, url, options, cb)
+        }
     }
 }
 PIXI.loaders.Loader = CustomLoader
+
+KCS.init()
