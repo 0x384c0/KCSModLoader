@@ -63,7 +63,7 @@ fetch("./js/main.js?version=4.4.2.5")
     .then(b => b.text())
     .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
     .then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
-    .then(s => s.replace("!function(t){function e(t){null!=t&&", "document.kcs_SE = e;!function(t){function e(t){null!=t&&"))
+    // .then(s => s.replace("!function(t){function e(t){null!=t&&", "document.kcs_SE = e;!function(t){function e(t){null!=t&&"))
     .then(s => eval(s))
 
 
@@ -131,8 +131,8 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         var n = this;
         void 0 === i && (i = null),
             createjs.Tween.get(this).call(function () {
-                document.kcs_SE.SE.play("104"),
-                    n._explodeCustom(t - 5, e + 33)
+                // document.kcs_SE.SE.play("104"),
+                n._explodeCustom(t - 5, e + 33)
             }).wait(100).call(function () {
                 n._explodeCustom(t + 48, e - 24)
             }).wait(100).call(function () {

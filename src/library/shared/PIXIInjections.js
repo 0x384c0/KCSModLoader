@@ -1,7 +1,7 @@
 //PIXI
 class CustomLoader extends PIXI.loaders.Loader {
     add(name, url, options, cb) {
-        console.log("CustomLoader.add\n\tname: " + name + "\n\turl: " + url)
+        // console.log("CustomLoader.add\n\tname: " + name + "\n\turl: " + url)
         if (
             Object.prototype.toString.call(name) === "[object String]" &&
             name.includes(".png") &&

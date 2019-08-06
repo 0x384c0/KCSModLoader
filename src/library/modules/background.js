@@ -18,20 +18,23 @@ function willLoadKCS() {
                         urlPattern: "*://*/kcs2/index.php*",
                         searchPattern: "/kcs2/index.php",
                         modifyHandler: (body) => {
-                            delayStopInterceptor()
-                            didInjectKCSMods()
                             return body
                                 .replace("<script src=\"./js/main.js", injectPixiScriptsHtml + "<script src=\"./js/main.js")
                                 .replace("<script>KCS.init()</script>", injectScriptsHtml + "<script>" + injectCode + "KCS.init()</script>")
+                                .replace("!function(t){function e(t){null!=t&&", "document.kcs_SE = e;!function(t){function e(t){null!=t&&")
                         }
                     },
-                    // {
-                    //     urlPattern: "/kcs2/js/main.js",
-                    //     modifyHandler: (body) => {
-                    //         delayStopInterceptor()
-                    //         return body.replace("<h1>Example Domain</h1>", "<h1>TEST TES Example Domain</h1>")
-                    //     }
-                    // },
+                    {
+                        urlPattern: "*://*/kcs2/js/main.js*",
+                        searchPattern: "/kcs2/js/main.js",
+                        modifyHandler: (body) => {
+                            delayStopInterceptor()
+                            didInjectKCSMods()
+                            return body
+                                .replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_")
+                                .replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u")
+                        }
+                    },
                     {
                         urlPattern: "https://www.google.com/test",
                         imageUrl: chrome.runtime.getURL("assets/img/icon/icon_500.png")
