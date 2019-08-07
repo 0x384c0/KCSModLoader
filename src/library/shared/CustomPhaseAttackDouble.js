@@ -3,12 +3,14 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2)
         this.helper = new CustomPhaseAttackHelper(this)
+        this.damage = damage
+        this.damage2 = damage2
         this._completeDamageEffect = function () {
             this._cutin.resume()
             this._cutin.view.once("attack", () => {
                 // r.SE.play("102"),
                 if (this._additionalInfo != null)
-                    this._playAttack(this._additionalInfo.attackerBanner, this._additionalInfo.defenderBanner)
+                    this._playAttack(this._additionalInfo.attackerBanner, this._additionalInfo.defenderBanner, { damage: this.damage2 })
                 this._a_banner.attack(null)
                 createjs.Tween.get(null)
                     .wait(this._scene.view.layer_explosion.attackExplosionDuration)
@@ -25,7 +27,7 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
             defenderBanner: defenderBanner
         }
         // r.SE.play("102")
-        this._playAttack(attackerBanner, defenderBanner)
+        this._playAttack(attackerBanner, defenderBanner, { damage: this.damage })
         attackerBanner.attack(null)
         createjs.Tween.get(null)
             .wait(this._scene.view.layer_explosion.attackExplosionDuration)
@@ -56,7 +58,7 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
     }
 
     //custom
-    _playAttack(attackerBanner, defenderBanner) {
-        this.helper._playAttack(attackerBanner, defenderBanner)
+    _playAttack(attackerBanner, defenderBanner, attackInfo) {
+        this.helper._playAttack(attackerBanner, defenderBanner, attackInfo)
     }
 }

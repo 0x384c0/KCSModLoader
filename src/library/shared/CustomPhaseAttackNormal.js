@@ -4,8 +4,9 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield)
         this.helper = new CustomPhaseAttackHelper(this)
+        this.damage = damage
     }
-    
+
     _attack(attackerBanner, defenderBanner) {
         var i = this,
             scene = this._scene.view.layer_content;
@@ -13,9 +14,9 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
         var dlcTimout = 0;
         0 != this._daihatsu_eff && (dlcTimout = 1300),
             createjs.Tween.get(null).wait(dlcTimout).wait(300)
-                .call(function () {
+                .call(() => {
                     // o.SE.play("102"),
-                    i._playAttack(attackerBanner, defenderBanner)
+                    i._playAttack(attackerBanner, defenderBanner, { damage: this.damage })
                 })
                 .wait(this._scene.view.layer_explosion.attackExplosionDuration)
                 .call(function () {
@@ -31,7 +32,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     }
 
     //custom
-    _playAttack(attackerBanner, defenderBanner) {
-        this.helper._playAttack(attackerBanner, defenderBanner)
+    _playAttack(attackerBanner, defenderBanner, attackInfo) {
+        this.helper._playAttack(attackerBanner, defenderBanner, attackInfo)
     }
 }
