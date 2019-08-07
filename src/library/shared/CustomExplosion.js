@@ -18,12 +18,16 @@ class CustomExplosion extends PIXI.Container {
             createjs.Tween.removeTweens(this),
             this._tween = createjs.Tween.get(this),
             this._tween.wait(33).call(function () {
-                e._current_frame++ ,
-                    e._img.texture = e._getTexture(e._current_frame),
-                    e._setImageOffset(e._current_frame),
-                    e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = false,
-                        e._current_frame = 0,
-                        null != completion && completion())
+                e._current_frame++
+                e._img.texture = e._getTexture(e._current_frame)
+                e._img.tint = 0xFF00FF;
+                e._img.width = 50;
+                e._img.height = 50;
+
+                e._setImageOffset(e._current_frame)
+                e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = false,
+                    e._current_frame = 0,
+                    null != completion && completion())
             })
     }
     stop() {

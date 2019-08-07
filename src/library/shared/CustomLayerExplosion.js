@@ -2,7 +2,7 @@
 
 class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
 
-    attackExplosionDuration = 400
+    attackExplosionDuration = 600
     playAttackExplosion(
         attackerPosX, attackerPosY,
         defenderPosX, defenderPosY

@@ -52,6 +52,17 @@
 ///kcs2/resources/ship/card/0187_2689.png
 //chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/assets/img/icon/icon_500.png
 
+// PhaseNelsonTouch  Nelson
+// PhaseNagatoAttack  Nagato
+// PhaseMutsuAttack  Mutsu
+// PhaseColoradoAttack  Colorado
+// PhaseAttackDouble double attack
+// PhaseAttackBakurai  ASW
+// PhaseAttackRaigeki torpedo (Example:CLT with Ko-Hyoteki)
+// PhaseAttackRocket anti installation (Example: WG-42)
+
+// PhaseAttackDanchaku Unknown (some _special attack)
+// PhaseZRK zuin cut in
 
 
 
