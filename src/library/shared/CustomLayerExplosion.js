@@ -10,7 +10,7 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         var n = this;
         void 0 === i && (i = null),
             createjs.Tween.get(this).call(function () {
-                document.kcs_SE.SE.play("104"),
+                // document.kcs_SE.SE.play("104"),
                     n._explodeCustom(t - 5, e + 33)
             }).wait(100).call(function () {
                 n._explodeCustom(t + 48, e - 24)
