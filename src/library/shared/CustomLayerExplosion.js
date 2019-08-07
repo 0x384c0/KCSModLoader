@@ -1,33 +1,57 @@
 
 
 class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
-    playDamageExplosionCustom(t, e, i, n) {
-        void 0 === n && (n = null),
-            i < 0 ? null != n && n() : i < 16 ? this.playExplosionLargeCustom(t, e, n) : i < 40 ? this.playExplosionLargeCustom(t, e, n) : this.playExplosionLargeCustom(t, e, n)
+
+    attackExplosionDuration = 400
+    playAttackExplosion(
+        attackerPosX, attackerPosY,
+        defenderPosX, defenderPosY
+    ) {
+        this._explodeCustom(attackerPosX, attackerPosY)
+        this._emitBullet(
+            attackerPosX, attackerPosY,
+            defenderPosX, defenderPosY,
+            this.attackExplosionDuration
+        )
     }
 
-    playExplosionLargeCustom(t, e, i) {
+    playDamageExplosionCustom(x, y, damage, callback) {
+        void 0 === callback && (callback = null),
+            damage < 0 ? null != callback && callback() : damage < 16 ? this.playExplosionLargeCustom(x, y, callback) : damage < 40 ? this.playExplosionLargeCustom(x, y, callback) : this.playExplosionLargeCustom(x, y, callback)
+    }
+
+    playExplosionLargeCustom(x, y, callback) {
         var n = this;
-        void 0 === i && (i = null),
+        void 0 === callback && (callback = null),
             createjs.Tween.get(this).call(function () {
                 // document.kcs_SE.SE.play("104"),
-                    n._explodeCustom(t - 5, e + 33)
-            }).wait(100).call(function () {
-                n._explodeCustom(t + 48, e - 24)
-            }).wait(100).call(function () {
-                n._explodeCustom(t - 50, e - 8, i)
+                n._explodeCustom(x, y)
+            }).wait(300).call(function () {
+                n._explodeCustom(x + 10, y + 10)
+            }).wait(300).call(function () {
+                n._explodeCustom(x + 20, y + 20, callback)
             })
     }
 
-    _explodeCustom(t, e, i) {
+    _explodeCustom(x, y, callback) {
         var n = this;
-        void 0 === i && (i = null);
-        var o = new CustomExplosion();
-        o.position.set(t, e),
-            this.addChild(o),
-            o.play(function () {
-                n.removeChild(o),
-                    null != i && i()
+        void 0 === callback && (callback = null);
+        var explosion = new CustomExplosion();
+        explosion.position.set(x, y),
+            this.addChild(explosion),
+            explosion.play(function () {
+                n.removeChild(explosion),
+                    null != callback && callback()
             })
     }
+
+    _emitBullet(fromX, fromY, toX, toY, time) {
+        var bullet = new Bullet(fromX, fromY, toX, toY, time)
+        bullet.position.set(0, 0)
+        this.addChild(bullet)
+        bullet.play(() => {
+            this.removeChild(bullet)
+        })
+    }
 }
+

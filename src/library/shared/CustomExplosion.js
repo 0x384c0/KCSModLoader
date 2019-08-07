@@ -9,7 +9,7 @@ class CustomExplosion extends PIXI.Container {
 
     play(completion) {
         void 0 === completion && (completion = null),
-            this._isPlaying || (this._isPlaying = !0,
+            this._isPlaying || (this._isPlaying = true,
                 this.createTween(completion))
     }
     createTween(completion) {
@@ -21,14 +21,14 @@ class CustomExplosion extends PIXI.Container {
                 e._current_frame++ ,
                     e._img.texture = e._getTexture(e._current_frame),
                     e._setImageOffset(e._current_frame),
-                    e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = !1,
+                    e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = false,
                         e._current_frame = 0,
                         null != completion && completion())
             })
     }
     stop() {
-        this._isPlaying && (this._isPlaying = !1,
-            this._tween.setPaused(!0)),
+        this._isPlaying && (this._isPlaying = false,
+            this._tween.setPaused(true)),
             this._current_frame = 0,
             this._img.texture = this._getTexture(this._current_frame),
             this._setImageOffset(this._current_frame)

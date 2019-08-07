@@ -5,11 +5,11 @@ const PhaseAttackNormal = function (t) {
     //i - _scene texture bg_map/bg_h.png
     //n - attacker
     //o - target
-    function e(e, i, n, o, s, a, _) {
-        var u = t.call(this, e, i, o, s, a, _) || this;
-        u._defender = n;
-        var l = u._scene.data.isNight();
-        return u._cutin = new r.CutinAttack(u._attacker, u._slot, l, !0, !0),
+    function e(scene, attacker, defender, slotitem, damage, hitType, isShield) {
+        var u = t.call(this, scene, attacker, slotitem, damage, hitType, isShield) || this;
+        u._defender = defender;
+        var isNight = u._scene.data.isNight();
+        return u._cutin = new r.CutinAttack(u._attacker, u._slot, isNight, true, true),
             u
     }
     return n(e, t),
@@ -21,30 +21,30 @@ const PhaseAttackNormal = function (t) {
         }
         ,
         e.prototype._completePreload = function () {
-            var t, e, i = this, n = this._attacker.friend, o = this._attacker.index, r = this._defender.index;
-            1 == n ? (t = this._scene.view.bannerGroupLayer.getBanner(!0, o),
-                e = this._scene.view.bannerGroupLayer.getBanner(!1, r)) : (t = this._scene.view.bannerGroupLayer.getBanner(!1, o),
-                    e = this._scene.view.bannerGroupLayer.getBanner(!0, r)),
-                t.moveFront(),
-                0 == this._shield && e.moveFront(),
+            var attackerBanner, defenderBanner, i = this, n = this._attacker.friend, attackerIndex = this._attacker.index, defenderIndex = this._defender.index;
+            1 == n ? (attackerBanner = this._scene.view.bannerGroupLayer.getBanner(true, attackerIndex),
+                defenderBanner = this._scene.view.bannerGroupLayer.getBanner(false, defenderIndex)) : (attackerBanner = this._scene.view.bannerGroupLayer.getBanner(false, attackerIndex),
+                    defenderBanner = this._scene.view.bannerGroupLayer.getBanner(true, defenderIndex)),
+                attackerBanner.moveFront(),
+                0 == this._shield && defenderBanner.moveFront(),
                 this._cutin.view.once("attack", function () {
                     i._playVoice(),
-                        i._attack(t, e)
+                        i._attack(attackerBanner, defenderBanner)
                 }),
                 this._scene.view.layer_cutin.addChild(this._cutin.view),
                 this._cutin.start()
         }
         ,
-        e.prototype._attack = function (t, e) {
+        e.prototype._attack = function (attackerBanner, defenderBanner) {
             var i = this
                 , n = this._scene.view.layer_content;
-            new s.TaskDaihatsuEff(n, t, e, this._daihatsu_eff).start();
+            new s.TaskDaihatsuEff(n, attackerBanner, defenderBanner, this._daihatsu_eff).start();
             var r = 0;
             0 != this._daihatsu_eff && (r = 1300),
                 createjs.Tween.get(null).wait(r).call(function () {
                     o.SE.play("102"),
-                        t.attack(function () {
-                            i._damageEffect(t, e)
+                        attackerBanner.attack(function () {
+                            i._damageEffect(attackerBanner, defenderBanner)
                         })
                 })
         }
@@ -130,7 +130,7 @@ const PhaseAttackBase = function(t) {
     }
     ,
     e.prototype._playExplosion = function(t, e) {
-        var i = t.getGlobalPos(!0);
+        var i = t.getGlobalPos(true);
         this._scene.view.layer_explosion.playDamageExplosion(i.x, i.y, e) //layer_explosion - LayerExplosion
     }
     ,
@@ -166,7 +166,7 @@ var TaskBase = function() {
     }
     ,
     t.prototype._endTask = function(t) {
-        void 0 === t && (t = !1),
+        void 0 === t && (t = false),
         0 == t ? this._completedEnd() : this._failedEnd()
     }
     ,

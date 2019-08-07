@@ -9,10 +9,12 @@ function injectKCSMods(extensionUrl) {
         .then(b => b.text())
         .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
         .then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
+        .then(s => s.replace("e.TaskDaihatsuEff=a;", "document.kcs_TaskDaihatsuEff = e;e.TaskDaihatsuEff=a;"))
         .then(s => eval(s))
-        .then(() => {return _addScript( extensionUrl + "library/shared/CustomExplosion.js")})
-        .then(() => {return _addScript( extensionUrl + "library/shared/CustomLayerExplosion.js")})
-        .then(() => {return _addScript( extensionUrl + "library/shared/CustomPhaseAttackNormal.js")})
+        .then(() => _addScript(extensionUrl + "library/shared/Bullet.js"))
+        .then(() => _addScript(extensionUrl + "library/shared/CustomExplosion.js"))
+        .then(() => _addScript(extensionUrl + "library/shared/CustomLayerExplosion.js"))
+        .then(() => _addScript(extensionUrl + "library/shared/CustomPhaseAttackNormal.js"))
 
         .then(() => {
             document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
@@ -22,11 +24,11 @@ function injectKCSMods(extensionUrl) {
         })
 }
 
-function _addScript(src){
+function _addScript(src) {
     return new Promise(resolve => {
         var script = document.createElement('script');
         script.src = src
-        script.onload = function() {
+        script.onload = function () {
             resolve()
         };
         document.body.appendChild(script)

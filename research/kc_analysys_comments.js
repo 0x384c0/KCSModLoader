@@ -36,10 +36,10 @@
 // //Explosion depends of damage
 // e.prototype.playDamageExplosion = function(t, e, i, n) {
 
-// //init attack cnimation
+// //init attack animation
 // //i - _scene texture bg_map/bg_h.png
 // //n - attacker
-// //o - target
+// //o - defender
 // var y = new a.PhaseAttackNormal(i,n,o,r,s,c,h);
 
 // //PhaseAttackNormal constructor
