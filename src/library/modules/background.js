@@ -3,8 +3,13 @@ const detector = new KCSDetector(willLoadKCS, willUnoadKCS)
 const resourceOverride = new KCSResourceOverride("resources/default", "../../")
 //vars
 const injectPixiScriptsHtml = "<script src=\"" + chrome.runtime.getURL("library/shared/PIXIInjections.js") + "\"></script>\n"
-const injectScriptsUrls = [chrome.runtime.getURL("library/shared/KCSInjections.js")]
-const injectScriptsHtml = injectScriptsUrls.map(url => "<script src=\"" + url + "\"></script>")
+const injectScriptsUrls = [
+    chrome.runtime.getURL("library/shared/CustomExplosion.js"),
+    chrome.runtime.getURL("library/shared/CustomLayerExplosion.js"),
+    chrome.runtime.getURL("library/shared/CustomPhaseAttackNormal.js"),
+    chrome.runtime.getURL("library/shared/KCSInjections.js")
+]
+const injectScriptsHtml = injectScriptsUrls.map(url => "<script src=\"" + url + "\"></script>").join("")
 const injectCode = "injectKCSMods();"
 var interceptor = null
 
@@ -18,6 +23,7 @@ function willLoadKCS() {
                         urlPattern: "*://*/kcs2/index.php*",
                         searchPattern: "/kcs2/index.php",
                         modifyHandler: (body) => {
+                            console.log("intercept kcs2/index.php")
                             return body
                                 .replace("<script src=\"./js/main.js", injectPixiScriptsHtml + "<script src=\"./js/main.js")
                                 .replace("<script>KCS.init()</script>", injectScriptsHtml + "<script>" + injectCode + "KCS.init()</script>")
@@ -28,6 +34,7 @@ function willLoadKCS() {
                         urlPattern: "*://*/kcs2/js/main.js*",
                         searchPattern: "/kcs2/js/main.js",
                         modifyHandler: (body) => {
+                            console.log("intercept kcs2/js/main.js")
                             delayStopInterceptor()
                             didInjectKCSMods()
                             return body

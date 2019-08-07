@@ -102,18 +102,17 @@ class RequestInterceptor {
     }
 
     async start() {
-        console.log("RequestInterceptor start")
         if (this._isStarted)
             return
         await this._connectDebuggerIfNeeded(this.currentTabDebuggeeId)
-        chrome.debugger.sendCommand(this.currentTabDebuggeeId, "Fetch.enable", {
-            patterns: this.rules.map(rule => {
-                const requestPattern = { urlPattern: rule.urlPattern }
-                if (rule.modifyHandler != null)
-                    requestPattern.requestStage = "Response"
-                return requestPattern
-            })
-        });
+        const patterns =  this.rules.map(rule => {
+            const requestPattern = { urlPattern: rule.urlPattern }
+            if (rule.modifyHandler != null)
+                requestPattern.requestStage = "Response"
+            return requestPattern
+        })
+        console.log("RequestInterceptor started patterns: " + JSON.stringify( patterns))
+        chrome.debugger.sendCommand(this.currentTabDebuggeeId, "Fetch.enable", { patterns: patterns });
         this._isStarted = true
     }
 
