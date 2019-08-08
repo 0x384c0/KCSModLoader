@@ -1,9 +1,5 @@
-//require CustomExplosion
-//require CustomLayerExplosion
-//require CustomPhaseAttackNormal
-
 function injectKCSMods(extensionUrl) {
-    let scriptUrl = document.querySelector("head > script:nth-child(8)").src
+    let scriptUrl = document.querySelector("head > script:nth-child(7)").src
     let scripts = []
     fetch(scriptUrl)
         .then(b => b.text())
@@ -13,6 +9,7 @@ function injectKCSMods(extensionUrl) {
         .then(s => s.replace("e.PhaseAttackDouble=c", "document.kcs_PhaseAttackDouble = e;e.PhaseAttackDouble=c"))
         .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
         .then(s => eval(s))
+        .then(() => _addScript(extensionUrl + "library/shared/PIXIInjections.js"))
         .then(() => _addScript(extensionUrl + "library/shared/CustomSoundManager.js"))
         .then(() => _addScript(extensionUrl + "library/shared/Bullet.js"))
         .then(() => _addScript(extensionUrl + "library/shared/CustomExplosion.js"))
@@ -25,8 +22,8 @@ function injectKCSMods(extensionUrl) {
             document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
             document.kcs_PhaseAttackNormal.PhaseAttackNormal = CustomPhaseAttackNormal
             document.kcs_PhaseAttackDouble.PhaseAttackDouble = CustomPhaseAttackDouble
-            KCS.init()
-            console.log("KCS injection successfull")
+            window.postMessage({command:"start_web_request"}, "*")
+            setTimeout(()=>{ KCS.init() }, 300);
         })
 }
 
@@ -40,3 +37,12 @@ function _addScript(src) {
         document.body.appendChild(script)
     })
 }
+
+Object.defineProperty(window, 'KCS',{ configurable: true, value: function(){/*"KCS empty define"*/}})
+KCS.init = () => {/*"KCS empty init"*/}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    let extensionUrl = document.querySelector("html > script").innerText.replace("'","").replace("'","")
+    delete window.KCS
+    injectKCSMods(extensionUrl)
+});

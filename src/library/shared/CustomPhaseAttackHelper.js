@@ -19,7 +19,7 @@ class CustomPhaseAttackHelper {
             }
         }
 
-        this.instance._scene.view.layer_explosion.playImpactExplosion(explosionPos.x, explosionPos.y, this.attackInfo, null)
+        this.instance._scene.view.layer_explosion.playImpactExplosion(explosionPos.x, explosionPos.y, this._lastAttackInfo, null)
         this._lastAttackPos = null
         this._lastAttackInfo = null
     }
