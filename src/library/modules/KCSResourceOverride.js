@@ -1,4 +1,3 @@
-
 class KCSResourceOverride {
     //private
     _isStarted = false
@@ -24,7 +23,7 @@ class KCSResourceOverride {
         if (this._isStarted)
             return
 
-        this.overridden_resources = await fetch(this.base + this.path + "/overridden_resources.json").then(response => response.json())
+        this.overridden_resources = await fetch(this.path + "/overridden_resources.json").then(response => response.json())
 
         this._redirectListener =  details => { return this._redirectIfNeeded(details) }
         chrome.webRequest.onBeforeRequest.addListener(
@@ -44,11 +43,7 @@ class KCSResourceOverride {
         this._isStarted = false
     }
 
-    constructor(path, base) {
+    constructor(path) {
         this.path = path
-        if (base == null)
-            this.base = ""
-        else
-            this.base = base
     }
 }

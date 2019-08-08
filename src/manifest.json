@@ -8,7 +8,6 @@
         "48": "assets/img/icon/icon_48.png",
         "128": "assets/img/icon/icon_128.png"
     },
-    "devtools_page": "pages/devtools/devtools.html",
     "browser_action": {
         "default_icon": "assets/img/icon/icon_500.png",
         "default_popup": "pages/popup/popup.html"
@@ -16,7 +15,6 @@
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {
         "scripts": [
-            "library/modules/RequestInterceptor.js",
             "library/modules/KCSResourceOverride.js",
             "library/modules/KCSDetector.js",
             "library/modules/background.js"
@@ -28,6 +26,7 @@
                 "*://*/kcs2/index.php?api_root=/kcsapi*"
             ],
             "js": [
+                "library/modules/KCSDetector.js",
                 "library/modules/contentScript.js"
             ],
             "all_frames": true,
@@ -35,13 +34,9 @@
         }
     ],
     "permissions": [
-        "debugger",
-        "activeTab",
-        "tabs",
-        "storage",
         "webRequest",
         "webRequestBlocking",
-        "<all_urls>"
+        "*://*/kcs2/index.php?api_root=/kcsapi*"
     ],
     "web_accessible_resources": [
         "assets/img/*",

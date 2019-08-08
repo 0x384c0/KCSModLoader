@@ -5,7 +5,7 @@ class KCSDetector {
     get isStarted() {
         return this._isStarted
     }
-    start() {
+    startListen() {
         if (this._isStarted)
             return
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -29,9 +29,16 @@ class KCSDetector {
         this._isStarted = false
     }
 
+    notifyStart(){
+        chrome.runtime.sendMessage({ command: "will_load_kcs" }, function (response) { })
+    }
+
+    notifyStop(){
+        chrome.runtime.sendMessage({ command: "will_stop_kcs" }, function (response) { })
+    }
+
     constructor(willLoad,willUnload) {
         this.willLoad = willLoad
         this.willUnload = willUnload
-        this.start()
     }
 }
