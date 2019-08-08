@@ -2,13 +2,12 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
     //overriden from parent
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2)
-        this.helper = new CustomPhaseAttackHelper(this)
+        this.helper = new CustomPhaseAttackHelper(this,{w:scene.width,h:scene.height})
         this.damage = damage
         this.damage2 = damage2
         this._completeDamageEffect = function () {
             this._cutin.resume()
             this._cutin.view.once("attack", () => {
-                // r.SE.play("102"),
                 if (this._additionalInfo != null)
                     this._playAttack(this._additionalInfo.attackerBanner, this._additionalInfo.defenderBanner, { damage: this.damage2 })
                 this._a_banner.attack(null)

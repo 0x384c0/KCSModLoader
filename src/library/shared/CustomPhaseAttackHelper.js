@@ -1,6 +1,7 @@
 class CustomPhaseAttackHelper {
-    constructor(instance) {
+    constructor(instance,sceneInfo) {
         this.instance = instance
+        this.sceneInfo = sceneInfo
         this._lastAttackPos = null
     }
 
@@ -27,7 +28,6 @@ class CustomPhaseAttackHelper {
         )
         this._lastAttackPos = newDefenderBannerPos
 
-
         this.instance._scene.view.layer_explosion.playAttackExplosion(
             attackerBannerPos.x, attackerBannerPos.y,
             newDefenderBannerPos.x, newDefenderBannerPos.y
@@ -38,16 +38,19 @@ class CustomPhaseAttackHelper {
         let paddingPercent = 0.25
         let marginPercent = 0.2
         let isMissed = attackInfo.damage == 0
-        let randX = Math.random() * 2 - 1
         let randY = Math.random() * 2 - 1
         if (isMissed) {
-            let offset = randX > 0 ? w / 2 : -w / 2
-            offset *= (1 + marginPercent)
+            let randX = Math.random()
+            let offset =  w / 2 * (1 + marginPercent)
+            let xOffset = randX * w / 2 + offset
+            if (x > this.sceneInfo.w / 2)
+                xOffset = -xOffset
             return {
-                x: x + randX * w / 2 + offset,
+                x: x + xOffset,
                 y: y + h * (1 - paddingPercent) / 2 * randY
             }
         } else {
+            let randX = Math.random() * 2 - 1
             return {
                 x: x + w * (1 - paddingPercent) / 2 * randX,
                 y: y + h * (1 - paddingPercent) / 2 * randY

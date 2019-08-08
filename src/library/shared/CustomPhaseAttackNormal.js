@@ -3,7 +3,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     //overriden from parent
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield)
-        this.helper = new CustomPhaseAttackHelper(this)
+        this.helper = new CustomPhaseAttackHelper(this,{w:scene.width,h:scene.height})
         this.damage = damage
     }
 
