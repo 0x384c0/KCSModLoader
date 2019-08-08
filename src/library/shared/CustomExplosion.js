@@ -1,3 +1,9 @@
+const ExplosionType = {
+    SMALL: 'SMALL',
+    MIDDLE: 'MIDDLE',
+    LARGE: 'LARGE'
+}
+
 class CustomExplosion extends PIXI.Container {
     constructor() {
         super();

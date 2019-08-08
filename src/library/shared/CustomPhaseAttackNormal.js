@@ -3,7 +3,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     //overriden from parent
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield)
-        this.helper = new CustomPhaseAttackHelper(this,{w:scene.width,h:scene.height})
+        this.helper = new CustomPhaseAttackHelper(this, { w: scene.width, h: scene.height })
         this.damage = damage
     }
 
@@ -15,14 +15,16 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
         0 != this._daihatsu_eff && (dlcTimout = 1300),
             createjs.Tween.get(null).wait(dlcTimout).wait(300)
                 .call(() => {
-                    // o.SE.play("102"),
-                    i._playAttack(attackerBanner, defenderBanner, { damage: this.damage })
-                })
-                .wait(this._scene.view.layer_explosion.attackExplosionDuration)
-                .call(function () {
-                    attackerBanner.attack(function () {
-                        i._damageEffect(attackerBanner, defenderBanner)
-                    })
+                    attackerBanner.attack(null)
+                    i._playAttack(attackerBanner, defenderBanner,
+                        {
+                            damage: this.damage,
+                            isMissed: this.damage == 0, //TODO: get this info from api
+                            explosionType: ExplosionType.LARGE //TODO: get this info from api
+                        },
+                        () => {
+                            i._damageEffect(attackerBanner, defenderBanner)
+                        })
                 })
     }
 
@@ -32,7 +34,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     }
 
     //custom
-    _playAttack(attackerBanner, defenderBanner, attackInfo) {
-        this.helper._playAttack(attackerBanner, defenderBanner, attackInfo)
+    _playAttack(attackerBanner, defenderBanner, attackInfo, callback) {
+        this.helper._playAttack(attackerBanner, defenderBanner, attackInfo, callback)
     }
 }
