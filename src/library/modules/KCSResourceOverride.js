@@ -3,7 +3,7 @@ class KCSResourceOverride {
     _isStarted = false
 
     _redirectIfNeeded(details) {
-        let newUrl = this.overridden_resources.find(url => details.url.includes(url))
+        let newUrl = this.files.find(url => details.url.includes(url))
         if (newUrl == null)
             newUrl = details.url
         else 
@@ -23,9 +23,11 @@ class KCSResourceOverride {
         if (this._isStarted)
             return
 
-        const url = this.path + "/overridden_resources.json"
+        const url = this.path + "/files.txt"
         try {
-            this.overridden_resources = await fetch(url).then(response => response.json())
+            this.files = await fetch(url)
+            .then(response => response.text())
+            .then(text => text.split(/[\r\n]+/))
         } catch (e) {
             alert("Resource override from " + url + " failed with error:\n" + e)
             return
@@ -35,7 +37,7 @@ class KCSResourceOverride {
         chrome.webRequest.onBeforeRequest.addListener(
             this._redirectListener,
             {
-                urls: this.overridden_resources.map(url => "*://*/" + url + "*"),
+                urls: this.files.map(url => "*://*/" + url + "*"),
                 types: []
             },
             ["blocking"]);
