@@ -4,7 +4,11 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
     constructor(scene, attacker, defender, slotitem, damage, hitType, isShield) {
         super(scene, attacker, defender, slotitem, damage, hitType, isShield)
         this.helper = new CustomPhaseAttackHelper(this, { w: scene.width, h: scene.height })
-        this.damage = damage
+        this.attackInfo = {
+            damage: damage,
+            isMissed: damage == 0, //TODO: get this info from api
+            explosionType: this.helper.getAttackExplosionType(attacker)
+        }
     }
 
     _attack(attackerBanner, defenderBanner) {
@@ -17,11 +21,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
                 .call(() => {
                     attackerBanner.attack(null)
                     i._playAttack(attackerBanner, defenderBanner,
-                        {
-                            damage: this.damage,
-                            isMissed: this.damage == 0, //TODO: get this info from api
-                            explosionType: ExplosionType.LARGE //TODO: get this info from api
-                        },
+                        this.attackInfo,
                         () => {
                             i._damageEffect(attackerBanner, defenderBanner)
                         })

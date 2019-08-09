@@ -72,4 +72,23 @@ class CustomPhaseAttackHelper {
         }
     }
 
+    getAttackExplosionType(attacker){
+        const gunTable = [
+            {type: ExplosionType.SMALL, proprity:1, gunTypeIds: [1]},
+            {type: ExplosionType.MIDDLE, proprity:2, gunTypeIds: [2,4]},
+            {type: ExplosionType.LARGE, proprity:3, gunTypeIds: [3]}
+        ]
+        const allGunIds = [].concat.apply([], gunTable.map(i => i.gunTypeIds))
+        try{
+            const gunIds = attacker.slots
+                .filter(i => (i != null && i.equipType != null && allGunIds.includes(i.equipType)))
+                .map(i => i.equipType)
+            const foundGunInfos = gunIds.map(gunId => gunTable.find(gunInfo => gunInfo.gunTypeIds.includes(gunId)))
+                .sort((a,b) => b.proprity-a.proprity)
+            return foundGunInfos[0].type
+        } catch (e){
+            return ExplosionType.SMALL
+        }
+    }
+
 }

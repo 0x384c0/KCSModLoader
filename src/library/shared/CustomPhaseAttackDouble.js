@@ -7,12 +7,12 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
         this.attackInfo = {
             damage: damage,
             isMissed: damage == 0, //TODO: get this info from api
-            explosionType: ExplosionType.LARGE //TODO: get this info from api
+            explosionType: this.helper.getAttackExplosionType(attacker)
         }
         this.attackInfo2 = {
             damage: damage2,
             isMissed: damage2 == 0, //TODO: get this info from api
-            explosionType: ExplosionType.LARGE //TODO: get this info from api
+            explosionType: this.helper.getAttackExplosionType(attacker2)
         }
         this._completeDamageEffect = function () {
             this._cutin.resume()

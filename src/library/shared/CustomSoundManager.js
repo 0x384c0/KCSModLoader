@@ -5,7 +5,11 @@ class CustomSoundManager{
 		this.sfx_meta = {
 			"boom_big1_g":4,
 			"boom_big1_w":3,
-			"fire_gun4":2
+			"boom_med1_g":3,
+			"boom_med1_w":2,
+			"fire_gun2":2,
+			"fire_gun4":2,
+			"fire_gun7":2
 		}
 	}
 	se_play(name){
