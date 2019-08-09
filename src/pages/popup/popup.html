@@ -3,13 +3,33 @@
 
 <head>
     <title>popup</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <script type="text/javascript" charset="utf-8" src="../../library/external/vue/vue.js"></script>
+    <link rel="stylesheet" href="../../library/external/vue-material/dist/vue-material.css">
+    <link rel="stylesheet" href="../../library/external/vue-material/dist/theme/default.css">
+    <script type="text/javascript" charset="utf-8" src="../../library/external/vue-material/dist/vue-material.js"></script>
     <script type="text/javascript" charset="utf-8" src="/library/modules/KCSDetector.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../library/modules/Storage.js"></script>
 </head>
 
 <body>
-    <div>popup</div>
-    <button id="will_load_kcs">Will load KCS</button>
-    <button id="will_stop_kcs">Did stop KCS</button>
+    <md-content>
+        <div id="settings">
+            <md-switch v-model="isCustomEffectEnabled" class="md-primary" v-on:change="isCustomEffectEnabledChange">
+                Custom effects
+            </md-switch>
+            <md-switch v-model="isResourceOverrideEnabled" class="md-primary" v-on:change="isResourceOverrideEnabledChange">
+                Custom resources
+            </md-switch>
+            <div class="text_input_container">
+                 <md-field class="text_input">
+                    <label>Resource path</label>
+                    <md-input v-model="resourcePath" v-on:change="resourcePathChange" :disabled="!isResourceOverrideEnabled"></md-input>
+                </md-field>
+                <md-button v-on:click="reset" :disabled="!isResourceOverrideEnabled">Reset</md-button>
+            </div>
+        </div>
+    </md-content>
     <script type="text/javascript" charset="utf-8" src="popup.js"></script>
 </body>
 

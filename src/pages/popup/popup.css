@@ -1,0 +1,11 @@
+#settings {
+    padding-left: 20px;
+}
+
+.text_input_container{
+	display: flex;
+}
+
+.text_input{
+	width: 200px !important;
+}

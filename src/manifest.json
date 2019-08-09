@@ -15,6 +15,7 @@
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {
         "scripts": [
+            "library/modules/Storage.js",
             "library/modules/KCSResourceOverride.js",
             "library/modules/KCSDetector.js",
             "library/modules/background.js"
@@ -26,6 +27,7 @@
                 "*://*/kcs2/index.php?api_root=/kcsapi*"
             ],
             "js": [
+                "library/modules/Storage.js",
                 "library/modules/KCSDetector.js",
                 "library/modules/contentScript.js"
             ],
@@ -36,6 +38,7 @@
     "permissions": [
         "webRequest",
         "webRequestBlocking",
+        "storage",
         "*://*/kcs2/index.php?api_root=/kcsapi*"
     ],
     "web_accessible_resources": [

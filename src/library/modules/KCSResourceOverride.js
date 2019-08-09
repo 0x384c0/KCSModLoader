@@ -6,9 +6,9 @@ class KCSResourceOverride {
         let newUrl = this.overridden_resources.find(url => details.url.includes(url))
         if (newUrl == null)
             newUrl = details.url
-        else {
-            newUrl = chrome.runtime.getURL(this.path + "/" + newUrl)
-        }
+        else 
+            newUrl = this.path + "/" + newUrl
+        
         console.log("redirect from: " + details.url + " to: " + newUrl)
         return { redirectUrl: newUrl }
     }
@@ -23,7 +23,13 @@ class KCSResourceOverride {
         if (this._isStarted)
             return
 
-        this.overridden_resources = await fetch(this.path + "/overridden_resources.json").then(response => response.json())
+        const url = this.path + "/overridden_resources.json"
+        try {
+            this.overridden_resources = await fetch(url).then(response => response.json())
+        } catch (e) {
+            alert("Resource override from " + url + " failed with error:\n" + e)
+            return
+        }
 
         this._redirectListener =  details => { return this._redirectIfNeeded(details) }
         chrome.webRequest.onBeforeRequest.addListener(
@@ -44,6 +50,6 @@ class KCSResourceOverride {
     }
 
     constructor(path) {
-        this.path = path
+        this.path = path.startsWith("http") ? path : chrome.runtime.getURL(path)
     }
 }

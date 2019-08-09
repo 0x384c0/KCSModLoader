@@ -1,9 +1,30 @@
+//utils
+const storage = new Storage()
 const detector = new KCSDetector()
-document.getElementById("will_load_kcs").addEventListener("click", will_load_kcs);
-function will_load_kcs() {
-    detector.notifyStart()
+
+//UI Bindings
+Vue.use(VueMaterial.default)
+var settings = null
+
+//Others
+async function init() {
+    const isResourceOverrideEnabled = await storage.getIsResourceOverrideEnabled()
+    const isCustomEffectEnabledd = await storage.getIsCustomEffectEnabled()
+    const resourcePath = await storage.getResourcePath()
+    console.log(resourcePath)
+    settings = new Vue({
+        el: '#settings',
+        data: { 
+            isResourceOverrideEnabled: isResourceOverrideEnabled,
+            isCustomEffectEnabled: isCustomEffectEnabledd,
+            resourcePath: resourcePath
+        },
+        methods: {
+            isResourceOverrideEnabledChange: () => { storage.setIsResourceOverrideEnabled(settings.isResourceOverrideEnabled) },
+            isCustomEffectEnabledChange: () => { storage.setIsCustomEffectEnabled(settings.isCustomEffectEnabled) },
+            resourcePathChange: () => { storage.setResourcePath(settings.resourcePath) },
+            reset: () => { storage.resetResourcePath(); storage.getResourcePath().then(value => settings.resourcePath = value)}
+        }
+    })
 }
-document.getElementById("will_stop_kcs").addEventListener("click", will_stop_kcs);
-function will_stop_kcs() {
-    detector.notifyStop()
-}
+init()
