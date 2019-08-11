@@ -42,7 +42,7 @@ class CustomExplosion extends PIXI.Container {
     }
 
     _getTexture(current_frame) {
-        return PIXI.Texture.from(`explosio_large_w_${current_frame}`)
+        return PIXI.Texture.from(`explosion_large_w_${current_frame}`)
     }
 
     _setImageOffset(current_frame) {

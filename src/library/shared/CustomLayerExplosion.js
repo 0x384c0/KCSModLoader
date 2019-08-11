@@ -11,6 +11,14 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         attackerInfo,
         callback
     ) {
+        //bullet
+        this._emitBullet(
+            attackerPosX, attackerPosY,
+            defenderPosX, defenderPosY,
+            this.attackExplosionDuration,
+            callback
+        )
+
         //attack sfx
         const fireGunInfo = [
             {type: ExplosionType.SMALL, default:"fire_gun2"},
@@ -29,7 +37,7 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         var anim = new PIXI.extras.AnimatedSprite(frames);
         anim.loop = false;
         anim.animationSpeed = 0.25;
-        anim.anchor.set(0.36,0.5); //depends of texture size
+        anim.anchor.set(0.40,0.5); //depends of texture size
         anim.position.set(attackerPosX, attackerPosY)
         anim.rotation = Math.atan2(defenderPosY - attackerPosY, defenderPosX - attackerPosX)
         anim.onComplete = ()=>{
@@ -37,14 +45,6 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         }
         this.addChild(anim);
         anim.play();
-
-        //bullet
-        this._emitBullet(
-            attackerPosX, attackerPosY,
-            defenderPosX, defenderPosY,
-            this.attackExplosionDuration,
-            callback
-        )
     }
 
     //impact
