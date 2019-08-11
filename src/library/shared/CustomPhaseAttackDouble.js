@@ -39,7 +39,6 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
             attackerBanner: attackerBanner,
             defenderBanner: defenderBanner
         }
-        // r.SE.play("102")
         attackerBanner.attack(null)
         this._playAttack(attackerBanner, defenderBanner,
             this.attackInfo,

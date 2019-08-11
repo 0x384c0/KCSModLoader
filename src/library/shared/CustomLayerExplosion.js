@@ -72,7 +72,7 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         this.addChild(bullet)
         bullet.play(() => {
             this.removeChild(bullet)
-            if (callback != null) callback()
+            if (callback != null) callback({x:toX,y:toY})
         })
     }
 

@@ -242,6 +242,20 @@
 // _mst_id: 247
 // _sakuteki: 0
 
+//AA Cutin
+// 0: t
+// a_index: 0
+// d_indexes: Array(1)
+// flag: 0
+// type: 6
+// _a_index: 0
+// _d_indexes: [3]
+// _damages: [222]
+// _flag: 0
+// _hit_types: [1]
+// _slotitems: (3) ["59", "104", "104"]
+// _type: 6
+// __proto__: Object
 
 
 //prevent load main.js

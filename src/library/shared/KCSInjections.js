@@ -7,6 +7,7 @@ async function injectKCSMods(extensionUrl) {
         .then(s => s.replace("e.SoundManager=_", "document.kcs_SoundManager = e;e.SoundManager=_"))
         .then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
         .then(s => s.replace("e.TaskDaihatsuEff=a;", "document.kcs_TaskDaihatsuEff = e;e.TaskDaihatsuEff=a;"))
+        .then(s => s.replace("e.PhaseAttackDanchaku=h", "document.kcs_PhaseAttackDanchaku = e;e.PhaseAttackDanchaku=h"))
         .then(s => s.replace("e.PhaseAttackDouble=c", "document.kcs_PhaseAttackDouble = e;e.PhaseAttackDouble=c"))
         .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
     eval(mainScript)
@@ -16,6 +17,7 @@ async function injectKCSMods(extensionUrl) {
     await _addScript(extensionUrl + "library/shared/Bullet.js")
     await _addScript(extensionUrl + "library/shared/CustomExplosion.js")
     await _addScript(extensionUrl + "library/shared/CustomLayerExplosion.js")
+    await _addScript(extensionUrl + "library/shared/CustomPhaseAttackDanchaku.js")
     await _addScript(extensionUrl + "library/shared/CustomPhaseAttackHelper.js")
     await _addScript(extensionUrl + "library/shared/CustomPhaseAttackNormal.js")
     await _addScript(extensionUrl + "library/shared/CustomPhaseAttackDouble.js")
@@ -28,6 +30,7 @@ async function injectKCSMods(extensionUrl) {
                 document.kcs_extensionUrl = extensionUrl
                 document.kcs_SoundManager = new CustomSoundManager(new document.kcs_SoundManager.SoundManager,extensionUrl)
                 document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
+                document.kcs_PhaseAttackDanchaku.PhaseAttackDanchaku = CustomPhaseAttackDanchaku
                 document.kcs_PhaseAttackNormal.PhaseAttackNormal = CustomPhaseAttackNormal
                 document.kcs_PhaseAttackDouble.PhaseAttackDouble = CustomPhaseAttackDouble
             }
