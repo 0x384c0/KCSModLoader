@@ -4,11 +4,6 @@ const ExplosionType = {
     LARGE: 'LARGE'
 }
 
-const ExplosionInfo = {
-    w_offset:100,
-    h_offset: 140
-}
-
 class CustomExplosion extends PIXI.Container {
     constructor() {
         super();
@@ -51,6 +46,7 @@ class CustomExplosion extends PIXI.Container {
     }
 
     _setImageOffset(current_frame) {
+        this._img.anchor.set(0.5,0.71); //depends of texture size
         this._img.position.set(0, 0);
     }
 }

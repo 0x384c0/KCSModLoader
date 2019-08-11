@@ -25,6 +25,7 @@ async function injectKCSMods(extensionUrl) {
         if (event.source == window && event.data.command && event.data.command == "init_main_js"){
             if (event.data.isCustomEffectEnabled) {
                 //inject custom classes
+                document.kcs_extensionUrl = extensionUrl
                 document.kcs_SoundManager = new CustomSoundManager(new document.kcs_SoundManager.SoundManager,extensionUrl)
                 document.kcs_LayerExplosion.LayerExplosion = CustomLayerExplosion
                 document.kcs_PhaseAttackNormal.PhaseAttackNormal = CustomPhaseAttackNormal

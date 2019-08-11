@@ -8,7 +8,8 @@ class CustomPhaseAttackHelper {
 
     _completePreload(callback){
         this._loader = new PIXI.loaders.Loader
-        this._loader.add("chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/resources/default_effects/img/battle/explosio_large_w.json")
+        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosio_large_w.json")
+        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle.json")
         this._loader.load((t) => {
             callback()
         })
@@ -40,7 +41,7 @@ class CustomPhaseAttackHelper {
         let defenderBannerPos = defenderBanner.getGlobalPos(true);
 
         let defenderBannerBounds = defenderBanner.getBounds()
-        let newDefenderBannerPos = this._getCoordinates(
+        let newDefenderBannerPos = this._getImpactCoordinates(
             defenderBannerPos.x,
             defenderBannerPos.y,
             defenderBannerBounds.width,
@@ -49,15 +50,22 @@ class CustomPhaseAttackHelper {
         )
         this._lastAttackPos = newDefenderBannerPos
 
+        let attackerBannerBounds = attackerBanner.getBounds()
+        const newAttackerPos = this._getAttackCoordinated(
+            attackerBannerPos.x,
+            attackerBannerPos.y,
+            attackerBannerBounds.width
+            )
+
         this.instance._scene.view.layer_explosion.playAttackExplosion(
-            attackerBannerPos.x, attackerBannerPos.y,
+            newAttackerPos.x, newAttackerPos.y,
             newDefenderBannerPos.x, newDefenderBannerPos.y,
             attackInfo,
             callback
         )
     }
 
-    _getCoordinates(x, y, w, h, attackInfo) {
+    _getImpactCoordinates(x, y, w, h, attackInfo) {
         let paddingPercent = 0.25
         let marginPercent = 0.2
         let randY = Math.random() * 2 - 1
@@ -76,6 +84,20 @@ class CustomPhaseAttackHelper {
             return {
                 x: x + w * (1 - paddingPercent) / 2 * randX,
                 y: y + h * (1 - paddingPercent) / 2 * randY
+            }
+        }
+    }
+
+    _getAttackCoordinated(x, y, w){
+        if (x > this.sceneInfo.w / 2){
+            return {
+                x: x - (w/2) * 0.9,
+                y: y
+            }
+        } else {
+            return {
+                x: x + (w/2)  * 0.9,
+                y: y
             }
         }
     }
