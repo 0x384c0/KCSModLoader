@@ -22,10 +22,8 @@ class Bullet extends PIXI.Container {
                 this.createTween(completion))
     }
     createTween(completion) {
-        this._img.texture = PIXI.Texture.WHITE
-        this._img.tint = 0xff0000;
-        this._img.width = 50;
-        this._img.height = 15;
+        this._img.texture = PIXI.Texture.from("bullet_middle")
+        this._img.anchor.set(1,0.5);
 
 
         this._tween = new createjs.Tween(this._img.position)
