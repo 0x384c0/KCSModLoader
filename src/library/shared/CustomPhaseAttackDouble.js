@@ -30,6 +30,10 @@ class CustomPhaseAttackDouble extends document.kcs_PhaseAttackDouble.PhaseAttack
         }
     }
 
+    _completePreload(){
+        this.helper._completePreload(() => super._completePreload())
+    }
+
     _attack(attackerBanner, defenderBanner) {
         this._additionalInfo = {
             attackerBanner: attackerBanner,

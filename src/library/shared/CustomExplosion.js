@@ -4,6 +4,11 @@ const ExplosionType = {
     LARGE: 'LARGE'
 }
 
+const ExplosionInfo = {
+    w_offset:100,
+    h_offset: 140
+}
+
 class CustomExplosion extends PIXI.Container {
     constructor() {
         super();
@@ -23,15 +28,12 @@ class CustomExplosion extends PIXI.Container {
         void 0 === completion && (completion = null),
             createjs.Tween.removeTweens(this),
             this._tween = createjs.Tween.get(this),
-            this._tween.wait(33).call(function () {
+            this._tween.wait(40).call(function () {
                 e._current_frame++
                 e._img.texture = e._getTexture(e._current_frame)
-                e._img.tint = 0xFF00FF;
-                e._img.width = 50;
-                e._img.height = 50;
 
                 e._setImageOffset(e._current_frame)
-                e._current_frame <= 15 ? e.createTween(completion) : (e._isPlaying = false,
+                e._current_frame < 49 ? e.createTween(completion) : (e._isPlaying = false,
                     e._current_frame = 0,
                     null != completion && completion())
             })
@@ -45,7 +47,7 @@ class CustomExplosion extends PIXI.Container {
     }
 
     _getTexture(current_frame) {
-        return PIXI.Texture.WHITE
+        return PIXI.Texture.from(`explosio_large_w_${current_frame}`)
     }
 
     _setImageOffset(current_frame) {

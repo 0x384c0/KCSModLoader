@@ -6,6 +6,14 @@ class CustomPhaseAttackHelper {
         this._lastAttackInfo = null
     }
 
+    _completePreload(callback){
+        this._loader = new PIXI.loaders.Loader
+        this._loader.add("chrome-extension://nfldpcedekkdpjmmahadaffilbfaofof/resources/default_effects/img/battle/explosio_large_w.json")
+        this._loader.load((t) => {
+            callback()
+        })
+    }
+
 
     _playExplosion(shipBanner, damage) {
         if (this._lastAttackPos == null) console.log("CustomPhaseAttackHelper._playExplosion Warning this._lastAttackPos is null")

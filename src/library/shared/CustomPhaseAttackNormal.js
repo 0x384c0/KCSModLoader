@@ -11,6 +11,10 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
         }
     }
 
+    _completePreload(){
+        this.helper._completePreload(() => super._completePreload())
+    }
+
     _attack(attackerBanner, defenderBanner) {
         var i = this,
             scene = this._scene.view.layer_content;
