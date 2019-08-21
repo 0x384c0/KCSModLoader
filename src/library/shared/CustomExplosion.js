@@ -4,9 +4,47 @@ const ExplosionType = {
     LARGE: 'LARGE'
 }
 
+const explosionTypesInfo = [{
+        type: ExplosionType.SMALL,
+        default: {
+            name: "explosion_middle_g_",
+            frames: 51
+        },
+        missed: {
+            name: "explosion_large_w_",
+            frames: 49
+        }
+    },
+    {
+        type: ExplosionType.MIDDLE,
+        default: {
+            name: "explosion_middle_g_",
+            frames: 51
+        },
+        missed: {
+            name: "explosion_large_w_",
+            frames: 49
+        }
+    },
+    {
+        type: ExplosionType.LARGE,
+        default: {
+            name: "explosion_middle_g_",
+            frames: 51
+        },
+        missed: {
+            name: "explosion_large_w_",
+            frames: 49
+        }
+    }
+]
+
 class CustomExplosion extends PIXI.Container {
-    constructor() {
+
+    constructor(explosionType,isMissed) {
         super();
+        let explosionTypeInfoObject = explosionTypesInfo.find(i => i.type == explosionType)
+        this.explosionTypeInfo =  isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
         this._current_frame = 0
         this._img = new PIXI.Sprite
         this.addChild(this._img)
@@ -28,7 +66,7 @@ class CustomExplosion extends PIXI.Container {
                 e._img.texture = e._getTexture(e._current_frame)
 
                 e._setImageOffset(e._current_frame)
-                e._current_frame < 49 ? e.createTween(completion) : (e._isPlaying = false,
+                e._current_frame < this.explosionTypeInfo.frames ? e.createTween(completion) : (e._isPlaying = false,
                     e._current_frame = 0,
                     null != completion && completion())
             })
@@ -42,7 +80,7 @@ class CustomExplosion extends PIXI.Container {
     }
 
     _getTexture(current_frame) {
-        return PIXI.Texture.from(`explosion_large_w_${current_frame}`)
+        return PIXI.Texture.from(`${this.explosionTypeInfo.name}${current_frame}`)
     }
 
     _setImageOffset(current_frame) {

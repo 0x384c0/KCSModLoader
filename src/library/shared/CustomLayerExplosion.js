@@ -59,7 +59,7 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         void 0 === callback && (callback = null),
             createjs.Tween.get(this).call(function () {
                 document.kcs_SoundManager.se_play(attackerInfo.isMissed ? explosion.missed : explosion.default)
-                n._explodeCustom(x, y)
+                n._explodeCustom(x, y, attackerInfo.explosionType, attackerInfo.isMissed)
             })
     }
 
@@ -77,10 +77,10 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
     }
 
     //explode
-    _explodeCustom(x, y, callback) {
+    _explodeCustom(x, y,explosionType,isMissed, callback) {
         var n = this;
         void 0 === callback && (callback = null);
-        var explosion = new CustomExplosion();
+        var explosion = new CustomExplosion(explosionType,isMissed);
         explosion.position.set(x, y),
             this.addChild(explosion),
             explosion.play(function () {

@@ -9,6 +9,7 @@ class CustomPhaseAttackHelper {
     _completePreload(callback){
         this._loader = new PIXI.loaders.Loader
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosion_large_w.json")
+        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosion_middle_g.json")
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle.json")
         this._loader.add("bullet_middle", document.kcs_extensionUrl + "resources/default_effects/img/battle/bullet_middle.png")
         this._loader.load((t) => {
