@@ -20,27 +20,30 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         )
 
         //attack sfx
-        const fireGunInfo = [
-            {type: ExplosionType.SMALL, default:"fire_gun2"},
-            {type: ExplosionType.MIDDLE, default:"fire_gun7"},
-            {type: ExplosionType.LARGE, default:"fire_gun4"}
+        const fireGunSfxInfo = [
+            { type: ExplosionType.SMALL, default: "fire_gun2" },
+            { type: ExplosionType.MIDDLE, default: "fire_gun7" },
+            { type: ExplosionType.LARGE, default: "fire_gun4" }
         ]
-        const fireGun = fireGunInfo.find(i => i.type == attackerInfo.explosionType).default
+        const fireGun = fireGunSfxInfo.find(i => i.type == attackerInfo.explosionType).default
         document.kcs_SoundManager.se_play(fireGun)
 
         //attack vfx
-        const frames = [];
-        const variant = Math.round(Math.random())
-        for (let i = 0; i < 6; i++) {
-            frames.push(PIXI.Texture.from(`attack_middle_${variant}_${i}`));
-        }
+        const attackSpritesInfo = [
+            { type: ExplosionType.SMALL, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } },
+            { type: ExplosionType.MIDDLE, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } },
+            { type: ExplosionType.LARGE, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } }
+        ]
+        const attackSpriteInfo = attackSpritesInfo.find(i => i.type == attackerInfo.explosionType).default
+        const frames = this._getAttackFrames(attackSpriteInfo.names).map(i => PIXI.Texture.from(i))
+
         var anim = new PIXI.extras.AnimatedSprite(frames);
         anim.loop = false;
         anim.animationSpeed = 0.25;
-        anim.anchor.set(0.40,0.5); //depends of texture size
+        anim.anchor.set(attackSpriteInfo.anchor.x, attackSpriteInfo.anchor.y); //depends of texture size
         anim.position.set(attackerPosX, attackerPosY)
         anim.rotation = Math.atan2(defenderPosY - attackerPosY, defenderPosX - attackerPosX)
-        anim.onComplete = ()=>{
+        anim.onComplete = () => {
             this.removeChild(anim);
         }
         this.addChild(anim);
@@ -50,9 +53,9 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
     //impact
     playImpactExplosion(x, y, attackerInfo, callback) {
         const explosionInfo = [
-            {type: ExplosionType.SMALL, default:"boom_med1_g", missed: "boom_med1_w"},
-            {type: ExplosionType.MIDDLE, default:"boom_big1_g", missed: "boom_big1_w"},
-            {type: ExplosionType.LARGE, default:"boom_big1_g", missed: "boom_big1_w"}
+            { type: ExplosionType.SMALL, default: "boom_med1_g", missed: "boom_med1_w" },
+            { type: ExplosionType.MIDDLE, default: "boom_big1_g", missed: "boom_big1_w" },
+            { type: ExplosionType.LARGE, default: "boom_big1_g", missed: "boom_big1_w" }
         ]
         const explosion = explosionInfo.find(i => i.type == attackerInfo.explosionType)
         var n = this;
@@ -65,6 +68,12 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
 
 
     //private
+    //attack
+    _getAttackFrames(names) {
+        const name = names[Math.floor(Math.random() * names.length)];
+        return getFramesForBattleSprite(name)
+    }
+
     //Bullet
     _emitBullet(fromX, fromY, toX, toY, time, callback) {
         var bullet = new Bullet(fromX, fromY, toX, toY, time)
@@ -72,15 +81,15 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         this.addChild(bullet)
         bullet.play(() => {
             this.removeChild(bullet)
-            if (callback != null) callback({x:toX,y:toY})
+            if (callback != null) callback({ x: toX, y: toY })
         })
     }
 
     //explode
-    _explodeCustom(x, y,explosionType,isMissed, callback) {
+    _explodeCustom(x, y, explosionType, isMissed, callback) {
         var n = this;
         void 0 === callback && (callback = null);
-        var explosion = new CustomExplosion(explosionType,isMissed);
+        var explosion = new CustomExplosion(explosionType, isMissed);
         explosion.position.set(x, y),
             this.addChild(explosion),
             explosion.play(function () {

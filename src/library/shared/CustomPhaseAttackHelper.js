@@ -6,12 +6,14 @@ class CustomPhaseAttackHelper {
         this._lastAttackInfo = null
     }
 
-    _completePreload(callback){
+    _completePreload(callback) {
         this._loader = new PIXI.loaders.Loader
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosion_large_w.json")
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosion_middle_g.json")
-        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle.json")
+        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle_0.json")
+        this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle_1.json")
         this._loader.add("bullet_middle", document.kcs_extensionUrl + "resources/default_effects/img/battle/bullet_middle.png")
+        document.loaderInstance = this._loader
         this._loader.load((t) => {
             callback()
         })
@@ -57,7 +59,7 @@ class CustomPhaseAttackHelper {
             attackerBannerPos.x,
             attackerBannerPos.y,
             attackerBannerBounds.width
-            )
+        )
 
         this.instance._scene.view.layer_explosion.playAttackExplosion(
             newAttackerPos.x, newAttackerPos.y,
@@ -90,37 +92,41 @@ class CustomPhaseAttackHelper {
         }
     }
 
-    _getAttackCoordinated(x, y, w){
-        if (x > this.sceneInfo.w / 2){
+    _getAttackCoordinated(x, y, w) {
+        if (x > this.sceneInfo.w / 2) {
             return {
-                x: x - (w/2) * 0.9,
+                x: x - (w / 2) * 0.9,
                 y: y
             }
         } else {
             return {
-                x: x + (w/2)  * 0.9,
+                x: x + (w / 2) * 0.9,
                 y: y
             }
         }
     }
 
-    getAttackExplosionType(attacker){
+    getAttackExplosionType(attacker) {
         const gunTable = [
-            {type: ExplosionType.SMALL, proprity:1, gunTypeIds: [1]},
-            {type: ExplosionType.MIDDLE, proprity:2, gunTypeIds: [2,4]},
-            {type: ExplosionType.LARGE, proprity:3, gunTypeIds: [3]}
+            { type: ExplosionType.SMALL, proprity: 1, gunTypeIds: [1] },
+            { type: ExplosionType.MIDDLE, proprity: 2, gunTypeIds: [2, 4] },
+            { type: ExplosionType.LARGE, proprity: 3, gunTypeIds: [3] }
         ]
         const allGunIds = [].concat.apply([], gunTable.map(i => i.gunTypeIds))
-        try{
+        try {
             const gunIds = attacker.slots
                 .filter(i => (i != null && i.equipType != null && allGunIds.includes(i.equipType)))
                 .map(i => i.equipType)
             const foundGunInfos = gunIds.map(gunId => gunTable.find(gunInfo => gunInfo.gunTypeIds.includes(gunId)))
-                .sort((a,b) => b.proprity-a.proprity)
+                .sort((a, b) => b.proprity - a.proprity)
             return foundGunInfos[0].type
-        } catch (e){
+        } catch (e) {
             return ExplosionType.SMALL
         }
     }
+}
 
+function getFramesForBattleSprite(resourceName) {
+    let resource = document.loaderInstance.resources[document.kcs_extensionUrl + "resources/default_effects/img/battle/" + resourceName + ".json"]
+    return Object.keys(resource.data.frames)
 }

@@ -4,49 +4,52 @@ const ExplosionType = {
     LARGE: 'LARGE'
 }
 
-const explosionTypesInfo = [{
+const explosionTypesInfo = [
+    {
         type: ExplosionType.SMALL,
         default: {
-            name: "explosion_middle_g_",
-            frames: 51
+            name: "explosion_middle_g",
+            anchor: { x: 0.5, y: 0.7 }
         },
         missed: {
-            name: "explosion_large_w_",
-            frames: 49
+            name: "explosion_large_w",
+            anchor: { x: 0.5, y: 0.71 }
         }
     },
     {
         type: ExplosionType.MIDDLE,
         default: {
-            name: "explosion_middle_g_",
-            frames: 51
+            name: "explosion_middle_g",
+            anchor: { x: 0.5, y: 0.7 }
         },
         missed: {
-            name: "explosion_large_w_",
-            frames: 49
+            name: "explosion_large_w",
+            anchor: { x: 0.5, y: 0.71 }
         }
     },
     {
         type: ExplosionType.LARGE,
         default: {
-            name: "explosion_middle_g_",
-            frames: 51
+            name: "explosion_middle_g",
+            anchor: { x: 0.5, y: 0.7 }
         },
         missed: {
-            name: "explosion_large_w_",
-            frames: 49
+            name: "explosion_large_w",
+            anchor: { x: 0.5, y: 0.71 }
         }
     }
 ]
 
 class CustomExplosion extends PIXI.Container {
 
-    constructor(explosionType,isMissed) {
+    constructor(explosionType, isMissed) {
         super();
         let explosionTypeInfoObject = explosionTypesInfo.find(i => i.type == explosionType)
-        this.explosionTypeInfo =  isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
+        this._explosionTypeInfo = isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
+        this._explosionTypeInfo.frames = getFramesForBattleSprite(this._explosionTypeInfo.name)
         this._current_frame = 0
         this._img = new PIXI.Sprite
+        this._isMirror = Math.random() >= 0.5
         this.addChild(this._img)
     }
 
@@ -58,6 +61,7 @@ class CustomExplosion extends PIXI.Container {
     }
     createTween(completion) {
         var e = this;
+        e._setImageOffset(e._current_frame)
         void 0 === completion && (completion = null),
             createjs.Tween.removeTweens(this),
             this._tween = createjs.Tween.get(this),
@@ -65,8 +69,7 @@ class CustomExplosion extends PIXI.Container {
                 e._current_frame++
                 e._img.texture = e._getTexture(e._current_frame)
 
-                e._setImageOffset(e._current_frame)
-                e._current_frame < this.explosionTypeInfo.frames ? e.createTween(completion) : (e._isPlaying = false,
+                e._current_frame < this._explosionTypeInfo.frames.length ? e.createTween(completion) : (e._isPlaying = false,
                     e._current_frame = 0,
                     null != completion && completion())
             })
@@ -80,11 +83,14 @@ class CustomExplosion extends PIXI.Container {
     }
 
     _getTexture(current_frame) {
-        return PIXI.Texture.from(`${this.explosionTypeInfo.name}${current_frame}`)
+        return PIXI.Texture.from(this._explosionTypeInfo.frames[current_frame])
     }
 
     _setImageOffset(current_frame) {
-        this._img.anchor.set(0.5,0.71); //depends of texture size
+        this._img.anchor.set(this._explosionTypeInfo.anchor.x, this._explosionTypeInfo.anchor.y);
         this._img.position.set(0, 0);
+        const scale = 0.8 //TODO: remove
+        this._img.scale.x = this._isMirror ? -1 * scale : 1 * scale
+        this._img.scale.y = scale
     }
 }
