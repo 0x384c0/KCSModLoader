@@ -1,0 +1,1 @@
+find . -type f | grep -vE -e "^./files.txt$" -e "^./synch.sh$" -e "^./.DS_Store$"| sed "s|\./||g" > files.txt

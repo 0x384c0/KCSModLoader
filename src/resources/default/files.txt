@@ -1,2 +1,4 @@
-kcs2/img/title/title_main.png
 kcs2/resources/ship/banner/0187_7429.png
+kcs2/img/title/title_main.png
+kcs2/img/common/bg_map/bg_h.png
+kcs2/img/common/bg_map/bg_y.png
