@@ -8,8 +8,8 @@ const explosionTypesInfo = [
     {
         type: ExplosionType.SMALL,
         default: {
-            name: "explosion_middle_g",
-            anchor: { x: 0.5, y: 0.7 }
+            name: "explosion_small_g",
+            anchor: { x: 0.5, y: 0.73 }
         },
         missed: {
             name: "explosion_large_w",
