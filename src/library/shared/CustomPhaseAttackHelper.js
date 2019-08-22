@@ -14,7 +14,9 @@ class CustomPhaseAttackHelper {
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/explosion_large_g.json")
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle_0.json")
         this._loader.add(document.kcs_extensionUrl + "resources/default_effects/img/battle/attack_middle_1.json")
+        this._loader.add("bullet_small", document.kcs_extensionUrl + "resources/default_effects/img/battle/bullet_small.png")
         this._loader.add("bullet_middle", document.kcs_extensionUrl + "resources/default_effects/img/battle/bullet_middle.png")
+        this._loader.add("bullet_large", document.kcs_extensionUrl + "resources/default_effects/img/battle/bullet_large.png")
         document.loaderInstance = this._loader
         this._loader.load((t) => {
             callback()

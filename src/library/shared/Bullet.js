@@ -28,7 +28,8 @@ class Bullet extends PIXI.Container {
             { type: ExplosionType.MIDDLE, default: "bullet_middle"},
             { type: ExplosionType.LARGE, default: "bullet_large" }
         ]
-        this._img.texture = PIXI.Texture.from("bullet_middle")
+        const bullet = bulletInfo.find(i => i.type == this.explosionType)
+        this._img.texture = PIXI.Texture.from(bullet.default)
         this._img.anchor.set(1, 0.5);
 
 
