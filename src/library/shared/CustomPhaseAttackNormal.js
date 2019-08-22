@@ -21,7 +21,7 @@ class CustomPhaseAttackNormal extends document.kcs_PhaseAttackNormal.PhaseAttack
         new document.kcs_TaskDaihatsuEff.TaskDaihatsuEff(scene, attackerBanner, defenderBanner, this._daihatsu_eff).start();
         var dlcTimout = 0;
         0 != this._daihatsu_eff && (dlcTimout = 1300),
-            createjs.Tween.get(null).wait(dlcTimout).wait(300)
+            createjs.Tween.get(null).wait(dlcTimout).wait(200)
                 .call(() => {
                     attackerBanner.attack(null)
                     i._playAttack(attackerBanner, defenderBanner,

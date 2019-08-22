@@ -34,10 +34,11 @@ class KCSResourceOverride {
         }
 
         this._redirectListener =  details => { return this._redirectIfNeeded(details) }
+        const urls = this.files.filter(file => file != "").map(url => "*://*/" + url + "*")
         chrome.webRequest.onBeforeRequest.addListener(
             this._redirectListener,
             {
-                urls: this.files.map(url => "*://*/" + url + "*"),
+                urls: urls,
                 types: []
             },
             ["blocking"]);

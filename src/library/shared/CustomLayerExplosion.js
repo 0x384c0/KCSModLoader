@@ -4,7 +4,7 @@ const AttackAnimationInfo = {
 
 class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
 
-    attackExplosionDuration = 300
+    attackExplosionDuration = 200
     playAttackExplosion(
         attackerPosX, attackerPosY,
         defenderPosX, defenderPosY,
@@ -16,6 +16,7 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
             attackerPosX, attackerPosY,
             defenderPosX, defenderPosY,
             this.attackExplosionDuration,
+            attackerInfo.explosionType,
             callback
         )
 
@@ -75,8 +76,8 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
     }
 
     //Bullet
-    _emitBullet(fromX, fromY, toX, toY, time, callback) {
-        var bullet = new Bullet(fromX, fromY, toX, toY, time)
+    _emitBullet(fromX, fromY, toX, toY, time, explosionType, callback) {
+        var bullet = new Bullet(fromX, fromY, toX, toY, explosionType, time)
         bullet.position.set(0, 0)
         this.addChild(bullet)
         bullet.play(() => {

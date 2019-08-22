@@ -30,7 +30,7 @@ const explosionTypesInfo = [
     {
         type: ExplosionType.LARGE,
         default: {
-            name: "explosion_middle_g",
+            name: "explosion_large_g",
             anchor: { x: 0.5, y: 0.7 }
         },
         missed: {
@@ -89,8 +89,6 @@ class CustomExplosion extends PIXI.Container {
     _setImageOffset(current_frame) {
         this._img.anchor.set(this._explosionTypeInfo.anchor.x, this._explosionTypeInfo.anchor.y);
         this._img.position.set(0, 0);
-        const scale = 0.8 //TODO: remove
-        this._img.scale.x = this._isMirror ? -1 * scale : 1 * scale
-        this._img.scale.y = scale
+        this._img.scale.x = this._isMirror ? -1 : 1
     }
 }

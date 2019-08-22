@@ -1,10 +1,11 @@
 class Bullet extends PIXI.Container {
-    constructor(fromX, fromY, toX, toY, time) {
+    constructor(fromX, fromY, toX, toY, explosionType, time) {
         super();
         this.fromX = fromX
         this.fromY = fromY
         this.toX = toX
         this.toY = toY
+        this.explosionType = explosionType
 
 
         this.time = time
@@ -22,8 +23,13 @@ class Bullet extends PIXI.Container {
                 this.createTween(completion))
     }
     createTween(completion) {
+        const bulletInfo = [
+            { type: ExplosionType.SMALL, default: "bullet_small"},
+            { type: ExplosionType.MIDDLE, default: "bullet_middle"},
+            { type: ExplosionType.LARGE, default: "bullet_large" }
+        ]
         this._img.texture = PIXI.Texture.from("bullet_middle")
-        this._img.anchor.set(1,0.5);
+        this._img.anchor.set(1, 0.5);
 
 
         this._tween = new createjs.Tween(this._img.position)
