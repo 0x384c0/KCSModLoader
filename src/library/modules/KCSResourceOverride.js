@@ -6,9 +6,9 @@ class KCSResourceOverride {
         let newUrl = this.files.find(url => details.url.includes(url))
         if (newUrl == null)
             newUrl = details.url
-        else 
+        else
             newUrl = this.path + "/" + newUrl
-        
+
         console.log("redirect from: " + details.url + " to: " + newUrl)
         return { redirectUrl: newUrl }
     }
@@ -23,17 +23,21 @@ class KCSResourceOverride {
         if (this._isStarted)
             return
 
+
         const url = this.path + "/files.txt"
         try {
-            this.files = await fetch(url)
-            .then(response => response.text())
-            .then(text => text.split(/[\r\n]+/))
+            if (this.localResources != null)
+                this.files = this.localResources
+            else
+                this.files = await fetch(url)
+                    .then(response => response.text())
+                    .then(text => text.split(/[\r\n]+/))
         } catch (e) {
             alert("Resource override from " + url + " failed with error:\n" + e)
             return
         }
 
-        this._redirectListener =  details => { return this._redirectIfNeeded(details) }
+        this._redirectListener = details => { return this._redirectIfNeeded(details) }
         const urls = this.files.filter(file => file != "").map(url => "*://*/" + url + "*")
         chrome.webRequest.onBeforeRequest.addListener(
             this._redirectListener,
@@ -52,7 +56,13 @@ class KCSResourceOverride {
         this._isStarted = false
     }
 
-    constructor(path) {
-        this.path = path.startsWith("http") ? path : chrome.runtime.getURL(path)
+    constructor(path, localResources) {
+        if (path.startsWith("http")) {
+            this.path = path
+            this.localResources = null
+        } else {
+            this.path = chrome.runtime.getURL(path)
+            this.localResources = localResources
+        }
     }
 }
