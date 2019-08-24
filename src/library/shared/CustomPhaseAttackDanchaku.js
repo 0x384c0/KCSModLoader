@@ -27,19 +27,19 @@ class CustomPhaseAttackDanchaku extends document.kcs_PhaseAttackDanchaku.PhaseAt
             i._playVoice();
             createjs.Tween.get(null)
             .wait(800).call(() => {
+                t.attack(null)
                 this._fakeAttack(t, e)
             })
             .wait(600).call(() => {
                 this._fakeAttack(t, e)
             })
             .wait(600).call(() => {
-                this._attack(t, e)
+                this._attack(t, e, true)
             })
         })
     }
 
     _attack(attackerBanner, defenderBanner) {
-        attackerBanner.attack(null)
         this._playAttack(
             attackerBanner, defenderBanner,
             this.attackInfo,
@@ -60,7 +60,6 @@ class CustomPhaseAttackDanchaku extends document.kcs_PhaseAttackDanchaku.PhaseAt
     }
 
     _fakeAttack(attackerBanner, defenderBanner){
-        attackerBanner.attack(null)
         this._playAttack(
             attackerBanner, defenderBanner,
             this.attackInfo,
