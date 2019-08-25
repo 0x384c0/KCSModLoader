@@ -1,7 +1,3 @@
-const AttackAnimationInfo = {
-
-}
-
 class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
 
     attackExplosionDuration = 200
@@ -11,15 +7,6 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         attackerInfo,
         callback
     ) {
-        //bullet
-        this._emitBullet(
-            attackerPosX, attackerPosY,
-            defenderPosX, defenderPosY,
-            this.attackExplosionDuration,
-            attackerInfo.explosionType,
-            callback
-        )
-
         //attack sfx
         const fireGunSfxInfo = [
             { type: ExplosionType.SMALL, default: "fire_gun2" },
@@ -49,6 +36,18 @@ class CustomLayerExplosion extends document.kcs_LayerExplosion.LayerExplosion {
         }
         this.addChild(anim);
         anim.play();
+
+        //bullet
+        this._bulletTween = createjs.Tween.get(this)
+        this._bulletTween.wait(40).call(() => {
+            this._emitBullet(
+                attackerPosX, attackerPosY,
+                defenderPosX, defenderPosY,
+                this.attackExplosionDuration,
+                attackerInfo.explosionType,
+                callback
+            )
+        })
     }
 
     //impact
