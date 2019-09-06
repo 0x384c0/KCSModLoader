@@ -4,12 +4,12 @@ async function injectKCSMods(extensionUrl) {
     //load and modify main script
     const mainScript = await fetch(scriptUrl)
         .then(b => b.text())
-        .then(s => s.replace("e.SoundManager=_", "document.kcs_SoundManager = e;e.SoundManager=_"))
-        .then(s => s.replace("e.LayerExplosion=u", "document.kcs_LayerExplosion = e;e.LayerExplosion=u"))
-        .then(s => s.replace("e.TaskDaihatsuEff=a;", "document.kcs_TaskDaihatsuEff = e;e.TaskDaihatsuEff=a;"))
-        .then(s => s.replace("e.PhaseAttackDanchaku=h", "document.kcs_PhaseAttackDanchaku = e;e.PhaseAttackDanchaku=h"))
-        .then(s => s.replace("e.PhaseAttackDouble=c", "document.kcs_PhaseAttackDouble = e;e.PhaseAttackDouble=c"))
-        .then(s => s.replace("e.PhaseAttackNormal=_", "document.kcs_PhaseAttackNormal = e;e.PhaseAttackNormal=_"))
+        .then(s => s.replace(/(.)\.SoundManager=(.)/, "document.kcs_SoundManager = $1;e.SoundManager=$2"))
+        .then(s => s.replace(/(.)\.LayerExplosion=(.)/, "document.kcs_LayerExplosion = $1;e.LayerExplosion=$2"))
+        .then(s => s.replace(/(.)\.TaskDaihatsuEff=(.)/, "document.kcs_TaskDaihatsuEff = $1;e.TaskDaihatsuEff=$2"))
+        .then(s => s.replace(/(.)\.PhaseAttackDanchaku=(.)/, "document.kcs_PhaseAttackDanchaku = $1;e.PhaseAttackDanchaku=$2"))
+        .then(s => s.replace(/(.)\.PhaseAttackDouble=(.)/, "document.kcs_PhaseAttackDouble = $1;e.PhaseAttackDouble=$2"))
+        .then(s => s.replace(/(.)\.PhaseAttackNormal=(.)/, "document.kcs_PhaseAttackNormal = $1;e.PhaseAttackNormal=$2"))
     eval(mainScript)
 
     //get classes

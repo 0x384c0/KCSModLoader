@@ -4,10 +4,10 @@
 * done: create custom PhaseAttackNormal
 * done: draw sqare on attack
 * done: play sound
-* create extension
-* inject code without restart
-* hot reload
-* resource override and inject
-* explosion form AOW
-* attack from AOW
-* sfx from AOW
+* done: create extension
+* done: inject code without restart
+* done: hot reload
+* done: resource override and inject
+* done: explosion form AOW
+* done: attack from AOW
+* done: sfx from AOW
