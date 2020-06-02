@@ -17,6 +17,8 @@
 
 
 ### TODO
-* create deobfuscator, that works in runtime with heuristics (all symbols are stored in base64)
+* http://203.104.209.87/kcs2/js/main.js
+* create deobfuscator, that works in runtime (https://github.com/javascript-obfuscator/javascript-obfuscator with base64 string encoding)
+* inject code in after game loaded, recursively find objects and override them
 * add screen shake on impact
 * add effects for bosses
