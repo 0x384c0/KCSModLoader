@@ -1,4 +1,4 @@
-class CustomSoundManager{
+class SoundManagerWrapper{
 	constructor(soundManager,extensionUrl){
 		this.soundManager = soundManager
 		this.extensionUrl = extensionUrl
