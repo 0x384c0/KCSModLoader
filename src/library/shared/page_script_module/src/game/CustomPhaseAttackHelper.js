@@ -1,4 +1,7 @@
-class CustomPhaseAttackHelper {
+import CustomExplosion from './CustomExplosion'
+const ExplosionType = CustomExplosion.ExplosionType
+
+export default class CustomPhaseAttackHelper {
     constructor(instance, sceneInfo) {
         this.instance = instance
         this.sceneInfo = sceneInfo
@@ -128,9 +131,4 @@ class CustomPhaseAttackHelper {
             return ExplosionType.SMALL
         }
     }
-}
-
-function getFramesForBattleSprite(resourceName) {
-    let resource = document.loaderInstance.resources[document.kcs_extensionUrl + "resources/default_effects/img/battle/" + resourceName + ".json"]
-    return Object.keys(resource.data.frames)
 }

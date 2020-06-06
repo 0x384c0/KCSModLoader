@@ -1,4 +1,6 @@
-class CustomPhaseAttackDanchaku extends document.kcs_PhaseAttackDanchaku.PhaseAttackDanchaku{
+import CustomPhaseAttackHelper from "./CustomPhaseAttackHelper"
+export default (parent) => {
+return class CustomPhaseAttackDanchaku extends parent{
      constructor(scene, type, attacker, defender, slotitem1, slotitem2, slotitem3, damage, hitType, isShield) {
         super(scene, type, attacker, defender, slotitem1, slotitem2, slotitem3, damage, hitType, isShield)
         this.helper = new CustomPhaseAttackHelper(this, { w: scene.width, h: scene.height })
@@ -69,4 +71,5 @@ class CustomPhaseAttackDanchaku extends document.kcs_PhaseAttackDanchaku.PhaseAt
             }
         )
     }
+}
 }

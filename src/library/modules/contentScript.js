@@ -21,7 +21,7 @@ async function start(){
     window.postMessage({command:"init_main_js",isCustomEffectEnabled:isCustomEffectEnabled}, "*")
 } 
 
-injectScript("library/shared/KCSInjections.js")
+injectScript("library/shared/page_script_module/dist/page_script_module.bundle.js")
 window.addEventListener("message", function(event) {
 	if (event.source == window && event.data.command && event.data.command == "start_web_request")
         start()

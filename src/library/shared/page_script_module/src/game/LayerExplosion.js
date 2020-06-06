@@ -1,7 +1,17 @@
-var CustomLayerExplosionInitializer = (parent) => {
-    return class CustomLayerExplosion extends parent {
+import BulletInitializer from './Bullet'
+import CustomExplosion from './CustomExplosion'
+import utils from './utils'
+const ExplosionType = CustomExplosion.ExplosionType
+const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
 
-        attackExplosionDuration = 200
+export default (parent) => {
+    const CustomExplosion = CustomExplosionInitializer(PIXI)
+    return class CustomLayerExplosion extends parent {
+        constructor(scene) {
+            let attackExplosionDuration = 200
+            super(scene)
+        }
+
         playAttackExplosion(
             attackerPosX, attackerPosY,
             defenderPosX, defenderPosY,
@@ -15,7 +25,7 @@ var CustomLayerExplosionInitializer = (parent) => {
                 { type: ExplosionType.LARGE, default: "fire_gun4" }
             ]
             const fireGun = fireGunSfxInfo.find(i => i.type == attackerInfo.explosionType).default
-            document.kcs_SoundManager.se_play(fireGun)
+            document.kcs_SoundManagerInitializer().se_play(fireGun)
 
             //attack vfx
             const attackSpritesInfo = [
@@ -62,7 +72,7 @@ var CustomLayerExplosionInitializer = (parent) => {
             var n = this;
             void 0 === callback && (callback = null),
                 createjs.Tween.get(this).call(function () {
-                    document.kcs_SoundManager.se_play(attackerInfo.isMissed ? explosion.missed : explosion.default)
+                    document.kcs_SoundManagerInitializer().se_play(attackerInfo.isMissed ? explosion.missed : explosion.default)
                     n._explodeCustom(x, y, attackerInfo.explosionType, attackerInfo.isMissed)
                 })
         }
@@ -72,11 +82,12 @@ var CustomLayerExplosionInitializer = (parent) => {
         //attack
         _getAttackFrames(names) {
             const name = names[Math.floor(Math.random() * names.length)];
-            return getFramesForBattleSprite(name)
+            return utils.getFramesForBattleSprite(name)
         }
 
         //Bullet
         _emitBullet(fromX, fromY, toX, toY, time, explosionType, callback) {
+            const Bullet = BulletInitializer(PIXI)
             var bullet = new Bullet(fromX, fromY, toX, toY, explosionType, time)
             bullet.position.set(0, 0)
             this.addChild(bullet)
