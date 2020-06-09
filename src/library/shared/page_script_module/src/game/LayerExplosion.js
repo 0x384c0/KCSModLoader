@@ -8,8 +8,8 @@ export default (parent) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
     return class CustomLayerExplosion extends parent {
         constructor(scene) {
-            let attackExplosionDuration = 200
             super(scene)
+            this.attackExplosionDuration = 200
         }
 
         playAttackExplosion(
