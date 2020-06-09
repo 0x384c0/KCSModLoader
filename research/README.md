@@ -11,3 +11,6 @@
 * done: explosion form AOW
 * done: attack from AOW
 * done: sfx from AOW
+
+
+* http://203.104.209.87/kcs2/js/main.js
