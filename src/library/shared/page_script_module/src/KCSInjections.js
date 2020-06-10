@@ -39,7 +39,7 @@ var _kcsBackup;
 function _disableGameInit() {
     Object.defineProperty(window, 'KCS', {
         configurable: true,
-        get: () => { return { init: () => {  } } },
+        get: () => { return { init: () => { } } },
         set: (kcs) => { _kcsBackup = kcs }
     })
 }
@@ -51,38 +51,43 @@ function _enableGameInit() {
 
 //properties override
 let _propertyHolders = {}
-let _soundManagerHolder = undefined
 function _overrideProperties(extensionUrl) {
+    let _rootViewSingletonHolder = new PropertyParentHolder('_friendlyRequest', ["_view", "_settings", "_option", "_model", "_resource", "_scene", "_sound"])
+    let layerExplosionArgs = { getRootView : () => { _rootViewSingletonHolder.getObject()._view } }
     let properties = [
-        { name: 'LayerExplosion',      initializer: CustomLayerExplosionInitializer },
+        { name: 'LayerExplosion', initializer: CustomLayerExplosionInitializer, initializerArgs: layerExplosionArgs },
         { name: 'PhaseAttackDanchaku', initializer: CustomPhaseAttackDanchakuInitializer },
-        { name: 'PhaseAttackDouble',   initializer: CustomPhaseAttackDoubleInitializer },
-        { name: 'PhaseAttackNormal',   initializer: CustomPhaseAttackNormalInitializer },
-        { name: 'TaskDaihatsuEff',     setHandler: (property) => {document.kcs_TaskDaihatsuEff = property}}, //TODO: pass object via contructor, not
-        { name: 'SoundManager',        setHandler: (property) => {document.kcs_SoundManagerInitializer = () => {
-            if (document.kcs_SoundManager == null)
-                document.kcs_SoundManager = new SoundManagerWrapper(new property,extensionUrl)
-            return document.kcs_SoundManager
-        }}}
+        { name: 'PhaseAttackDouble', initializer: CustomPhaseAttackDoubleInitializer },
+        { name: 'PhaseAttackNormal', initializer: CustomPhaseAttackNormalInitializer },
+        { name: 'TaskDaihatsuEff', setHandler: (property) => { document.kcs_TaskDaihatsuEff = property } }, //TODO: pass object via contructor, not
+        {
+            name: 'SoundManager', setHandler: (property) => {
+                document.kcs_SoundManagerInitializer = () => {
+                    if (document.kcs_SoundManager == null)
+                        document.kcs_SoundManager = new SoundManagerWrapper(new property, extensionUrl)
+                    return document.kcs_SoundManager
+                }
+            }
+        },
     ]
 
     for (let property of properties) {
-        let propertyHolder = new PropertyHolder(property.initializer, property.setHandler, property.name)
+        let propertyHolder = new PropertyHolder(property.initializer, property.initializerArgs, property.setHandler, property.name)
         Object.defineProperty(Object.prototype, property.name, {
             configurable: true,
-            get: () => { return propertyHolder.getProperty() },
-            set: (property) => { propertyHolder.propertyWasSet(property) }
+            get: function () { return propertyHolder.getProperty() },
+            set: function (propertyValue) { propertyHolder.setProperty(propertyValue) }
         })
         _propertyHolders[`${property.name}Holder`] = propertyHolder
     }
 }
 
-
 class PropertyHolder {
-    constructor(customPropertyInitializer,setHandler, name) {
+    constructor(customPropertyInitializer, initializerArgs, setHandler, name) {
         this.name = name
         this.setHandler = setHandler
         this.customPropertyInitializer = customPropertyInitializer
+        this.initializerArgs = initializerArgs
     }
     getProperty() {
         if (this.originalProperty == null || this.originalProperty == undefined) {
@@ -90,7 +95,7 @@ class PropertyHolder {
         }
         if (this.property == undefined) {
             if (this.customPropertyInitializer)
-                this.property = this.customPropertyInitializer(this.originalProperty)
+                this.property = this.customPropertyInitializer(this.originalProperty,this.initializerArgs)
             else if (this.setHandler)
                 this.property = this.originalProperty
             else
@@ -98,10 +103,54 @@ class PropertyHolder {
         }
         return this.property
     }
-    propertyWasSet(property) {
+    setProperty(property) {
         if (this.setHandler)
             this.setHandler(property)
         this.originalProperty = property
+    }
+}
+
+class PropertyParentHolder {
+    constructor(propertyName, propertyNames) {
+        this.propertyNamesStr = propertyNames.join('')
+        this._properties = {}
+        let holder = this
+        Object.defineProperty(Object.prototype, propertyName, {
+            configurable: true,
+            get: function () {
+                return holder.getProperty(this)
+            },
+            set: function (propertyValue) {
+                holder.setProperty(propertyValue, this)
+            }
+        })
+    }
+
+    getProperty(owner) {
+        let result = null
+        let key = Object.keys(owner).join("")
+        for (let existingKey in this._properties) {
+            if (existingKey.includes(key)) {
+                result = this._properties[existingKey]
+                break
+            }
+        }
+        if (result == null){
+            debugger
+            throw "Object not found"
+        } else
+            return result
+    }
+
+    setProperty(propertyValue, owner) {
+        let generatedKey = Object.keys(owner).join('')
+        this._properties[generatedKey] = propertyValue
+        if (generatedKey == this.propertyNamesStr)
+            this._object = owner
+    }
+
+    getObject() {
+        return this._object
     }
 }
 

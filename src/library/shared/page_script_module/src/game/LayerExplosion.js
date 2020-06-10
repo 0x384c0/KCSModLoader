@@ -4,8 +4,9 @@ import utils from './utils'
 const ExplosionType = CustomExplosion.ExplosionType
 const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
 
-export default (parent) => {
+export default (parent,args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
+    const getRootView = args.getRootView 
     return class CustomLayerExplosion extends parent {
         constructor(scene) {
             super(scene)
