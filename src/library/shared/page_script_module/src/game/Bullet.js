@@ -3,13 +3,13 @@ const ExplosionType = CustomExplosion.ExplosionType
 
 export default (PIXI) => { //TODO: get rid of lazy init
     return class Bullet extends PIXI.Container {
-        constructor(fromX, fromY, toX, toY, explosionType, time) {
+        constructor(fromX, fromY, toX, toY, textureName, time) {
             super();
             this.fromX = fromX
             this.fromY = fromY
             this.toX = toX
             this.toY = toY
-            this.explosionType = explosionType
+            this.textureName = textureName
 
 
             this.time = time
@@ -27,13 +27,7 @@ export default (PIXI) => { //TODO: get rid of lazy init
                     this.createTween(completion))
         }
         createTween(completion) {
-            const bulletInfo = [
-                { type: ExplosionType.SMALL, default: "bullet_small" },
-                { type: ExplosionType.MIDDLE, default: "bullet_middle" },
-                { type: ExplosionType.LARGE, default: "bullet_large" }
-            ]
-            const bullet = bulletInfo.find(i => i.type == this.explosionType)
-            this._img.texture = PIXI.Texture.from(bullet.default)
+            this._img.texture = PIXI.Texture.from(this.textureName)
             this._img.anchor.set(1, 0.5);
 
 

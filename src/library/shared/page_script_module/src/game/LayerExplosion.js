@@ -89,7 +89,15 @@ export default (parent,args) => {
         //Bullet
         _emitBullet(fromX, fromY, toX, toY, time, explosionType, callback) {
             const Bullet = BulletInitializer(PIXI)
-            var bullet = new Bullet(fromX, fromY, toX, toY, explosionType, time)
+
+            const bulletInfo = [
+                { type: ExplosionType.SMALL, default: "bullet_small" },
+                { type: ExplosionType.MIDDLE, default: "bullet_middle" },
+                { type: ExplosionType.LARGE, default: "bullet_large" }
+            ]
+            const bulletTextureName = bulletInfo.find(i => i.type == explosionType).default
+
+            var bullet = new Bullet(fromX, fromY, toX, toY, bulletTextureName, time)
             bullet.position.set(0, 0)
             this.addChild(bullet)
             bullet.play(() => {
@@ -109,6 +117,17 @@ export default (parent,args) => {
                     n.removeChild(explosion),
                         null != callback && callback()
                 })
+        }
+
+        //shake
+        _shakeCamera(){
+            this._interruptShake()
+            let rootView = getRootView()
+            // this._taskShake = 
+        }
+
+        _interruptShake(){
+
         }
     }
 }
