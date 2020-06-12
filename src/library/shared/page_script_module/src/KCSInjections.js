@@ -53,7 +53,8 @@ function _enableGameInit() {
 let _propertyHolders = {}
 function _overrideProperties(extensionUrl) {
     let _rootViewSingletonHolder = new PropertyParentHolder('_friendlyRequest', ["_view", "_settings", "_option", "_model", "_resource", "_scene", "_sound"])
-    let layerExplosionArgs = { getRootView : () => { _rootViewSingletonHolder.getObject()._view } }
+    let layerExplosionArgs = { getRootView : () => { return _rootViewSingletonHolder.getObject()._view } }
+
     let properties = [
         { name: 'LayerExplosion', initializer: CustomLayerExplosionInitializer, initializerArgs: layerExplosionArgs },
         { name: 'PhaseAttackDanchaku', initializer: CustomPhaseAttackDanchakuInitializer },

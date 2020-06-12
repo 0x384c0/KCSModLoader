@@ -4,9 +4,14 @@ import utils from './utils'
 const ExplosionType = CustomExplosion.ExplosionType
 const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
 
-export default (parent,args) => {
+//region greensock
+import gsap from "gsap";
+import CustomEase from "../gsap/bonus_plugins/CustomEase.js";
+import CustomWiggle from "../gsap/bonus_plugins/CustomWiggle.js";
+
+export default (parent, args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
-    const getRootView = args.getRootView 
+    const getRootView = args.getRootView
     return class CustomLayerExplosion extends parent {
         constructor(scene) {
             super(scene)
@@ -120,14 +125,18 @@ export default (parent,args) => {
         }
 
         //shake
-        _shakeCamera(){
-            this._interruptShake()
-            let rootView = getRootView()
-            // this._taskShake = 
-        }
+		_shakeCamera() {//TODO: args
+			this._interruptShake()
+			let rootView = getRootView()
+			CustomWiggle.create("_taskShake.Wiggle", { wiggles: 6, type: "easeOut" });
+			this._taskShake = gsap.to(rootView, 1,{ x: 30, duration: 2, ease: "_taskShake.Wiggle" })
+			this._taskShake.play()
+		}
 
-        _interruptShake(){
-
-        }
+		_interruptShake() {
+			try {
+				this._taskShake.kill()
+			} catch{ }
+		}
     }
 }
