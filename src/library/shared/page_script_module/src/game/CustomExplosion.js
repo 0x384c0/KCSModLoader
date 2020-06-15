@@ -5,49 +5,12 @@ const ExplosionType = {
     MIDDLE: 'MIDDLE',
     LARGE: 'LARGE'
 }
-
-const explosionTypesInfo = [
-    {
-        type: ExplosionType.SMALL,
-        default: {
-            name: "explosion_small_g",
-            anchor: { x: 0.5, y: 0.73 }
-        },
-        missed: {
-            name: "explosion_large_w",
-            anchor: { x: 0.5, y: 0.71 }
-        }
-    },
-    {
-        type: ExplosionType.MIDDLE,
-        default: {
-            name: "explosion_middle_g",
-            anchor: { x: 0.5, y: 0.7 }
-        },
-        missed: {
-            name: "explosion_large_w",
-            anchor: { x: 0.5, y: 0.71 }
-        }
-    },
-    {
-        type: ExplosionType.LARGE,
-        default: {
-            name: "explosion_large_g",
-            anchor: { x: 0.5, y: 0.7 }
-        },
-        missed: {
-            name: "explosion_large_w",
-            anchor: { x: 0.5, y: 0.71 }
-        }
-    }
-]
 const CustomExplosionInitializer = (PIXI) => {
     return class CustomExplosion extends PIXI.Container {
 
-        constructor(explosionType, isMissed) {
+        constructor(explosionTypeInfo) {
             super();
-            let explosionTypeInfoObject = explosionTypesInfo.find(i => i.type == explosionType)
-            this._explosionTypeInfo = isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
+            this._explosionTypeInfo = explosionTypeInfo
             this._explosionTypeInfo.frames = utils.getFramesForBattleSprite(this._explosionTypeInfo.name)
             this._current_frame = 0
             this._img = new PIXI.Sprite
@@ -97,6 +60,6 @@ const CustomExplosionInitializer = (PIXI) => {
 }
 
 export default {
-    ExplosionType,
+    ExplosionType, //TODO: ExplosionType shoudl be object, that loads configs, assets, and provides them to other classes
     CustomExplosionInitializer
 }

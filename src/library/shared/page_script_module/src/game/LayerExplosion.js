@@ -1,13 +1,11 @@
 import BulletInitializer from './Bullet'
 import CustomExplosion from './CustomExplosion'
 import utils from './utils'
+import CameraEffects from './CameraEffects'
+
 const ExplosionType = CustomExplosion.ExplosionType
 const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
 
-//region greensock
-import gsap from "gsap";
-import CustomEase from "../gsap/bonus_plugins/CustomEase.js";
-import CustomWiggle from "../gsap/bonus_plugins/CustomWiggle.js";
 
 export default (parent, args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
@@ -16,6 +14,7 @@ export default (parent, args) => {
         constructor(scene) {
             super(scene)
             this.attackExplosionDuration = 200
+            this.cameraEffects = new CameraEffects(getRootView)
         }
 
         playAttackExplosion(
@@ -115,7 +114,46 @@ export default (parent, args) => {
         _explodeCustom(x, y, explosionType, isMissed, callback) {
             var n = this;
             void 0 === callback && (callback = null);
-            var explosion = new CustomExplosion(explosionType, isMissed);
+            
+            let explosionTypesInfo = [
+                {
+                    type: ExplosionType.SMALL,
+                    default: {
+                        name: "explosion_small_g",
+                        anchor: { x: 0.5, y: 0.73 }
+                    },
+                    missed: {
+                        name: "explosion_large_w",
+                        anchor: { x: 0.5, y: 0.71 }
+                    }
+                },
+                {
+                    type: ExplosionType.MIDDLE,
+                    default: {
+                        name: "explosion_middle_g",
+                        anchor: { x: 0.5, y: 0.7 }
+                    },
+                    missed: {
+                        name: "explosion_large_w",
+                        anchor: { x: 0.5, y: 0.71 }
+                    }
+                },
+                {
+                    type: ExplosionType.LARGE,
+                    default: {
+                        name: "explosion_large_g",
+                        anchor: { x: 0.5, y: 0.7 }
+                    },
+                    missed: {
+                        name: "explosion_large_w",
+                        anchor: { x: 0.5, y: 0.71 }
+                    }
+                }
+            ]
+            let explosionTypeInfoObject = explosionTypesInfo.find(i => i.type == explosionType)
+            let explosionTypeInfo = isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
+
+            var explosion = new CustomExplosion(explosionTypeInfo);
             explosion.position.set(x, y),
                 this.addChild(explosion),
                 explosion.play(function () {
@@ -123,20 +161,5 @@ export default (parent, args) => {
                         null != callback && callback()
                 })
         }
-
-        //shake
-		_shakeCamera() {//TODO: args
-			this._interruptShake()
-			let rootView = getRootView()
-			CustomWiggle.create("_taskShake.Wiggle", { wiggles: 6, type: "easeOut" });
-			this._taskShake = gsap.to(rootView, 1,{ x: 30, duration: 2, ease: "_taskShake.Wiggle" })
-			this._taskShake.play()
-		}
-
-		_interruptShake() {
-			try {
-				this._taskShake.kill()
-			} catch{ }
-		}
     }
 }

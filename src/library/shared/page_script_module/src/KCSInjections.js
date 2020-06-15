@@ -5,6 +5,8 @@ import CustomPhaseAttackDoubleInitializer from './game/PhaseAttackDouble.js';
 import CustomPhaseAttackNormalInitializer from './game/PhaseAttackNormal.js';
 import SoundManagerWrapper from './game/SoundManagerWrapper'
 
+import CameraEffects from './game/CameraEffects' //TODO: delete
+
 //utils
 async function _injectKCSMods(extensionUrl) {
 
@@ -54,6 +56,8 @@ let _propertyHolders = {}
 function _overrideProperties(extensionUrl) {
     let _rootViewSingletonHolder = new PropertyParentHolder('_friendlyRequest', ["_view", "_settings", "_option", "_model", "_resource", "_scene", "_sound"])
     let layerExplosionArgs = { getRootView : () => { return _rootViewSingletonHolder.getObject()._view } }
+
+    document.tmp_CameraEffects = new CameraEffects(() => { return _rootViewSingletonHolder.getObject()._view })
 
     let properties = [
         { name: 'LayerExplosion', initializer: CustomLayerExplosionInitializer, initializerArgs: layerExplosionArgs },
