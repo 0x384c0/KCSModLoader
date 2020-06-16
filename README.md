@@ -12,8 +12,10 @@
 * place assets, you want replace, in to `resources/default/kcs2` (for example `resources/default/kcs2/img/title/title_main.png` to change logo in start screen)
 * load game
 
-
-
 ### TODO
 * add screen shake on impact
-* add effects for bosses
+* add specail attacks for bosses
+
+### TODO refactor
+* use configs for attacks
+* use webpack for compiling all modules
