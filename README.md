@@ -19,3 +19,5 @@
 ### TODO refactor
 * use configs for attacks
 * use webpack for compiling all modules
+* catch all errors
+* add self diagnostics

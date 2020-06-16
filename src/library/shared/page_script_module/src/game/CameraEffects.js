@@ -7,6 +7,7 @@ export default class CameraEffects {
         this._getRootView = getRootView
     }
 
+    //.shakeCamera(0.006,0.8,8)
     //.shakeCamera(0.004,0.6,6)
     //.shakeCamera(0.002,0.2,3)
     shakeCamera(magnitude, duration, wiggles) {

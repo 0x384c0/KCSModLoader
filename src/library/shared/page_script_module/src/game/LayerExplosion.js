@@ -7,10 +7,10 @@ const ExplosionType = CustomExplosion.ExplosionType
 const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
 
 
-export default (parent, args) => {
+export default (LayerExplosion, args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
     const getRootView = args.getRootView
-    return class CustomLayerExplosion extends parent {
+    return class CustomLayerExplosion extends LayerExplosion {
         constructor(scene) {
             super(scene)
             this.attackExplosionDuration = 200

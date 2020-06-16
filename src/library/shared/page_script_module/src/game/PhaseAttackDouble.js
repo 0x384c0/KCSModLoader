@@ -1,6 +1,6 @@
 import CustomPhaseAttackHelper from "./CustomPhaseAttackHelper"
-export default (parent) => {
-    return class CustomPhaseAttackDouble extends parent {
+export default (PhaseAttackDouble) => {
+    return class CustomPhaseAttackDouble extends PhaseAttackDouble {
         //overriden from parent
         constructor(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2) {
             super(scene, attacker, defender, slotitem, damage, hitType, isShield, defender2, slotitem2, damage2, hitType2, isShield2)
