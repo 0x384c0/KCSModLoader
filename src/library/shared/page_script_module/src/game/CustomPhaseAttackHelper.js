@@ -1,5 +1,6 @@
-import CustomExplosion from './CustomExplosion'
-const ExplosionType = CustomExplosion.ExplosionType
+import Constans from './Constans'
+
+const ExplosionType = Constans.ExplosionType
 
 export default class CustomPhaseAttackHelper {
     constructor(instance, sceneInfo) {

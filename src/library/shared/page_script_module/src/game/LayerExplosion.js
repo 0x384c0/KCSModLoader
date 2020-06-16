@@ -1,11 +1,11 @@
 import BulletInitializer from './Bullet'
-import CustomExplosion from './CustomExplosion'
+import CustomExplosionInitializer from './CustomExplosion'
 import utils from './utils'
 import CameraEffects from './CameraEffects'
+import Constans from './Constans'
 
-const ExplosionType = CustomExplosion.ExplosionType
-const CustomExplosionInitializer = CustomExplosion.CustomExplosionInitializer
-
+const ExplosionType = Constans.ExplosionType
+const ShakeType = Constans.ShakeType
 
 export default (LayerExplosion, args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
@@ -14,7 +14,7 @@ export default (LayerExplosion, args) => {
         constructor(scene) {
             super(scene)
             this.attackExplosionDuration = 200
-            this.cameraEffects = new CameraEffects(getRootView)
+            this._cameraEffects = new CameraEffects(getRootView)
         }
 
         playAttackExplosion(
@@ -25,20 +25,21 @@ export default (LayerExplosion, args) => {
         ) {
             //attack sfx
             const fireGunSfxInfo = [
-                { type: ExplosionType.SMALL, default: "fire_gun2" },
-                { type: ExplosionType.MIDDLE, default: "fire_gun7" },
-                { type: ExplosionType.LARGE, default: "fire_gun4" }
+                { type: ExplosionType.SMALL, asset: "fire_gun2" },
+                { type: ExplosionType.MIDDLE, asset: "fire_gun7" },
+                { type: ExplosionType.LARGE, asset: "fire_gun4" }
             ]
-            const fireGun = fireGunSfxInfo.find(i => i.type == attackerInfo.explosionType).default
+            const fireGun = fireGunSfxInfo.find(i => i.type == attackerInfo.explosionType).asset
             document.kcs_SoundManagerInitializer().se_play(fireGun)
 
             //attack vfx
             const attackSpritesInfo = [
-                { type: ExplosionType.SMALL, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } },
-                { type: ExplosionType.MIDDLE, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } },
-                { type: ExplosionType.LARGE, default: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } } }
+                { type: ExplosionType.SMALL, asset: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } }, shake: ShakeType.SMALL },
+                { type: ExplosionType.MIDDLE, asset: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } }, shake: ShakeType.SMALL },
+                { type: ExplosionType.LARGE, asset: { names: ["attack_middle_0", "attack_middle_1"], anchor: { x: 0.4, y: 0.5 } }, shake: ShakeType.MIDDLE }
             ]
-            const attackSpriteInfo = attackSpritesInfo.find(i => i.type == attackerInfo.explosionType).default
+            const attackSpriteInfo = attackSpritesInfo.find(i => i.type == attackerInfo.explosionType).asset
+            const shake = attackSpritesInfo.find(i => i.type == attackerInfo.explosionType).shake
             const frames = this._getAttackFrames(attackSpriteInfo.names).map(i => PIXI.Texture.from(i))
 
             var anim = new PIXI.extras.AnimatedSprite(frames);
@@ -64,20 +65,30 @@ export default (LayerExplosion, args) => {
                     callback
                 )
             })
+            this._cameraEffects.shakeCamera(
+                shake.magnitude,
+                shake.duration,
+                shake.wiggles
+            )
         }
 
         //impact
         playImpactExplosion(x, y, attackerInfo, callback) {
             const explosionInfo = [
-                { type: ExplosionType.SMALL, default: "boom_med1_g", missed: "boom_med1_w" },
-                { type: ExplosionType.MIDDLE, default: "boom_big1_g", missed: "boom_big1_w" },
-                { type: ExplosionType.LARGE, default: "boom_big1_g", missed: "boom_big1_w" }
+                { type: ExplosionType.SMALL, asset: { hit: "boom_med1_g", missed: "boom_med1_w" }, shake: ShakeType.SMALL },
+                { type: ExplosionType.MIDDLE, asset: { hit: "boom_big1_g", missed: "boom_big1_w" }, shake: ShakeType.MIDDLE },
+                { type: ExplosionType.LARGE, asset: { hit: "boom_big1_g", missed: "boom_big1_w" }, shake: ShakeType.LARGE }
             ]
             const explosion = explosionInfo.find(i => i.type == attackerInfo.explosionType)
             var n = this;
             void 0 === callback && (callback = null),
                 createjs.Tween.get(this).call(function () {
-                    document.kcs_SoundManagerInitializer().se_play(attackerInfo.isMissed ? explosion.missed : explosion.default)
+                    document.kcs_SoundManagerInitializer().se_play(attackerInfo.isMissed ? explosion.asset.missed : explosion.asset.hit)
+                    this._cameraEffects.shakeCamera(
+                        explosion.shake.magnitude,
+                        explosion.shake.duration,
+                        explosion.shake.wiggles
+                    )
                     n._explodeCustom(x, y, attackerInfo.explosionType, attackerInfo.isMissed)
                 })
         }
@@ -95,11 +106,11 @@ export default (LayerExplosion, args) => {
             const Bullet = BulletInitializer(PIXI)
 
             const bulletInfo = [
-                { type: ExplosionType.SMALL, default: "bullet_small" },
-                { type: ExplosionType.MIDDLE, default: "bullet_middle" },
-                { type: ExplosionType.LARGE, default: "bullet_large" }
+                { type: ExplosionType.SMALL, asset: "bullet_small" },
+                { type: ExplosionType.MIDDLE, asset: "bullet_middle" },
+                { type: ExplosionType.LARGE, asset: "bullet_large" }
             ]
-            const bulletTextureName = bulletInfo.find(i => i.type == explosionType).default
+            const bulletTextureName = bulletInfo.find(i => i.type == explosionType).asset
 
             var bullet = new Bullet(fromX, fromY, toX, toY, bulletTextureName, time)
             bullet.position.set(0, 0)
@@ -114,44 +125,50 @@ export default (LayerExplosion, args) => {
         _explodeCustom(x, y, explosionType, isMissed, callback) {
             var n = this;
             void 0 === callback && (callback = null);
-            
+
             let explosionTypesInfo = [
                 {
                     type: ExplosionType.SMALL,
-                    default: {
-                        name: "explosion_small_g",
-                        anchor: { x: 0.5, y: 0.73 }
-                    },
-                    missed: {
-                        name: "explosion_large_w",
-                        anchor: { x: 0.5, y: 0.71 }
+                    asset: {
+                        hit: {
+                            name: "explosion_small_g",
+                            anchor: { x: 0.5, y: 0.73 }
+                        },
+                        missed: {
+                            name: "explosion_large_w",
+                            anchor: { x: 0.5, y: 0.71 }
+                        }
                     }
                 },
                 {
                     type: ExplosionType.MIDDLE,
-                    default: {
-                        name: "explosion_middle_g",
-                        anchor: { x: 0.5, y: 0.7 }
-                    },
-                    missed: {
-                        name: "explosion_large_w",
-                        anchor: { x: 0.5, y: 0.71 }
+                    asset: {
+                        hit: {
+                            name: "explosion_middle_g",
+                            anchor: { x: 0.5, y: 0.7 }
+                        },
+                        missed: {
+                            name: "explosion_large_w",
+                            anchor: { x: 0.5, y: 0.71 }
+                        }
                     }
                 },
                 {
                     type: ExplosionType.LARGE,
-                    default: {
-                        name: "explosion_large_g",
-                        anchor: { x: 0.5, y: 0.7 }
-                    },
-                    missed: {
-                        name: "explosion_large_w",
-                        anchor: { x: 0.5, y: 0.71 }
+                    asset: {
+                        hit: {
+                            name: "explosion_large_g",
+                            anchor: { x: 0.5, y: 0.7 }
+                        },
+                        missed: {
+                            name: "explosion_large_w",
+                            anchor: { x: 0.5, y: 0.71 }
+                        }
                     }
                 }
             ]
             let explosionTypeInfoObject = explosionTypesInfo.find(i => i.type == explosionType)
-            let explosionTypeInfo = isMissed ? explosionTypeInfoObject.missed : explosionTypeInfoObject.default
+            let explosionTypeInfo = isMissed ? explosionTypeInfoObject.asset.missed : explosionTypeInfoObject.asset.hit
 
             var explosion = new CustomExplosion(explosionTypeInfo);
             explosion.position.set(x, y),

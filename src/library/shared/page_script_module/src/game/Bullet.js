@@ -1,6 +1,3 @@
-import CustomExplosion from './CustomExplosion'
-const ExplosionType = CustomExplosion.ExplosionType
-
 export default (PIXI) => { //TODO: get rid of lazy init
     return class Bullet extends PIXI.Container {
         constructor(fromX, fromY, toX, toY, textureName, time) {

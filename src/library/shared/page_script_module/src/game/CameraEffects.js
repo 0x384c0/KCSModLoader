@@ -16,7 +16,7 @@ export default class CameraEffects {
         try { rootView = this._getRootView() }
         catch (e) { console.log(`Inable to get root view:\n${e}`) }
         if (rootView == undefined)
-            console.e('CameraEffects.shakeCamera\nrootView is undefined')
+            console.error('CameraEffects.shakeCamera\nrootView is undefined')
         else {
             CustomWiggle.create("_taskShake.Wiggle", { wiggles: wiggles, type: "easeOut" });
             CustomEase.create("_taskShake.Ease", "M0,0,C0,0.33,0.036,1,0.3,1,0.558,1,0.894,0.31,1,-0.056")

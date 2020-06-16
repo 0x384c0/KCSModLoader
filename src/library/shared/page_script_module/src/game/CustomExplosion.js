@@ -1,11 +1,6 @@
 import utils from './utils'
 
-const ExplosionType = {
-    SMALL: 'SMALL',
-    MIDDLE: 'MIDDLE',
-    LARGE: 'LARGE'
-}
-const CustomExplosionInitializer = (PIXI) => {
+export default (PIXI) => {
     return class CustomExplosion extends PIXI.Container {
 
         constructor(explosionTypeInfo) {
@@ -57,9 +52,4 @@ const CustomExplosionInitializer = (PIXI) => {
             this._img.scale.x = this._isMirror ? -1 : 1
         }
     }
-}
-
-export default {
-    ExplosionType, //TODO: ExplosionType shoudl be object, that loads configs, assets, and provides them to other classes
-    CustomExplosionInitializer
 }

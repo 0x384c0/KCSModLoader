@@ -13,7 +13,6 @@
 * load game
 
 ### TODO
-* add screen shake on impact
 * add specail attacks for bosses
 
 ### TODO refactor

@@ -1,11 +1,9 @@
-
-import CustomLayerExplosionInitializer from './game/LayerExplosion.js';
-import CustomPhaseAttackDanchakuInitializer from './game/PhaseAttackDanchaku.js';
-import CustomPhaseAttackDoubleInitializer from './game/PhaseAttackDouble.js';
-import CustomPhaseAttackNormalInitializer from './game/PhaseAttackNormal.js';
+import CustomLayerExplosionInitializer from './game/LayerExplosion'
+import CustomPhaseAttackDanchakuInitializer from './game/PhaseAttackDanchaku'
+import CustomPhaseAttackDoubleInitializer from './game/PhaseAttackDouble'
+import CustomPhaseAttackNormalInitializer from './game/PhaseAttackNormal'
+import CustomBattleSceneInitializer from './game/BattleScene'
 import SoundManagerWrapper from './game/SoundManagerWrapper'
-
-import CameraEffects from './game/CameraEffects' //TODO: delete
 
 //utils
 async function _injectKCSMods(extensionUrl) {
@@ -54,14 +52,14 @@ function _enableGameInit() {
 //properties override
 let _propertyHolders = {}
 function _overrideProperties(extensionUrl) {
-    let _rootViewSingletonHolder = new PropertyParentHolder('_friendlyRequest', ["_view", "_settings", "_option", "_model", "_resource", "_scene", "_sound"])
-    let layerExplosionArgs = { getRootView : () => { return _rootViewSingletonHolder.getObject()._view } }
+    let layerExplosionArgs = { getRootView: () => { try { return document.kcs_getBattleSceneView() } catch { return undefined } } }
 
     let properties = [
         { name: 'LayerExplosion', initializer: CustomLayerExplosionInitializer, initializerArgs: layerExplosionArgs },
         { name: 'PhaseAttackDanchaku', initializer: CustomPhaseAttackDanchakuInitializer },
         { name: 'PhaseAttackDouble', initializer: CustomPhaseAttackDoubleInitializer },
         { name: 'PhaseAttackNormal', initializer: CustomPhaseAttackNormalInitializer },
+        { name: 'BattleScene', initializer: CustomBattleSceneInitializer },
         { name: 'TaskDaihatsuEff', setHandler: (property) => { document.kcs_TaskDaihatsuEff = property } }, //TODO: pass object via contructor, not
         {
             name: 'SoundManager', setHandler: (property) => {
@@ -98,7 +96,7 @@ class PropertyHolder {
         }
         if (this.property == undefined) {
             if (this.customPropertyInitializer)
-                this.property = this.customPropertyInitializer(this.originalProperty,this.initializerArgs)
+                this.property = this.customPropertyInitializer(this.originalProperty, this.initializerArgs)
             else if (this.setHandler)
                 this.property = this.originalProperty
             else
@@ -114,6 +112,8 @@ class PropertyHolder {
 }
 
 class PropertyParentHolder {
+    // let _rootViewSingletonHolder = new PropertyParentHolder('_friendlyRequest', ["_view", "_settings", "_option", "_model", "_resource", "_scene", "_sound"])
+    // let layerExplosionArgs = { getRootView : () => { return _rootViewSingletonHolder.getObject()._view } }
     constructor(propertyName, propertyNames) {
         this.propertyNamesStr = propertyNames.join('')
         this._properties = {}
@@ -138,7 +138,7 @@ class PropertyParentHolder {
                 break
             }
         }
-        if (result == null){
+        if (result == null) {
             debugger
             throw "Object not found"
         } else
