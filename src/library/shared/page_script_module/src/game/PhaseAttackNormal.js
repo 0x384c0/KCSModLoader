@@ -1,23 +1,24 @@
-import CustomPhaseAttackHelper from "./CustomPhaseAttackHelper"
+import PhaseAttackHelper from "./PhaseAttackHelper"
 export default (PhaseAttackNormal) => {
     return class CustomPhaseAttackNormal extends PhaseAttackNormal {
         //overriden from parent
         constructor(scene, attacker, defender, slotitem, damage, hitType, isShield) {
             super(scene, attacker, defender, slotitem, damage, hitType, isShield)
-            this.helper = new CustomPhaseAttackHelper(this, { w: scene.width, h: scene.height })
-            this.attackInfo = {
-                damage: damage,
-                isMissed: damage == 0, //TODO: get this info from api
-                explosionType: this.helper.getAttackExplosionType(attacker)
-            }
+            this.helper = new PhaseAttackHelper(
+                this._scene.view.layer_explosion,
+                { w: scene.width, h: scene.height },
+                "PhaseAttackNormal"
+            )
+            this.firstAttacker = attacker
+            this.firstDamage = damage
         }
 
         _completePreload() {
-            this.helper._completePreload(() => super._completePreload())
+            this.helper.completePreload(() => super._completePreload())
         }
 
         _attack(attackerBanner, defenderBanner) {
-            var i = this,
+            var thisRef = this,
                 scene = this._scene.view.layer_content;
             new document.kcs_TaskDaihatsuEff(scene, attackerBanner, defenderBanner, this._daihatsu_eff).start();
             var dlcTimout = 0;
@@ -25,22 +26,21 @@ export default (PhaseAttackNormal) => {
                 createjs.Tween.get(null).wait(dlcTimout).wait(200)
                     .call(() => {
                         attackerBanner.attack(null)
-                        i._playAttack(attackerBanner, defenderBanner,
-                            this.attackInfo,
+                        thisRef._playAttack(attackerBanner, defenderBanner,
                             () => {
-                                i._damageEffect(attackerBanner, defenderBanner)
+                                thisRef._damageEffect(attackerBanner, defenderBanner)
                             })
                     })
         }
 
         //overriden from PhaseAttackBase
         _playExplosion(shipBanner, damage) {
-            this.helper._playExplosion(shipBanner, damage)
+            this.helper.playExplosion(shipBanner, this.firstDamage, this.firstAttacker)
         }
 
         //custom
-        _playAttack(attackerBanner, defenderBanner, attackInfo, callback) {
-            this.helper._playAttack(attackerBanner, defenderBanner, attackInfo, callback)
+        _playAttack(attackerBanner, defenderBanner, callback) {
+            this.helper.playAttack(attackerBanner, defenderBanner, this.firstDamage, this.firstAttacker, callback)
         }
     }
 }
