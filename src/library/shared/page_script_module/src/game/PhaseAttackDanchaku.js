@@ -33,9 +33,6 @@ export default (PhaseAttackDanchaku) => {
                             this._fakeAttack(t, e)
                         })
                         .wait(600).call(() => {
-                            this._fakeAttack(t, e)
-                        })
-                        .wait(600).call(() => {
                             this._attack(t, e, true)
                         })
                 })
