@@ -35,7 +35,7 @@ export default (PhaseAttackNormal) => {
 
         //overriden from PhaseAttackBase
         _playExplosion(shipBanner, damage) {
-            this.helper.playExplosion(shipBanner, this.firstDamage, this.firstAttacker)
+            this.helper.playExplosion(shipBanner, damage, this.firstAttacker)
         }
 
         //custom

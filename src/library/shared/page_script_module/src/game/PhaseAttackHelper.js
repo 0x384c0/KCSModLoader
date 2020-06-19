@@ -12,7 +12,7 @@ export default class PhaseAttackHelper {
         this._layerExplosion = layerExplosion
         this._sceneInfo = sceneInfo
         this._attackType = attackType
-        this._lastAttackPos = null
+        this._lastGunImpactPos = null
     }
 
     //functions, called from any PhaseAttack
@@ -47,7 +47,7 @@ export default class PhaseAttackHelper {
             defenderBannerBounds.height,
             damage == 0
         )
-        this._lastAttackPos = newDefenderBannerPos
+        this._lastGunImpactPos = newDefenderBannerPos
 
         let attackerBannerBounds = attackerBanner.getBounds()
         let newAttackerPos = this._getAttackCoordinates(
@@ -158,10 +158,10 @@ export default class PhaseAttackHelper {
 
 
 
-        if (this._lastAttackPos == null) console.log("PhaseAttackHelper._playExplosion Warning this._lastAttackPos is null")
-        let explosionPos = this._lastAttackPos == null ? shipBanner.getGlobalPos(true) : this._lastAttackPos
+        if (this._lastGunImpactPos == null) console.log("PhaseAttackHelper._playExplosion Warning this._lastGunImpactPos is null")
+        let explosionPos = this._lastGunImpactPos == null ? shipBanner.getGlobalPos(true) : this._lastGunImpactPos
         this._layerExplosion.playGunImpactExplosion(explosionPos.x, explosionPos.y, impactSfx, explosionTypeInfo.name, explosionTypeInfo.anchor.x, explosionTypeInfo.anchor.y, explosion.shake, null)
-        this._lastAttackPos = null
+        this._lastGunImpactPos = null
     }
 
     //Private
