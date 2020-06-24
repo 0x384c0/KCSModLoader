@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = {
     entry: {
         page_script_module: "./src/index.js",
+        test_module: "./tests/ConfigGeneratorTests.js",
     },
     output: {
         path: path.join(__dirname, "dist"),

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "test": "node ./dist/test_module.bundle.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
+    "chai": "^4.2.0",
     "gsap": "file:src/gsap/esm"
   }
 }

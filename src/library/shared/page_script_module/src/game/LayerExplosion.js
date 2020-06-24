@@ -1,11 +1,6 @@
 import BulletInitializer from './Bullet'
 import CustomExplosionInitializer from './CustomExplosion'
-import utils from './utils'
 import CameraEffects from './CameraEffects'
-import Constans from './Constans'
-
-const ExplosionType = Constans.ExplosionType
-const ShakeType = Constans.ShakeType
 
 export default (LayerExplosion, args) => {
     const CustomExplosion = CustomExplosionInitializer(PIXI)
