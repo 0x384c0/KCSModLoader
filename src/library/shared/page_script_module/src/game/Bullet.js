@@ -1,5 +1,5 @@
 export default (PIXI) => { //TODO: get rid of lazy init
-    return class Bullet extends PIXI.Container {
+    return class Bullet extends PIXI.Container { //TODO: rename to Projectile
         constructor(fromX, fromY, toX, toY, textureName, time) {
             super();
             this.fromX = fromX

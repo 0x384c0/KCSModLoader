@@ -1,0 +1,406 @@
+Attacker FRIEND
+
+damageType: 100
+damageType_before: 100
+friend: true
+hp_init: 57
+hp_max: 63
+hp_now: 57
+index: 0
+karyoku: 76
+level: 13
+mem_id: 19
+mst_id: 86
+name: "比叡"
+raisou: 0
+slotNum: 3
+slot_ex: null
+slots: Array(3)
+soukou: 56
+speed: 10
+stype: 8
+stype_name: "戦艦"
+taiku: 37
+type: 0
+yomi: "ひえい"
+_hp_init: 57
+_hp_max: 63
+_hp_now: 57
+_index: 0
+_karyoku: 76
+_level: 13
+_mem_id: 19
+_mst_id: 86
+_practice: false
+_pre_damage_type: 100
+_raisou: 0
+_slot_ex: null
+_slots: (3) [_0x59f20b, _0x59f20b, _0x59f20b]
+_soukou: 56
+_speed: 10
+_taihi: false
+_taiku: 37
+_tousai: (3) [3, 3, 3]
+_type: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Attacker enemy
+
+damageType: 100
+damageType_before: 100
+friend: false
+hp_init: 33
+hp_max: 33
+hp_now: 33
+index: 0
+karyoku: 14
+level: 1
+mem_id: -0
+mst_id: 1505
+name: "軽巡ホ級"
+raisou: 24
+slotNum: 2
+slot_ex: null
+slots: Array(4)
+soukou: 15
+speed: 10
+stype: 3
+stype_name: "軽巡洋艦"
+taiku: 10
+type: 1
+yomi: "-"
+_hp_init: 33
+_hp_max: 33
+_hp_now: 33
+_index: 0
+_karyoku: 14
+_level: 1
+_mem_id: -0
+_mst_id: 1505
+_practice: false
+_pre_damage_type: 100
+_raisou: 24
+_slot_ex: null
+_slots: (4) [_0x59f20b, _0x59f20b, null, null]
+_soukou: 15
+_speed: -1
+_taihi: false
+_taiku: 10
+_tousai: (4) [0, 0, 0, 0]
+_type: 1
+
+
+
+
+
+BattleScene PVP
+
+alpha: 1
+bg: (...)
+buttonMode: (...)
+children: (3) [_0x22c1e8, e, _0x1d7fb4]
+content: e
+data: _0x36dbb3
+model: _0x1fc011
+_model: _0x1fc011
+    actual_survey_time: 1593513968677
+    deck_e: _0x559de4
+        formation: 1
+        id: 0
+        id_second: -1
+        medal_num: 0
+        name: ""
+        name_second: ""
+        practice: false
+        ships: Array(6)
+        ships_main: Array(6)
+        ships_sub: null
+        type: 0
+        user_name: ""
+        _formation_id: 1
+        _id: 0
+        _id_second: -1
+        _medal_num: 0
+        _name: ""
+        _name_second: ""
+        _practice: false
+        _ships: (6) [_0xf57469, _0xf57469, _0xf57469, null, null, null]
+        _type: 0
+        _user_name: ""
+        BattleScene: (...)
+        LayerExplosion: (...)
+        PhaseAttackDanchaku: (...)
+        PhaseAttackDouble: (...)
+        PhaseAttackNormal: (...)
+        SoundManager: (...)
+        TaskDaihatsuEff: (...)
+        __proto__: Object
+    deck_f: _0x559de4
+        formation: 1
+        id: 1
+        id_second: -1
+        medal_num: 0
+        name: "PvP"
+        name_second: ""
+        practice: false
+        ships: Array(6)
+        ships_main: Array(6)
+        ships_sub: null
+        type: 0
+        user_name: "andrew"
+        _formation_id: 1
+        _id: 1
+        _id_second: -1
+        _medal_num: 0
+        _name: "PvP"
+        _name_second: ""
+        _practice: false
+        _ships: (6) [_0xf57469, _0xf57469, null, null, null, null]
+        _type: 0
+        _user_name: "andrew"
+        BattleScene: (...)
+        LayerExplosion: (...)
+        PhaseAttackDanchaku: (...)
+        PhaseAttackDouble: (...)
+        PhaseAttackNormal: (...)
+        SoundManager: (...)
+        TaskDaihatsuEff: (...)
+        __proto__: Object
+    flag: 0
+    gauge_max: 0
+    gauge_now: 0
+    gauge_type: 1
+    gekimetsu_data: null
+    m1: 0
+    map_info: _0x2754f9
+    prediction_time: undefined
+    ship_info: _0x150f16
+    stage: 1
+    supplied: -1
+    use_ration: -1
+    _actual_survey_time: 1593513968677
+    _deck_e: _0x559de4 {_medal_num: 0, _id_second: -1, _name_second: "", _practice: false, _user_name: "", …}
+    _deck_f: _0x559de4 {_medal_num: 0, _id_second: -1, _name_second: "", _practice: false, _user_name: "andrew", …}
+    _flag: 0
+    _gauge_max: 0
+    _gauge_now: 0
+    _gauge_type: 1
+    _gekimetsu_data: null
+    _map_info: _0x2754f9 {_area_id: 1, _map_no: 1, _cell_no: 3, _boss: true, _type: 1}
+    _practice: false
+    _ship_info: _0x150f16 {_list: Array(1)}
+    _stage: 1
+    _supplied: -1
+    _use_ration: -1
+
+
+
+
+    attacks
+
+    
+ 12.7 gun
+ equipType: 1
+ equipTypeSp: 1
+ iconType: 1
+ level: 0
+ mem_id: 24213
+ mst_id: 1
+ name: "12cm単装砲"
+ sakuteki: 0
+ taiku: 1
+ taisen: 0
+ _level: 0
+ _mem_id: 24213
+ _mst_id: 1
+ _sakuteki: 0
+
+ equipType: 1
+ equipTypeSp: 1
+ iconType: 1
+ level: 0
+ mem_id: 0
+ mst_id: 501
+ name: "5inch単装砲"
+ sakuteki: 0
+ taiku: 0
+ taisen: 0
+ _level: 0
+ _mem_id: 0
+ _mst_id: 501
+ _sakuteki: -1
+
+
+
+ equipType: 2
+ equipTypeSp: 2
+ iconType: 2
+ level: 0
+ mem_id: 0
+ mst_id: 504
+ name: "5inch単装高射砲"
+ sakuteki: 0
+ taiku: 2
+ taisen: 0
+ _level: 0
+ _mem_id: 0
+ _mst_id: 504
+ _sakuteki: -1
+
+
+nanagto
+ equipType: 3
+ equipTypeSp: 3
+ iconType: 3
+ level: 0
+ mem_id: 4940
+ mst_id: 245
+ name: "38cm四連装砲"
+ sakuteki: 0
+ taiku: 1
+ taisen: 0
+ _level: 0
+ _mem_id: 4940
+ _mst_id: 245
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 2
+ equipTypeSp: 2
+ iconType: 2
+ level: 0
+ mem_id: 8918
+ mst_id: 5
+ name: "15.5cm三連装砲"
+ sakuteki: 0
+ taiku: 4
+ taisen: 0
+ _level: 0
+ _mem_id: 8918
+ _mst_id: 5
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 1
+ equipTypeSp: 1
+ iconType: 1
+ level: 0
+ mem_id: 24019
+ mst_id: 2
+ name: "12.7cm連装砲"
+ sakuteki: 0
+ taiku: 2
+ taisen: 0
+ _level: 0
+ _mem_id: 24019
+ _mst_id: 2
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 1
+ equipTypeSp: 1
+ iconType: 16
+ level: 0
+ mem_id: 9447
+ mst_id: 91
+ name: "12.7cm連装高角砲(後期型)"
+ sakuteki: 0
+ taiku: 5
+ taisen: 1
+ _level: 0
+ _mem_id: 9447
+ _mst_id: 91
+ _sakuteki: 0
+
+
+ risheley
+ equipType: 4
+ equipTypeSp: 4
+ iconType: 16
+ level: 0
+ mem_id: 17708
+ mst_id: 10
+ name: "12.7cm連装高角砲"
+ sakuteki: 0
+ taiku: 4
+ taisen: 0
+ _level: 0
+ _mem_id: 17708
+ _mst_id: 10
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 4
+ equipTypeSp: 4
+ iconType: 4
+ level: 0
+ mem_id: 4745
+ mst_id: 134
+ name: "OTO 152mm三連装速射砲"
+ sakuteki: 0
+ taiku: 2
+ taisen: 0
+ _level: 0
+ _mem_id: 4745
+ _mst_id: 134
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 4
+ equipTypeSp: 4
+ iconType: 16
+ level: 1
+ mem_id: 4746
+ mst_id: 135
+ name: "90mm単装高角砲"
+ sakuteki: 0
+ taiku: 8
+ taisen: 0
+ _level: 1
+ _mem_id: 4746
+ _mst_id: 135
+ _sakuteki: 0
+ __proto__: Object
+
+ equipType: 4
+ equipTypeSp: 4
+ iconType: 4
+ level: 0
+ mem_id: 4941
+ mst_id: 247
+ name: "15.2cm三連装砲"
+ sakuteki: 0
+ taiku: 1
+ taisen: 0
+ _level: 0
+ _mem_id: 4941
+ _mst_id: 247
+ _sakuteki: 0
+
+AA Cutin
+ 0: t
+ a_index: 0
+ d_indexes: Array(1)
+ flag: 0
+ type: 6
+ _a_index: 0
+ _d_indexes: [3]
+ _damages: [222]
+ _flag: 0
+ _hit_types: [1]
+ _slotitems: (3) ["59", "104", "104"]
+ _type: 6
+ __proto__: Object

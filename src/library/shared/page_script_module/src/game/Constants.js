@@ -15,6 +15,11 @@ const ShakeType = {
     LARGE: { magnitude: 0.006, duration: 0.8, wiggles: 8 }
 }
 
+const Faction = {
+    KANMUSU: 'KANMUSU',
+    ABUSSAL: 'ABUSSAL',
+}
+
 const AttackConfigs = [
     {
         requirements: {
@@ -24,7 +29,7 @@ const AttackConfigs = [
         hit: {
             attack: {
                 animatedTextures: ["attack_middle_0", "attack_middle_1"],
-                sfxs: ["fire_gun2"],
+                sfxs: ["fire_gun2_1.wav", "fire_gun2_2.wav"],
                 anchor: { x: 0.4, y: 0.5 },
                 shake: ShakeType.SMALL,
             },
@@ -34,7 +39,7 @@ const AttackConfigs = [
             },
             impact: {
                 animatedTextures: ["explosion_small_g"],
-                sfxs: ["boom_med1_g"],
+                sfxs: ["boom_med1_g_1.wav", "boom_med1_g_2.wav", "boom_med1_g_3.wav"],
                 anchor: { x: 0.5, y: 0.73 },
                 shake: ShakeType.SMALL,
             },
@@ -42,7 +47,7 @@ const AttackConfigs = [
         miss: {
             impact: {
                 animatedTextures: ["explosion_large_w"],
-                sfxs: ["boom_med1_w"],
+                sfxs: ["boom_med1_w_1.wav", "boom_med1_w_2.wav"],
                 anchor: { x: 0.5, y: 0.71 },
                 shake: ShakeType.SMALL,
             },
@@ -56,7 +61,7 @@ const AttackConfigs = [
         hit: {
             attack: {
                 animatedTextures: ["attack_middle_0", "attack_middle_1"],
-                sfxs: ["fire_gun7"],
+                sfxs: ["fire_gun7_1.wav", "fire_gun7_2.wav"],
                 anchor: { x: 0.4, y: 0.5 },
                 shake: ShakeType.SMALL,
             },
@@ -66,7 +71,7 @@ const AttackConfigs = [
             },
             impact: {
                 animatedTextures: ["explosion_middle_g"],
-                sfxs: ["boom_big1_g"],
+                sfxs: ["boom_big1_g_1.wav", "boom_big1_g_2.wav", "boom_big1_g_3.wav", "boom_big1_g_4.wav"],
                 anchor: { x: 0.5, y: 0.7 },
                 shake: ShakeType.MIDDLE,
             },
@@ -74,7 +79,7 @@ const AttackConfigs = [
         miss: {
             impact: {
                 animatedTextures: ["explosion_large_w"],
-                sfxs: ["boom_big1_w"],
+                sfxs: ["boom_big1_w_1.wav", "boom_big1_w_2.wav", "boom_big1_w_3.wav"],
                 anchor: { x: 0.5, y: 0.71 },
                 shake: ShakeType.MIDDLE,
             },
@@ -88,7 +93,7 @@ const AttackConfigs = [
         hit: {
             attack: {
                 animatedTextures: ["attack_middle_0", "attack_middle_1"],
-                sfxs: ["fire_gun4"],
+                sfxs: ["fire_gun4_1.wav","fire_gun4_2.wav"],
                 anchor: { x: 0.4, y: 0.5 },
                 shake: ShakeType.MIDDLE,
             },
@@ -98,7 +103,7 @@ const AttackConfigs = [
             },
             impact: {
                 animatedTextures: ["explosion_large_g"],
-                sfxs: ["boom_big1_g"],
+                sfxs: ["boom_big1_g_1.wav", "boom_big1_g_2.wav", "boom_big1_g_3.wav", "boom_big1_g_4.wav"],
                 anchor: { x: 0.5, y: 0.7 },
                 shake: ShakeType.LARGE,
             },
@@ -106,10 +111,25 @@ const AttackConfigs = [
         miss: {
             impact: {
                 animatedTextures: ["explosion_large_w"],
-                sfxs: ["boom_big1_w"],
+                sfxs: ["boom_big1_w_1.wav", "boom_big1_w_2.wav", "boom_big1_w_3.wav"],
                 anchor: { x: 0.5, y: 0.71 },
                 shake: ShakeType.LARGE,
             },
+        }
+    },
+    {
+        requirements: {
+            isFlagship: true,
+            faction: Faction.ABUSSAL,
+            gunType: GunType.LARGE
+        },
+        attackType: AttackType.LASER,
+        hit: {
+            attack: {
+                sfxs: ["JUPearl_siegLasea.wav", "JUPearl_siegLaseb.wav", "JUPearl_siegLasec.wav", "JUPearl_siegLased.wav", , "JUPearl_siegLasee.wav"],
+                lifeTime: 2000,
+                shake: ShakeType.LARGE,
+            }
         }
     }
 ]

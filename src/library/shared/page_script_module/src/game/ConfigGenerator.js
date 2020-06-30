@@ -17,7 +17,7 @@ export default class ConfigGenerator {
     getAttackConfig() {
         let config = this._getAttackConfig()
         let isMissed = this._isMissed()
-        return (isMissed && config.miss.attack != null) ? config.miss.attack : config.hit.attack
+        return (isMissed && config.miss != null && config.miss.attack != null) ? config.miss.attack : config.hit.attack
     }
 
     getBulletConfig() {
@@ -39,13 +39,23 @@ export default class ConfigGenerator {
 
     _getAttackConfig() {
         let gunType = this._getGunType(this._attacker)
-        let config = this._configs
+        let sortedByScore = this._configs
             .sort((a, b) => {
-                let scoreA = a.requirements.gunType == gunType ? 1 : 0
-                let scoreB = b.requirements.gunType == gunType ? 1 : 0
+                let scoreA = this._getScore(a.requirements, gunType)
+                let scoreB = this._getScore(b.requirements, gunType)
                 return scoreB - scoreA
-            })[0]
+            })
+        let config = sortedByScore[0]
         return config
+    }
+
+    _getScore(requirements, gunType) {
+        let isFlagship = false
+        if (requirements.isFlagship != undefined)
+            isFlagship = requirements.isFlagship
+        let gunScore = requirements.gunType == gunType ? 1 : 0
+        let flagshipScore = isFlagship ? 1 : 0
+        return gunScore + flagshipScore
     }
 
     _getGunType(attacker) {
@@ -69,18 +79,27 @@ export default class ConfigGenerator {
 }
 
 ConfigGenerator.getAllResources = () => {
-        let resources = [
-            { link: "resources/default_effects/img/battle/explosion_large_w.json", name: null },
-            { link: "resources/default_effects/img/battle/explosion_small_g.json", name: null },
-            { link: "resources/default_effects/img/battle/explosion_middle_g.json", name: null },
-            { link: "resources/default_effects/img/battle/explosion_large_g.json", name: null },
-            { link: "resources/default_effects/img/battle/attack_middle_0.json", name: null },
-            { link: "resources/default_effects/img/battle/attack_middle_1.json", name: null },
-            { link: "resources/default_effects/img/battle/bullet_small.png", name: "bullet_small" },
-            { link: "resources/default_effects/img/battle/bullet_middle.png", name: "bullet_middle" },
-            { link: "resources/default_effects/img/battle/bullet_large.png", name: "bullet_large" },
-        ]
-        return resources
+    let resources = [
+        //bullet
+        { link: "resources/default_effects/img/battle/explosion_large_w.json", name: null },
+        { link: "resources/default_effects/img/battle/explosion_small_g.json", name: null },
+        { link: "resources/default_effects/img/battle/explosion_middle_g.json", name: null },
+        { link: "resources/default_effects/img/battle/explosion_large_g.json", name: null },
+        { link: "resources/default_effects/img/battle/attack_middle_0.json", name: null },
+        { link: "resources/default_effects/img/battle/attack_middle_1.json", name: null },
+        { link: "resources/default_effects/img/battle/bullet_small.png", name: "bullet_small" },
+        { link: "resources/default_effects/img/battle/bullet_middle.png", name: "bullet_middle" },
+        { link: "resources/default_effects/img/battle/bullet_large.png", name: "bullet_large" },
+        //laser
+        { link: "resources/default_effects/img/battle/explosion_spark.json", name: null },
+        { link: "resources/default_effects/img/battle/laser_origin.json", name: null },
+        { link: "resources/default_effects/img/battle/light_large.png", name: "light_large" },
+        { link: "resources/default_effects/img/battle/light_middle.png", name: "light_middle" },
+        { link: "resources/default_effects/img/battle/beam_mask.png", name: "beam_mask" },
+        { link: "resources/default_effects/img/battle/FXIonCannoncc.png", name: "FXIonCannoncc" },
+        { link: "resources/default_effects/img/battle/FXObeliskLaserHeroic.png", name: "FXObeliskLaserHeroic" },
+    ]
+    return resources
 }
 
 ConfigGenerator.getRandom = (names) => {

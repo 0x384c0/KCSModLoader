@@ -1,4 +1,6 @@
 import ConfigGenerator from './ConfigGenerator'
+import Constants from './Constants'
+const AttackType = Constants.AttackType
 
 export default class PhaseAttackHelper {
     constructor(
@@ -22,7 +24,7 @@ export default class PhaseAttackHelper {
             else
                 this._loader.add(document.kcs_extensionUrl + resource.link)
         }
-        
+
         document.loaderInstance = this._loader
         this._loader.load((t) => {
             callback()
@@ -52,67 +54,110 @@ export default class PhaseAttackHelper {
             attackerBannerBounds.width
         )
 
-        //get configs
         let configGenerator = new ConfigGenerator(damage, attacker)
-        let attackConfig = configGenerator.getAttackConfig()
+        let attackType = configGenerator.getAttackType()
 
-        let attackSfx = ConfigGenerator.getRandom(attackConfig.sfxs)
-        let attackTextureName = ConfigGenerator.getRandom(attackConfig.animatedTextures)
-        let anchor = attackConfig.anchor
-        let shake = attackConfig.shake
+        switch (attackType) {
+            case AttackType.BULLET: {
+                //get configs
+                let attackConfig = configGenerator.getAttackConfig()
+                let attackSfx = ConfigGenerator.getRandom(attackConfig.sfxs)
+                let attackTextureName = ConfigGenerator.getRandom(attackConfig.animatedTextures)
+                let anchor = attackConfig.anchor
+                let shake = attackConfig.shake
 
-        let bulletConfig = configGenerator.getBulletConfig()
-        let bulletTextureName = ConfigGenerator.getRandom(bulletConfig.textures)
-        let bulletLifeTime = bulletConfig.lifeTime
+                let bulletConfig = configGenerator.getBulletConfig()
+                let bulletTextureName = ConfigGenerator.getRandom(bulletConfig.textures)
+                let bulletLifeTime = bulletConfig.lifeTime
 
-        //prepare textures
-        let frames = this._getFramesForSprite(attackTextureName).map(i => PIXI.Texture.from(i))
-        let animatedSprite = new PIXI.extras.AnimatedSprite(frames);
+                //prepare textures
+                let frames = this._getFramesForSprite(attackTextureName).map(i => PIXI.Texture.from(i))
+                let animatedSprite = new PIXI.extras.AnimatedSprite(frames);
 
-        //play animation
-        this._layerExplosion.playGunAttackExplosion(
-            newAttackerPos.x, newAttackerPos.y,
-            newDefenderBannerPos.x, newDefenderBannerPos.y,
-            attackSfx,
-            anchor.x,
-            anchor.y,
-            animatedSprite, //PIXI.extras.AnimatedSprite
-            shake,
-            bulletLifeTime,
-            bulletTextureName,
-            callback
-        )
+                //play animation
+                this._layerExplosion.playGunAttackExplosion(
+                    newAttackerPos.x, newAttackerPos.y,
+                    newDefenderBannerPos.x, newDefenderBannerPos.y,
+                    attackSfx,
+                    anchor.x,
+                    anchor.y,
+                    animatedSprite, //PIXI.extras.AnimatedSprite
+                    shake,
+                    bulletLifeTime,
+                    bulletTextureName,
+                    callback
+                )
+                break;
+            }
+            case AttackType.LASER: {
+                //get configs
+                let attackConfig = configGenerator.getAttackConfig()
+                let attackSfx = ConfigGenerator.getRandom(attackConfig.sfxs)
+                let shake = attackConfig.shake
+                let lifeTime = attackConfig.lifeTime
+
+                //prepare textures
+                //TODO
+
+                //play animation
+                this._layerExplosion.playLaserAttackExplosion(
+                    newAttackerPos.x, newAttackerPos.y,
+                    newDefenderBannerPos.x, newDefenderBannerPos.y,
+                    attackSfx,
+                    lifeTime,
+                    shake,
+                    callback
+                )
+                break;
+            }
+            default:
+                throw `Unknown AttackType: ${attackType}`
+        }
     }
 
 
     playExplosion(shipBanner, damage, attacker) {
 
-        //get configs
         let configGenerator = new ConfigGenerator(damage, attacker)
-        let impactConfig = configGenerator.getImpactConfig()
-
-        let impactSfx = ConfigGenerator.getRandom(impactConfig.sfxs)
-        let impactTextureName = ConfigGenerator.getRandom(impactConfig.animatedTextures)
-        let anchor = impactConfig.anchor
-        let shake = impactConfig.shake
+        let attackType = configGenerator.getAttackType()
 
 
-        //calculate positions
-        if (this._lastGunImpactPos == null) console.log("PhaseAttackHelper._playExplosion Warning this._lastGunImpactPos is null")
-        let explosionPos = this._lastGunImpactPos == null ? shipBanner.getGlobalPos(true) : this._lastGunImpactPos
+        switch (attackType) {
+            case AttackType.BULLET: {
+                //get configs
+                let impactConfig = configGenerator.getImpactConfig()
 
-        //play animation
-        this._layerExplosion.playGunImpactExplosion(
-            explosionPos.x,
-            explosionPos.y,
-            impactSfx,
-            impactTextureName,
-            anchor.x,
-            anchor.y,
-            shake,
-            null
-        )
-        this._lastGunImpactPos = null
+                let impactSfx = ConfigGenerator.getRandom(impactConfig.sfxs)
+                let impactTextureName = ConfigGenerator.getRandom(impactConfig.animatedTextures)
+                let anchor = impactConfig.anchor
+                let shake = impactConfig.shake
+
+
+                //calculate positions
+                if (this._lastGunImpactPos == null) console.log("PhaseAttackHelper._playExplosion Warning this._lastGunImpactPos is null")
+                let explosionPos = this._lastGunImpactPos == null ? shipBanner.getGlobalPos(true) : this._lastGunImpactPos
+
+                //play animation
+                this._layerExplosion.playGunImpactExplosion(
+                    explosionPos.x,
+                    explosionPos.y,
+                    impactSfx,
+                    impactTextureName,
+                    anchor.x,
+                    anchor.y,
+                    shake,
+                    null
+                )
+                this._lastGunImpactPos = null
+                break
+            }
+            case AttackType.LASER: {
+                this._lastGunImpactPos = null
+                break
+            }
+            default:
+                throw `Unknown AttackType: ${attackType}`
+        }
     }
 
     //Private

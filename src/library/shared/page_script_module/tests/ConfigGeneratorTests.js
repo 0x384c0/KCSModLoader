@@ -21,6 +21,8 @@ function testGetAttackType() {
     assert.equal(configGenerator.getAttackType(), AttackType.BULLET);
     configGenerator = new ConfigGenerator(hitDamage,attackerLargeGuns)
     assert.equal(configGenerator.getAttackType(), AttackType.BULLET);
+
+
 }
 function testGetAttackConfig(){
     let configGenerator;

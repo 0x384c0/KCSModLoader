@@ -10,6 +10,8 @@ export default (PhaseAttackNormal) => {
                     { w: scene.width, h: scene.height },
                     "PhaseAttackNormal"
                 )
+                console.log(scene)
+                console.log(attacker)
                 this.firstAttacker = attacker
                 this.firstDamage = damage
             } catch (e) {

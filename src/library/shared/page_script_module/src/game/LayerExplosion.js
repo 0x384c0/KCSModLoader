@@ -1,4 +1,5 @@
 import BulletInitializer from './Bullet'
+import LaserInitializer from './Laser'
 import CustomExplosionInitializer from './CustomExplosion'
 import CameraEffects from './CameraEffects'
 
@@ -60,6 +61,32 @@ export default (LayerExplosion, args) => {
             )
         }
 
+        playLaserAttackExplosion(
+            attackerPosX, attackerPosY,
+            defenderPosX, defenderPosY,
+            attackSfx,
+            time,
+            shake,
+            callback
+        ) {
+            //sfx
+            document.kcs_SoundManagerInitializer().se_play(attackSfx)
+            
+            //vfx
+            this._emitLaser(
+                attackerPosX, attackerPosY,
+                defenderPosX, defenderPosY,
+                time,
+                callback
+            )
+
+            //shake
+            this._cameraEffects.shakeCamera(
+                shake.magnitude,
+                shake.duration,
+                shake.wiggles
+            )
+        }
 
         //impact
         playGunImpactExplosion(x, y, impactSfx, textureName, anchorX, anchorY, shake, callback) {
@@ -76,6 +103,8 @@ export default (LayerExplosion, args) => {
                 })
         }
 
+
+
         //private
         //Bullet
         _emitGunBullet(fromX, fromY, toX, toY, time, bulletTextureName, callback) {
@@ -86,6 +115,19 @@ export default (LayerExplosion, args) => {
             this.addChild(bullet)
             bullet.play(() => {
                 this.removeChild(bullet)
+                if (callback != null) callback({ x: toX, y: toY })
+            })
+        }
+
+        //laser
+        _emitLaser(fromX, fromY, toX, toY, time, callback) {
+            const Laser = LaserInitializer(PIXI)
+
+            var laser = new Laser(fromX, fromY, toX, toY, time)
+            laser.position.set(0, 0)
+            this.addChild(laser)
+            laser.play(() => {
+                this.removeChild(laser)
                 if (callback != null) callback({ x: toX, y: toY })
             })
         }
