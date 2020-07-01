@@ -6,7 +6,7 @@ export default (PIXI) => {
         constructor(explosionTypeInfo) {
             super();
             this._explosionTypeInfo = explosionTypeInfo
-            this._explosionTypeInfo.frames = utils.getFramesForBattleSprite(this._explosionTypeInfo.name)
+            this._explosionTypeInfo.frames = utils.getResourcesFromSpriteSheet(this._explosionTypeInfo.name)
             this._current_frame = 0
             this._img = new PIXI.Sprite
             this._isMirror = Math.random() >= 0.5

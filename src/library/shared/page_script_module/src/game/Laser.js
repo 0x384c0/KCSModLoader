@@ -1,65 +1,84 @@
 //utils
-function frac(x) {
-    return x - Math.floor(x, 1);
-}
+import utils from './utils'
 
 export default (PIXI) => {
     return class Laser extends PIXI.Container {
-        constructor(fromX, fromY, toX, toY, time) {
+        constructor(fromX, fromY, toX, toY) {
             super();
             //args
             this._fromX = fromX;
             this._fromY = fromY;
             this._toX = toX;
             this._toY = toY;
-            //vars
-            this._time = time;
             this._isAnimating = false;
+
+            let explosionArgs = {
+                beamTime: 1200,
+                beamDelay: 1000,
+                fadeInTime: 100,
+                fadeOutTime: 500,
+                beamMask: "beam_mask",
+                beamTextureNames: [{ texture: "FXIonCannoncc", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic", xSpeed: 2.0 }],
+                originResources: [{ animatedSprite: "laser_origin", animationSpeed: 0.8, loop: true }, { texture: "light_large" }],
+                impactResources: [{ texture: "light_middle" }],
+                impactChainAnimatedSprite: "explosion_spark",
+                explosionChainCount: 20,
+                explosionChainAnimationSpeed: 0.2,
+                xPathRange: 400,
+                yPathRange: 20
+            }
             //resources
-            const beamMask = PIXI.Texture.from("beam_mask")
-            const textureBeam = PIXI.Texture.from("FXObeliskLaserHeroic");
-            const textureBeamBg = PIXI.Texture.from("FXIonCannoncc");
-            const laserOriginLightTexture = this._createSprite(PIXI.Texture.from("light_large"));
-            const laserOriginTextures = this._createTextures("laser_origin_", 20);
-            const explosionSparkTextures = this._createTextures("explosion_spark_", 13);
-            const laserImpactLightTexture = this._createSprite(PIXI.Texture.from("light_middle"));
+            const beamMask = PIXI.Texture.from(explosionArgs.beamMask)
+            const beamTextureNames = explosionArgs.beamTextureNames
+            const beamTextures = explosionArgs.beamTextureNames.map((beam) => PIXI.Texture.from(beam.texture))
+            const originResources = explosionArgs.originResources
+            const impactResources = explosionArgs.impactResources
+            const explosionChainTextures = this._createTextures(explosionArgs.impactChainAnimatedSprite);
             //args
-            const explosionAnimationSpeed = 0.3;
-            this._originSpeeds = [.8, null];
-            this._beamsSpeeds = [1, 2];
-            this._xPathRange = 200 * -1
-            this._yPathRange = 20 * (1 - 2 * Math.round(Math.random()))
+            this._beamTime = explosionArgs.beamTime
+            this._beamDelay = explosionArgs.beamDelay
+            this._fadeInTime = explosionArgs.fadeInTime
+            this._fadeOutTime = explosionArgs.fadeOutTime
+            const explosionChainAnimationSpeed = explosionArgs.explosionChainAnimationSpeed
+            this._xPathRange = explosionArgs.xPathRange * -1 //movement always from right to left, laser only for abyssals
+            this._yPathRange = explosionArgs.yPathRange * (1 - 2 * Math.round(Math.random())) //random movement, from top to bottom or othervise
+            this._explosionChainCount = explosionArgs.explosionChainCount
             //sprites
-            this._beams = [this._createTilingSprite(textureBeamBg), this._createTilingSprite(textureBeam)];
+            this._beams = beamTextures.map((texture) => this._createTilingSprite(texture))
+            this._beamsSpeeds = beamTextureNames.map((beam) => beam.xSpeed)
             this._beamMask = this._createSprite(beamMask)
-            this._origins = [this._createAnimatedSprite(laserOriginTextures), laserOriginLightTexture];
-            this._impacts = [laserImpactLightTexture];
-            this._explosions = this._createAnimatedTextures(20, explosionSparkTextures);
+            this._origins = originResources.map((resource) => this._resourceToSprite(resource))
+            this._impacts = impactResources.map((resource) => this._resourceToSprite(resource))
+            this._explosionsChain = this._createAnimatedTextures(this._explosionChainCount, explosionChainTextures);
             this._layerExplosions = new PIXI.Container();
             //sprites parameters
-            this._origins.forEach((sprite, i) => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.loop = true; sprite.animationSpeed = this._originSpeeds[i]; } });
-            this._impacts.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.loop = true; } });
-            this._explosions.forEach(sprite => (sprite.animationSpeed = explosionAnimationSpeed));
+            this._explosionsChain.forEach(sprite => (sprite.animationSpeed = explosionChainAnimationSpeed));
             this._beams.forEach(sprite => { sprite.mask = this._beamMask })
             this._beamMask.anchor.set(0, 0.5);
 
             this._beamMaskTextureSize = { width: beamMask.width, height: beamMask.height }
-            this._beamTextureSizes = [{ width: textureBeamBg.width, height: textureBeamBg.height }, { width: textureBeam.width, height: textureBeam.height }]
+            this._beamTextureSizes = beamTextures.map(texture => { return { width: texture.width, height: texture.height } })
         }
 
         play(completion) {
             this._animationProgress = 0
+
+            //hide beam before delay
+            this._setLaserVisibile(false)
+
             this._addAndPlayChilds()
-            this._createTween(() => {
-                this.stop()
-                if (completion != null)
-                    completion()
+            this._createTween(this._beamDelay, () => {
+                this.stop(completion)
             })
         }
 
-        stop() {
-            this._stopAndRemoveChilds();
-            try { this._tween.setPaused(true) } catch{ }
+        stop(completion) {
+            this._stopAndRemoveChilds(() => {
+                try { this._tween.setPaused(true) } catch{ }
+                if (completion != null)
+                    completion()
+            });
+
         }
 
         //private
@@ -72,6 +91,34 @@ export default (PIXI) => {
             if (this._animationProgressValue == null)
                 this._animationProgressValue = 0
             return this._animationProgressValue
+        }
+
+        _setLaserVisibile(visible) {
+            console.log(`_setLaserVisibile ${visible}`)
+            if (this._laserIsVisible == undefined) {
+                this._laserIsVisible = !visible
+            }
+            if (visible != this._laserIsVisible) {
+                console.log(`_setLaserVisibile set ${visible}`)
+                this._beams.forEach(sprite => sprite.visible = visible);
+                this._impacts.forEach(sprite => sprite.visible = visible);
+                this._layerExplosions.visible = visible
+            }
+            this._laserIsVisible = visible
+        }
+
+        _resourceToSprite(resource) {
+            if (resource.animatedSprite) {
+                const animatedSprite = this._createAnimatedSprite(this._createTextures(resource.animatedSprite))
+                if (resource.loop != undefined)
+                    animatedSprite.loop = resource.loop
+                if (resource.animationSpeed != undefined)
+                    animatedSprite.animationSpeed = resource.animationSpeed
+                return animatedSprite
+            } else if (resource.texture)
+                return this._createSprite(PIXI.Texture.from(resource.texture))
+            else
+                throw `Laser._resourceToSprite Illegal resource ${resource}`
         }
 
         _didSetAnimationProgress(progress) {
@@ -94,51 +141,58 @@ export default (PIXI) => {
                     (sprite.tilePosition.x = progress * 500 * this._beamsSpeeds[i])
             );
 
-            let index = Math.floor(this._explosions.length * progress);
+            let index = Math.floor(this._explosionsChain.length * progress);
             this._explode(index, toX, toY);
         }
 
         _addAndPlayChilds() {
             if (!this._isAnimating) {
+                this.alpha = 0
                 //addChild
                 this.addChild(this._beamMask)
                 this._beams.forEach(sprite => this.addChild(sprite));
                 this.addChild(this._layerExplosions);
-                this._explosions.forEach(sprite => { this._layerExplosions.addChild(sprite); sprite.visible = false; });
+                this._explosionsChain.forEach(sprite => { this._layerExplosions.addChild(sprite); sprite.visible = false; });
                 this._origins.forEach(sprite => this.addChild(sprite));
                 this._impacts.forEach(sprite => this.addChild(sprite));
                 //play
                 this._origins.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite && !sprite.playing) { sprite.play(); } });
                 this._impacts.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite && !sprite.playing) { sprite.play(); } });
+
+                this._fadeInTween = new createjs.Tween(this)
+                    .to({ alpha: 1 }, this._fadeInTime)
+                this._fadeInTween.call(() => { })
             }
             this._isAnimating = true;
         }
 
-        _stopAndRemoveChilds() {
+        _stopAndRemoveChilds(completion) {
             if (this._isAnimating) {
-                //stop
-                this._beams.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
-                this._explosions.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
-                this._origins.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
-                this._impacts.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
-                //removeChild
-                this._beams.forEach(sprite => this.removeChild(sprite));
-                this.removeChild(this._layerExplosions);
-                this._explosions.forEach(sprite => this._layerExplosions.removeChild(sprite));
-                this._origins.forEach(sprite => this.removeChild(sprite));
-                this._impacts.forEach(sprite => this.removeChild(sprite));
+                this.alpha = 1
+                this._fadeOutTween = new createjs.Tween(this)
+                    .to({ alpha: 0 }, this._fadeOutTime)
+                this._fadeOutTween.call(() => {
+                    //stop
+                    this._beams.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
+                    this._explosionsChain.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
+                    this._origins.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
+                    this._impacts.forEach(sprite => { if (sprite instanceof PIXI.extras.AnimatedSprite) { sprite.stop(); } });
+                    //removeChild
+                    this._beams.forEach(sprite => this.removeChild(sprite));
+                    this.removeChild(this._layerExplosions);
+                    this._explosionsChain.forEach(sprite => this._layerExplosions.removeChild(sprite));
+                    this._origins.forEach(sprite => this.removeChild(sprite));
+                    this._impacts.forEach(sprite => this.removeChild(sprite));
+                    completion()
+                })
+            } else {
+                completion()
             }
             this._isAnimating = true;
         }
 
-        _createTextures(name, count) {
-            const animatedTexture = [];
-            let i;
-            for (i = 0; i < count; i++) {
-                const texture = PIXI.Texture.from(`${name}${i + 1}`);
-                animatedTexture.push(texture);
-            }
-            return animatedTexture;
+        _createTextures(name) {
+            return utils.getResourcesFromSpriteSheet(name).map(i => PIXI.Texture.from(i))
         }
 
         _createAnimatedSprite(animatedTexture) {
@@ -199,10 +253,10 @@ export default (PIXI) => {
         _explode(index, x, y) {
             let _index = index;
             if (_index < 0) _index = 0;
-            if (_index >= this._explosions.length)
-                _index = this._explosions.length - 1;
+            if (_index >= this._explosionsChain.length)
+                _index = this._explosionsChain.length - 1;
 
-            let explosionSprite = this._explosions[_index];
+            let explosionSprite = this._explosionsChain[_index];
 
             if (!explosionSprite.playing) {
                 explosionSprite.visible = true
@@ -213,17 +267,11 @@ export default (PIXI) => {
             }
         }
 
-        _runAnimation(handler) {
-            let totalTime = 0;
-            app.ticker.add(delta => {
-                totalTime += delta;
-                handler(frac(totalTime * 0.01));
-            });
-        }
-
-        _createTween(completion) {
+        _createTween(delay, completion) {
             this._tween = new createjs.Tween(this)
-                .to({_animationProgress:1}, this._time)
+                .wait(delay)
+                .call(() => { this._setLaserVisibile(true) })
+                .to({ _animationProgress: 1 }, this._beamTime)
             this._tween.call(() => {
                 if (completion != null)
                     completion()

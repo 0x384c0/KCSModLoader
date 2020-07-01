@@ -1,4 +1,5 @@
 import ConfigGenerator from './ConfigGenerator'
+import utils from './utils'
 import Constants from './Constants'
 const AttackType = Constants.AttackType
 
@@ -71,7 +72,7 @@ export default class PhaseAttackHelper {
                 let bulletLifeTime = bulletConfig.lifeTime
 
                 //prepare textures
-                let frames = this._getFramesForSprite(attackTextureName).map(i => PIXI.Texture.from(i))
+                let frames = utils.getResourcesFromSpriteSheet(attackTextureName).map(i => PIXI.Texture.from(i))
                 let animatedSprite = new PIXI.extras.AnimatedSprite(frames);
 
                 //play animation
@@ -161,11 +162,6 @@ export default class PhaseAttackHelper {
     }
 
     //Private
-
-    _getFramesForSprite(resourceName) {
-        let resource = document.loaderInstance.resources[document.kcs_extensionUrl + "resources/default_effects/img/battle/" + resourceName + ".json"]
-        return Object.keys(resource.data.frames)
-    }
 
 
     _getImpactCoordinates(x, y, w, h, isMissed) {
