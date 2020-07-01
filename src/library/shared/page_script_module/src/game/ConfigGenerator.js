@@ -98,6 +98,12 @@ ConfigGenerator.getAllResources = () => {
         { link: "resources/default_effects/img/battle/beam_mask.png", name: "beam_mask" },
         { link: "resources/default_effects/img/battle/FXIonCannoncc.png", name: "FXIonCannoncc" },
         { link: "resources/default_effects/img/battle/FXObeliskLaserHeroic.png", name: "FXObeliskLaserHeroic" },
+        //laser yellow
+        { link: "resources/default_effects/img/battle/explosion_circle.json", name: null },
+        { link: "resources/default_effects/img/battle/light_large_yellow.png", name: "light_large_yellow" },
+        { link: "resources/default_effects/img/battle/light_middle_yellow.png", name: "light_middle_yellow" },
+        { link: "resources/default_effects/img/battle/FXIonCannoncc_yellow.png", name: "FXIonCannoncc_yellow" },
+        { link: "resources/default_effects/img/battle/FXObeliskLaserHeroic_yellow.png", name: "FXObeliskLaserHeroic_yellow" },
     ]
     return resources
 }
