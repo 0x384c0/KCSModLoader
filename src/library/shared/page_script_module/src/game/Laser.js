@@ -3,7 +3,7 @@ import utils from './utils'
 
 export default (PIXI) => {
     return class Laser extends PIXI.Container {
-        constructor(fromX, fromY, toX, toY) {
+        constructor(fromX, fromY, toX, toY, animationArgs) {
             super();
             //args
             this._fromX = fromX;
@@ -11,38 +11,23 @@ export default (PIXI) => {
             this._toX = toX;
             this._toY = toY;
             this._isAnimating = false;
-
-            let explosionArgs = {
-                beamTime: 1200,
-                beamDelay: 1000,
-                fadeInTime: 100,
-                fadeOutTime: 500,
-                beamMask: "beam_mask",
-                beamTextureNames: [{ texture: "FXIonCannoncc", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic", xSpeed: 2.0 }],
-                originResources: [{ animatedSprite: "laser_origin", animationSpeed: 0.8, loop: true }, { texture: "light_large" }],
-                impactResources: [{ texture: "light_middle" }],
-                impactChainAnimatedSprite: "explosion_spark",
-                explosionChainCount: 20,
-                explosionChainAnimationSpeed: 0.2,
-                xPathRange: 400,
-                yPathRange: 20
-            }
+            
             //resources
-            const beamMask = PIXI.Texture.from(explosionArgs.beamMask)
-            const beamTextureNames = explosionArgs.beamTextureNames
-            const beamTextures = explosionArgs.beamTextureNames.map((beam) => PIXI.Texture.from(beam.texture))
-            const originResources = explosionArgs.originResources
-            const impactResources = explosionArgs.impactResources
-            const explosionChainTextures = this._createTextures(explosionArgs.impactChainAnimatedSprite);
+            const beamMask = PIXI.Texture.from(animationArgs.beamMask)
+            const beamTextureNames = animationArgs.beamTextureNames
+            const beamTextures = animationArgs.beamTextureNames.map((beam) => PIXI.Texture.from(beam.texture))
+            const originResources = animationArgs.originResources
+            const impactResources = animationArgs.impactResources
+            const explosionChainTextures = this._createTextures(animationArgs.impactChainAnimatedSprite);
             //args
-            this._beamTime = explosionArgs.beamTime
-            this._beamDelay = explosionArgs.beamDelay
-            this._fadeInTime = explosionArgs.fadeInTime
-            this._fadeOutTime = explosionArgs.fadeOutTime
-            const explosionChainAnimationSpeed = explosionArgs.explosionChainAnimationSpeed
-            this._xPathRange = explosionArgs.xPathRange * -1 //movement always from right to left, laser only for abyssals
-            this._yPathRange = explosionArgs.yPathRange * (1 - 2 * Math.round(Math.random())) //random movement, from top to bottom or othervise
-            this._explosionChainCount = explosionArgs.explosionChainCount
+            this._beamTime = animationArgs.beamTime
+            this._beamDelay = animationArgs.beamDelay
+            this._fadeInTime = animationArgs.fadeInTime
+            this._fadeOutTime = animationArgs.fadeOutTime
+            const explosionChainAnimationSpeed = animationArgs.explosionChainAnimationSpeed
+            this._xPathRange = animationArgs.xPathRange * -1 //movement always from right to left, laser only for abyssals
+            this._yPathRange = animationArgs.yPathRange * (1 - 2 * Math.round(Math.random())) //random movement, from top to bottom or othervise
+            this._explosionChainCount = animationArgs.explosionChainCount
             //sprites
             this._beams = beamTextures.map((texture) => this._createTilingSprite(texture))
             this._beamsSpeeds = beamTextureNames.map((beam) => beam.xSpeed)
@@ -94,12 +79,10 @@ export default (PIXI) => {
         }
 
         _setLaserVisibile(visible) {
-            console.log(`_setLaserVisibile ${visible}`)
             if (this._laserIsVisible == undefined) {
                 this._laserIsVisible = !visible
             }
             if (visible != this._laserIsVisible) {
-                console.log(`_setLaserVisibile set ${visible}`)
                 this._beams.forEach(sprite => sprite.visible = visible);
                 this._impacts.forEach(sprite => sprite.visible = visible);
                 this._layerExplosions.visible = visible

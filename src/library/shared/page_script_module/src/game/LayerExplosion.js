@@ -65,7 +65,7 @@ export default (LayerExplosion, args) => {
             attackerPosX, attackerPosY,
             defenderPosX, defenderPosY,
             attackSfx,
-            time,
+            animationArgs,
             shake,
             callback
         ) {
@@ -76,7 +76,7 @@ export default (LayerExplosion, args) => {
             this._emitLaser(
                 attackerPosX, attackerPosY,
                 defenderPosX, defenderPosY,
-                time,
+                animationArgs,
                 callback
             )
 
@@ -84,7 +84,8 @@ export default (LayerExplosion, args) => {
             this._cameraEffects.shakeCamera(
                 shake.magnitude,
                 shake.duration,
-                shake.wiggles
+                shake.wiggles,
+                animationArgs.beamDelay
             )
         }
 
@@ -120,10 +121,10 @@ export default (LayerExplosion, args) => {
         }
 
         //laser
-        _emitLaser(fromX, fromY, toX, toY, time, callback) {
+        _emitLaser(fromX, fromY, toX, toY, animationArgs, callback) {
             const Laser = LaserInitializer(PIXI)
 
-            var laser = new Laser(fromX, fromY, toX, toY, time)
+            var laser = new Laser(fromX, fromY, toX, toY, animationArgs)
             laser.position.set(0, 0)
             this.addChild(laser)
             laser.play(() => {

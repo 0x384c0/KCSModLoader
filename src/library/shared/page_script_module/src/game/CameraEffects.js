@@ -10,7 +10,7 @@ export default class CameraEffects {
     //.shakeCamera(0.006,0.8,8)
     //.shakeCamera(0.004,0.6,6)
     //.shakeCamera(0.002,0.2,3)
-    shakeCamera(magnitude, duration, wiggles) {
+    shakeCamera(magnitude, duration, wiggles, delay) {
         this.interruptShake()
         let rootView = undefined
         try { rootView = this._getRootView() }
@@ -30,7 +30,9 @@ export default class CameraEffects {
             // rootView.scale.set(scale, scale)
             let rootViewWrapper = new RootViewWrapper(rootView)
 
-            let tl = new TimelineMax();
+            var tl = new TimelineMax();
+            if (delay != undefined)
+                tl = tl.delay(delay/1000)
             this._taskShake = tl
                 .to(rootViewWrapper, duration, {
                     x: random * magnitudeAbsWidth,
@@ -83,17 +85,17 @@ class RootViewWrapper {
         return this._magnitude
     }
 
-    set x(x){
+    set x(x) {
         this._x = x
     }
-    get x(){
+    get x() {
         return this._x
     }
 
-    set y(y){
+    set y(y) {
         this._y = y
     }
-    get y(){
+    get y() {
         return this._y
     }
 }

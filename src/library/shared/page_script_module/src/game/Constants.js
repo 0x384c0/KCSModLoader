@@ -5,7 +5,7 @@ const GunType = {
 }
 
 const AttackType = {
-    BULLET: 'BULLET',
+    BULLET: 'BULLET', //TODO: rename to PROJECTILE
     LASER: 'LASER'
 }
 
@@ -93,7 +93,7 @@ const AttackConfigs = [
         hit: {
             attack: {
                 animatedTextures: ["attack_middle_0", "attack_middle_1"],
-                sfxs: ["fire_gun4_1.wav","fire_gun4_2.wav"],
+                sfxs: ["fire_gun4_1.wav", "fire_gun4_2.wav"],
                 anchor: { x: 0.4, y: 0.5 },
                 shake: ShakeType.MIDDLE,
             },
@@ -127,7 +127,21 @@ const AttackConfigs = [
         hit: {
             attack: {
                 sfxs: ["JUPearl_siegLasea.wav", "JUPearl_siegLaseb.wav", "JUPearl_siegLasec.wav", "JUPearl_siegLased.wav", , "JUPearl_siegLasee.wav"],
-                lifeTime: 2000,
+                animationArgs: {
+                    beamTime: 1200,
+                    beamDelay: 10,
+                    fadeInTime: 100,
+                    fadeOutTime: 500,
+                    beamMask: "beam_mask",
+                    beamTextureNames: [{ texture: "FXIonCannoncc", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic", xSpeed: 2.0 }],
+                    originResources: [{ animatedSprite: "laser_origin", animationSpeed: 0.8, loop: true }, { texture: "light_large" }],
+                    impactResources: [{ texture: "light_middle" }],
+                    impactChainAnimatedSprite: "explosion_spark",
+                    explosionChainCount: 20,
+                    explosionChainAnimationSpeed: 0.2,
+                    xPathRange: 400,
+                    yPathRange: 20
+                },
                 shake: ShakeType.LARGE,
             }
         }

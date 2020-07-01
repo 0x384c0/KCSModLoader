@@ -95,17 +95,14 @@ export default class PhaseAttackHelper {
                 let attackConfig = configGenerator.getAttackConfig()
                 let attackSfx = ConfigGenerator.getRandom(attackConfig.sfxs)
                 let shake = attackConfig.shake
-                let lifeTime = attackConfig.lifeTime
-
-                //prepare textures
-                //TODO
+                let animationArgs = attackConfig.animationArgs
 
                 //play animation
                 this._layerExplosion.playLaserAttackExplosion(
                     newAttackerPos.x, newAttackerPos.y,
                     newDefenderBannerPos.x, newDefenderBannerPos.y,
                     attackSfx,
-                    lifeTime,
+                    animationArgs,
                     shake,
                     callback
                 )
