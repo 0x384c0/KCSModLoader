@@ -1,0 +1,135 @@
+{
+	"frames": {
+		"attack_middle_shogun_0_0": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		},
+		"attack_middle_shogun_0_1": {
+			"frame": {
+				"x": 500,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		},
+		"attack_middle_shogun_0_2": {
+			"frame": {
+				"x": 1000,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		},
+		"attack_middle_shogun_0_3": {
+			"frame": {
+				"x": 1500,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		},
+		"attack_middle_shogun_0_4": {
+			"frame": {
+				"x": 2000,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		},
+		"attack_middle_shogun_0_5": {
+			"frame": {
+				"x": 2500,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 500,
+				"h": 281
+			},
+			"sourceSize": {
+				"w": 500,
+				"h": 281
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "attack_middle_shogun.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 6000,
+			"h": 281
+		},
+		"scale": "1"
+	}
+}

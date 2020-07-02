@@ -121,8 +121,7 @@ const AttackConfigs = [
     },
     {
         requirements: {
-            isFlagship: true,
-            faction: Faction.ABUSSAL,
+            // faction: Faction.ABUSSAL,
             gunType: GunType.LARGE
         },
         attackType: AttackType.LASER,
@@ -135,7 +134,7 @@ const AttackConfigs = [
                     fadeInTime: 300,
                     fadeOutTime: 300,
                     beamMask: "beam_mask",
-                    beamTextureNames: [{ texture: "FXIonCannoncc_yellow", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic_yellow", xSpeed: 2.0 }],
+                    beamTextureNames: [{ texture: "FXRazorGradnc_yellow", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic_yellow", xSpeed: 2.0 }],
                     originResources: [{ texture: "light_large_yellow" }],
                     impactResources: [{ texture: "light_middle_yellow" }],
                     impactChainAnimatedSprite: "explosion_circle",
@@ -164,7 +163,7 @@ const AttackConfigs = [
                     fadeInTime: 100,
                     fadeOutTime: 200,
                     beamMask: "beam_mask",
-                    beamTextureNames: [{ texture: "FXIonCannoncc", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic", xSpeed: 2.0 }],
+                    beamTextureNames: [{ texture: "FXRazorGradnc", xSpeed: 1.0 }, { texture: "FXObeliskLaserHeroic", xSpeed: 2.0 }],
                     originResources: [{ animatedSprite: "laser_origin", animationSpeed: 0.8, loop: true }, { texture: "light_large" }],
                     impactResources: [{ texture: "light_middle" }],
                     impactChainAnimatedSprite: "explosion_spark",
@@ -176,7 +175,40 @@ const AttackConfigs = [
                 shake: ShakeType.LARGE_LASER,
             }
         }
-    }
+    },
+    {
+        requirements: {
+            faction: Faction.ABUSSAL,
+            gunType: GunType.MIDDLE
+        },
+        attackType: AttackType.BULLET,
+        hit: {
+            attack: {
+                animatedTextures: ["attack_middle_shogun_0", "attack_middle_shogun_1"],
+                sfxs: ["JUShogu_cannFirea.wav", "JUShogu_cannFireb.wav","JUShogu_cannFirec.wav","JUShogu_cannFired.wav","JUShogu_cannFiree.wav","JUShogu_cannFiref.wav",],
+                anchor: { x: 0.4, y: 0.5 },
+                shake: ShakeType.SMALL,
+            },
+            bullet: {
+                textures: ["FXJapanShogunProjectile"],
+                lifeTime: 400
+            },
+            impact: {
+                animatedTextures: ["explosion_shogun"],
+                sfxs: ["JUShogu_cannExpla.wav","JUShogu_cannExplb.wav","JUShogu_cannExplc.wav","JUShogu_cannExpld.wav","JUShogu_cannExple.wav","JUShogu_cannExplf.wav","JUShogu_cannExplg.wav","JUShogu_cannExplh.wav",],
+                anchor: { x: 0.5, y: 0.7 },
+                shake: ShakeType.MIDDLE,
+            },
+        },
+        miss: {
+            impact: {
+                animatedTextures: ["explosion_large_w"],
+                sfxs: ["boom_big1_w_1.wav", "boom_big1_w_2.wav", "boom_big1_w_3.wav"],
+                anchor: { x: 0.5, y: 0.71 },
+                shake: ShakeType.MIDDLE,
+            },
+        }
+    },
 ]
 
 
@@ -185,5 +217,6 @@ export default {
     GunType,
     ShakeType,
     AttackType,
-    AttackConfigs
+    AttackConfigs,
+    Faction
 }

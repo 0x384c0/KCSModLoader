@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "explosion_shogun_10.png": {
+      "frame": {
+        "x": 0,
+        "y": 1043,
+        "w": 93,
+        "h": 84
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 53,
+        "y": 64,
+        "w": 93,
+        "h": 84
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_11.png": {
+      "frame": {
+        "x": 0,
+        "y": 827,
+        "w": 111,
+        "h": 89
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 43,
+        "y": 61,
+        "w": 111,
+        "h": 89
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_12.png": {
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 116,
+        "h": 94
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 42,
+        "y": 58,
+        "w": 116,
+        "h": 94
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_13.png": {
+      "frame": {
+        "x": 286,
+        "y": 0,
+        "w": 115,
+        "h": 98
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 41,
+        "y": 56,
+        "w": 115,
+        "h": 98
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_14.png": {
+      "frame": {
+        "x": 218,
+        "y": 192,
+        "w": 118,
+        "h": 106
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 38,
+        "y": 52,
+        "w": 118,
+        "h": 106
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_15.png": {
+      "frame": {
+        "x": 129,
+        "y": 326,
+        "w": 120,
+        "h": 114
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 34,
+        "y": 45,
+        "w": 120,
+        "h": 114
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_16.png": {
+      "frame": {
+        "x": 0,
+        "y": 457,
+        "w": 131,
+        "h": 122
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 29,
+        "y": 40,
+        "w": 131,
+        "h": 122
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_17.png": {
+      "frame": {
+        "x": 0,
+        "y": 192,
+        "w": 134,
+        "h": 132
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 28,
+        "y": 35,
+        "w": 134,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_18.png": {
+      "frame": {
+        "x": 0,
+        "y": 326,
+        "w": 129,
+        "h": 131
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 32,
+        "y": 36,
+        "w": 129,
+        "h": 131
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_19.png": {
+      "frame": {
+        "x": 0,
+        "y": 588,
+        "w": 126,
+        "h": 126
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 34,
+        "y": 37,
+        "w": 126,
+        "h": 126
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_20.png": {
+      "frame": {
+        "x": 122,
+        "y": 457,
+        "w": 123,
+        "h": 123
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 35,
+        "y": 38,
+        "w": 123,
+        "h": 123
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_21.png": {
+      "frame": {
+        "x": 243,
+        "y": 326,
+        "w": 118,
+        "h": 119
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 38,
+        "y": 40,
+        "w": 118,
+        "h": 119
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_22.png": {
+      "frame": {
+        "x": 384,
+        "y": 0,
+        "w": 110,
+        "h": 113
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 42,
+        "y": 42,
+        "w": 110,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_23.png": {
+      "frame": {
+        "x": 0,
+        "y": 714,
+        "w": 94,
+        "h": 113
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 49,
+        "y": 37,
+        "w": 94,
+        "h": 113
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_24.png": {
+      "frame": {
+        "x": 324,
+        "y": 192,
+        "w": 92,
+        "h": 117
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 48,
+        "y": 34,
+        "w": 92,
+        "h": 117
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_25.png": {
+      "frame": {
+        "x": 132,
+        "y": 192,
+        "w": 86,
+        "h": 119
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 47,
+        "y": 32,
+        "w": 86,
+        "h": 119
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_26.png": {
+      "frame": {
+        "x": 0,
+        "y": 938,
+        "w": 86,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 46,
+        "y": 30,
+        "w": 86,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_27.png": {
+      "frame": {
+        "x": 192,
+        "y": 116,
+        "w": 65,
+        "h": 104
+      },
+      "rotated": true,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 46,
+        "y": 29,
+        "w": 65,
+        "h": 104
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_28.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 192,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 192,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "explosion_shogun_29.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 192,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 192,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "explosion_shogun.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 494,
+      "h": 1136
+    },
+    "scale": 1
+  }
+}

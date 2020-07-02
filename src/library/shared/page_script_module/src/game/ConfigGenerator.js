@@ -1,6 +1,7 @@
 import Constants from './Constants'
 const AttackConfigs = Constants.AttackConfigs
 const GunType = Constants.GunType
+const Faction = Constants.Faction
 
 export default class ConfigGenerator {
     constructor(damage, attacker) {
@@ -51,11 +52,15 @@ export default class ConfigGenerator {
 
     _getScore(requirements, gunType) {
         let isFlagship = false
+        let faction = Faction.KANMUSU
         if (requirements.isFlagship != undefined)
             isFlagship = requirements.isFlagship
+        if (requirements.faction != undefined)
+            faction = requirements.faction
         let gunScore = requirements.gunType == gunType ? 1 : 0
         let flagshipScore = isFlagship ? 1 : 0
-        return gunScore + flagshipScore
+        let factionScore = faction == Faction.ABUSSAL ? 10 : 0
+        return gunScore + flagshipScore + factionScore
     }
 
     _getGunType(attacker) {
@@ -96,14 +101,19 @@ ConfigGenerator.getAllResources = () => {
         { link: "resources/default_effects/img/battle/light_large.png", name: "light_large" },
         { link: "resources/default_effects/img/battle/light_middle.png", name: "light_middle" },
         { link: "resources/default_effects/img/battle/beam_mask.png", name: "beam_mask" },
-        { link: "resources/default_effects/img/battle/FXIonCannoncc.png", name: "FXIonCannoncc" },
+        { link: "resources/default_effects/img/battle/FXRazorGradnc.png", name: "FXRazorGradnc" },
         { link: "resources/default_effects/img/battle/FXObeliskLaserHeroic.png", name: "FXObeliskLaserHeroic" },
         //laser yellow
         { link: "resources/default_effects/img/battle/explosion_circle.json", name: null },
         { link: "resources/default_effects/img/battle/light_large_yellow.png", name: "light_large_yellow" },
         { link: "resources/default_effects/img/battle/light_middle_yellow.png", name: "light_middle_yellow" },
-        { link: "resources/default_effects/img/battle/FXIonCannoncc_yellow.png", name: "FXIonCannoncc_yellow" },
+        { link: "resources/default_effects/img/battle/FXRazorGradnc_yellow.png", name: "FXRazorGradnc_yellow" },
         { link: "resources/default_effects/img/battle/FXObeliskLaserHeroic_yellow.png", name: "FXObeliskLaserHeroic_yellow" },
+        //BB Shogun
+        { link: "resources/default_effects/img/battle/attack_middle_shogun_0.json", name: null },
+        { link: "resources/default_effects/img/battle/attack_middle_shogun_1.json", name: null },
+        { link: "resources/default_effects/img/battle/FXJapanShogunProjectile.png", name: "FXJapanShogunProjectile" },
+        { link: "resources/default_effects/img/battle/explosion_shogun.json", name: null },
     ]
     return resources
 }
