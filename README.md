@@ -1,3 +1,5 @@
+### This is experimental chrome extension, that can inject custom code in to the KC.
+
 ### Requirements
 * latest Chrome browser
 
@@ -5,7 +7,7 @@
 * dowload and extract latest release
 * go to `chrome://extensions`
 * Enable Developer Mode by clicking the toggle switch next to Developer mode.
-* Click the LOAD UNPACKED button and select the extension directory.
+* Click the `LOAD UNPACKED` button and select the `KCSModLoader/src/` directory, where `manifest.json` is located.
 * load game
 
 ### Replace ingame images or sounds
@@ -13,10 +15,11 @@
 * load game
 
 ### TODO
-* add specail attacks for bosses
+* customize nigh double attack
+* customize all special attacks (PhaseNelsonTouch,PhaseKongoAttack etc.)
+* customize PhaseAttackRocket
 
 ### TODO refactor
-* use configs for attacks
 * use webpack for compiling all modules
 * catch all errors
 * add self diagnostics
