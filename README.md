@@ -10,6 +10,11 @@
 * Click the `LOAD UNPACKED` button and select the `KCSModLoader/src/` directory, where `manifest.json` is located.
 * load game
 
+### Compiling
+* `cd src\library\shared\page_script_module`
+* `npm install`
+* `npm run build`
+
 ### Replace ingame images or sounds
 * place assets, you want replace, in to `resources/default/kcs2` (for example `resources/default/kcs2/img/title/title_main.png` to change logo in start screen)
 * load game
