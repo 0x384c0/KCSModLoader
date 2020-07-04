@@ -63,7 +63,7 @@ const AttackConfigs = [
         hit: {
             attack: {
                 animatedTextures: ["attack_middle_0", "attack_middle_1"],
-                sfxs: ["fire_gun7_1.wav", "fire_gun7_2.wav"],
+                sfxs: ["GURhino_VehAG_weapPounda.wav", "GURhino_VehAG_weapPoundb.wav", "GURhino_VehAG_weapPoundc.wav", "GURhino_VehAG_weapPoundd.wav", "GURhino_VehAG_weapPounde.wav", "GURhino_VehAG_weapPoundf.wav",],
                 anchor: { x: 0.4, y: 0.5 },
                 shake: ShakeType.SMALL,
             },
@@ -121,7 +121,73 @@ const AttackConfigs = [
     },
     {
         requirements: {
-            // faction: Faction.ABUSSAL,
+            faction: Faction.ABUSSAL,
+            gunType: GunType.SMALL
+        },
+        attackType: AttackType.BULLET,
+        hit: {
+            attack: {
+                animatedTextures: ["attack_middle_0", "attack_middle_1"],
+                sfxs: ["AUGuard_wea1FireC.wav", "AUGuard_wea1FireA.wav", "AUGuard_wea1FireB.wav"],
+                anchor: { x: 0.4, y: 0.5 },
+                shake: ShakeType.SMALL,
+            },
+            bullet: {
+                textures: ["bullet_small"],
+                lifeTime: 200
+            },
+            impact: {
+                animatedTextures: ["explosion_small_g"],
+                sfxs: ["boom_med1_g_1.wav", "boom_med1_g_2.wav", "boom_med1_g_3.wav"],
+                anchor: { x: 0.5, y: 0.73 },
+                shake: ShakeType.SMALL,
+            },
+        },
+        miss: {
+            impact: {
+                animatedTextures: ["explosion_large_w"],
+                sfxs: ["boom_med1_w_1.wav", "boom_med1_w_2.wav"],
+                anchor: { x: 0.5, y: 0.71 },
+                shake: ShakeType.SMALL,
+            },
+        }
+    },
+    {
+        requirements: {
+            faction: Faction.ABUSSAL,
+            gunType: GunType.MIDDLE
+        },
+        attackType: AttackType.BULLET,
+        hit: {
+            attack: {
+                animatedTextures: ["attack_middle_shogun_0", "attack_middle_shogun_1"],
+                sfxs: ["JUShogu_cannFirea.wav", "JUShogu_cannFireb.wav", "JUShogu_cannFirec.wav", "JUShogu_cannFired.wav", "JUShogu_cannFiree.wav", "JUShogu_cannFiref.wav",],
+                anchor: { x: 0.4, y: 0.5 },
+                shake: ShakeType.SMALL,
+            },
+            bullet: {
+                textures: ["FXJapanShogunProjectile"],
+                lifeTime: 250
+            },
+            impact: {
+                animatedTextures: ["explosion_shogun"],
+                sfxs: ["JUShogu_cannExpla.wav", "JUShogu_cannExplb.wav", "JUShogu_cannExplc.wav", "JUShogu_cannExpld.wav", "JUShogu_cannExple.wav", "JUShogu_cannExplf.wav", "JUShogu_cannExplg.wav", "JUShogu_cannExplh.wav",],
+                anchor: { x: 0.5, y: 0.7 },
+                shake: ShakeType.MIDDLE,
+            },
+        },
+        miss: {
+            impact: {
+                animatedTextures: ["explosion_large_w"],
+                sfxs: ["boom_big1_w_1.wav", "boom_big1_w_2.wav", "boom_big1_w_3.wav"],
+                anchor: { x: 0.5, y: 0.71 },
+                shake: ShakeType.MIDDLE,
+            },
+        }
+    },
+    {
+        requirements: {
+            faction: Faction.ABUSSAL,
             gunType: GunType.LARGE
         },
         attackType: AttackType.LASER,
@@ -150,7 +216,7 @@ const AttackConfigs = [
     {
         requirements: {
             isFlagship: true,
-            // faction: Faction.ABUSSAL,
+            faction: Faction.ABUSSAL,
             gunType: GunType.LARGE
         },
         attackType: AttackType.LASER,
@@ -174,39 +240,6 @@ const AttackConfigs = [
                 },
                 shake: ShakeType.LARGE_LASER,
             }
-        }
-    },
-    {
-        requirements: {
-            faction: Faction.ABUSSAL,
-            gunType: GunType.MIDDLE
-        },
-        attackType: AttackType.BULLET,
-        hit: {
-            attack: {
-                animatedTextures: ["attack_middle_shogun_0", "attack_middle_shogun_1"],
-                sfxs: ["JUShogu_cannFirea.wav", "JUShogu_cannFireb.wav","JUShogu_cannFirec.wav","JUShogu_cannFired.wav","JUShogu_cannFiree.wav","JUShogu_cannFiref.wav",],
-                anchor: { x: 0.4, y: 0.5 },
-                shake: ShakeType.SMALL,
-            },
-            bullet: {
-                textures: ["FXJapanShogunProjectile"],
-                lifeTime: 400
-            },
-            impact: {
-                animatedTextures: ["explosion_shogun"],
-                sfxs: ["JUShogu_cannExpla.wav","JUShogu_cannExplb.wav","JUShogu_cannExplc.wav","JUShogu_cannExpld.wav","JUShogu_cannExple.wav","JUShogu_cannExplf.wav","JUShogu_cannExplg.wav","JUShogu_cannExplh.wav",],
-                anchor: { x: 0.5, y: 0.7 },
-                shake: ShakeType.MIDDLE,
-            },
-        },
-        miss: {
-            impact: {
-                animatedTextures: ["explosion_large_w"],
-                sfxs: ["boom_big1_w_1.wav", "boom_big1_w_2.wav", "boom_big1_w_3.wav"],
-                anchor: { x: 0.5, y: 0.71 },
-                shake: ShakeType.MIDDLE,
-            },
         }
     },
 ]

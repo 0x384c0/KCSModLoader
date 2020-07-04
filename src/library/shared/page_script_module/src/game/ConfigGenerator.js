@@ -40,27 +40,53 @@ export default class ConfigGenerator {
 
     _getAttackConfig() {
         let gunType = this._getGunType(this._attacker)
+        let isFlagship = this._isFlagship(this._attacker)
+        let faction = this._getFaction(this._attacker)
+
         let sortedByScore = this._configs
+            .map(a => { a.score = this._getScore(a.requirements, gunType, isFlagship, faction); return a })
             .sort((a, b) => {
-                let scoreA = this._getScore(a.requirements, gunType)
-                let scoreB = this._getScore(b.requirements, gunType)
-                return scoreB - scoreA
+                return b.score - a.score
             })
+
+        // console.log(`gunType ${gunType}`)
+        // console.log(`isFlagship ${isFlagship}`)
+        // console.log(`faction ${faction}`)
+        // console.log(`sortedByScore ${sortedByScore.map(it => it.attackType)}`)
+        // console.log(`\n`)
+
         let config = sortedByScore[0]
         return config
     }
 
-    _getScore(requirements, gunType) {
-        let isFlagship = false
-        let faction = Faction.KANMUSU
-        if (requirements.isFlagship != undefined)
-            isFlagship = requirements.isFlagship
-        if (requirements.faction != undefined)
-            faction = requirements.faction
-        let gunScore = requirements.gunType == gunType ? 1 : 0
-        let flagshipScore = isFlagship ? 1 : 0
-        let factionScore = faction == Faction.ABUSSAL ? 10 : 0
-        return gunScore + flagshipScore + factionScore
+    _getScore(requirements, gunType, isFlagship, faction) {
+        let isFlagshipReq = requirements.isFlagship
+        let factionReq = requirements.faction
+
+        let result = 0
+
+        if (requirements.gunType == gunType)
+            result += 1
+
+        if (isFlagshipReq != undefined && isFlagshipReq == isFlagship)
+            result += 1
+
+        if (factionReq != undefined)
+            if (factionReq == faction)
+                result += 1
+            else
+                result = 0
+
+        return result
+    }
+
+    _getFaction(attacker) {
+        let isAbyssal = (!attacker._practice && !attacker.friend)
+        return isAbyssal ? Faction.ABUSSAL : Faction.KANMUSU
+    }
+
+    _isFlagship(attacker) {
+        return attacker.index == 0
     }
 
     _getGunType(attacker) {
