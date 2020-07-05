@@ -20,6 +20,7 @@
 * load game
 
 ### TODO
+* costomize torpedo attack
 * customize nigh double attack
 * customize all special attacks (PhaseNelsonTouch,PhaseKongoAttack etc.)
 * customize PhaseAttackRocket
