@@ -20,6 +20,7 @@
 * load game
 
 ### TODO
+* fix freezes before every custom attack (dont load already loaded resources)
 * costomize torpedo attack
 * customize nigh double attack
 * customize all special attacks (PhaseNelsonTouch,PhaseKongoAttack etc.)
